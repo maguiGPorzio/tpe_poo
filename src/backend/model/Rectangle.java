@@ -1,8 +1,8 @@
 package backend.model;
 
-public class Rectangle implements Figure {
+public class Rectangle extends Figure {
 
-    private final Point topLeft, bottomRight;
+    private Point topLeft, bottomRight;
 
     public Rectangle(Point topLeft, Point bottomRight) {
         this.topLeft = topLeft;
@@ -22,4 +22,10 @@ public class Rectangle implements Figure {
         return String.format("Rectángulo [ %s , %s ]", topLeft, bottomRight);
     }
 
+
+    @Override
+    public void move(double diffX, double diffY){
+        topLeft.move(diffX, diffY);
+        bottomRight.move(diffX, diffY);
+    }
 }

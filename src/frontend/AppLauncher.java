@@ -12,14 +12,14 @@ public class AppLauncher extends Application {
 	}
 
 	@Override
-	public void start(Stage primaryStage) {
+	public void start(Stage primaryStage) { //configuras tu vetana principal (stage) y su contenido
 		CanvasState canvasState = new CanvasState(); // BackEnd
 		MainFrame frame = new MainFrame(canvasState);
-		Scene scene = new Scene(frame);
-		primaryStage.setResizable(false);
-		primaryStage.setScene(scene);
-		primaryStage.show();
-		primaryStage.setOnCloseRequest(event -> System.exit(0));
+		Scene scene = new Scene(frame); //representacion visual que sera mostrada en el stage, contenido principal visual de la escena es frame
+		primaryStage.setResizable(false); //hace que la ventana no se pueda cambiar de tamano
+		primaryStage.setScene(scene); //establece la escena que se mostara en la ventana principal
+		primaryStage.show(); //muestra la ventana en la pantalla
+		primaryStage.setOnCloseRequest(event -> System.exit(0));//con esto cuando cerras la ventana se cierra la app
 	}
 
 }

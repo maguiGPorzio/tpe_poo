@@ -14,7 +14,7 @@ public class AppMenuBar extends MenuBar {
             alert.setTitle("Salir");
             alert.setHeaderText("Salir de la aplicación");
             alert.setContentText("¿Está seguro que desea salir de la aplicación?");
-            Optional<ButtonType> result = alert.showAndWait();
+            Optional<ButtonType> result = alert.showAndWait(); //muestra el cuadro de dialogo y espera a que el usuario lo cierre
             if(result.isPresent()) {
                 if (result.get() == ButtonType.OK) {
                     System.exit(0);

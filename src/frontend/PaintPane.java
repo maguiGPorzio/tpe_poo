@@ -35,6 +35,13 @@ public class PaintPane extends BorderPane {
 	ToggleButton ellipseButton = new ToggleButton("Elipse");
 	ToggleButton deleteButton = new ToggleButton("Borrar");
 
+	//Botones que faltan
+	ToggleButton rotateButton = new ToggleButton("Girar D");
+	ToggleButton flipHButton = new ToggleButton("Voltear H");
+	ToggleButton flipVButton = new ToggleButton("Voltear V");
+	ToggleButton duplicateButton = new ToggleButton("Duplicar");
+	ToggleButton divideButton = new ToggleButton("Dividir");
+
 	// Selector de color de relleno
 	ColorPicker fillColorPicker = new ColorPicker(defaultFillColor);
 
@@ -146,29 +153,7 @@ public class PaintPane extends BorderPane {
 		canvas.setOnMouseDragged(event -> {
 			if(selectionButton.isSelected()) {
 				Point eventPoint = new Point(event.getX(), event.getY());
-				double diffX = (eventPoint.getX() - startPoint.getX()) / 100;
-				double diffY = (eventPoint.getY() - startPoint.getY()) / 100;
-				if(selectedFigure instanceof Rectangle) {
-					Rectangle rectangle = (Rectangle) selectedFigure;
-					rectangle.getTopLeft().x += diffX;
-					rectangle.getBottomRight().x += diffX;
-					rectangle.getTopLeft().y += diffY;
-					rectangle.getBottomRight().y += diffY;
-				} else if(selectedFigure instanceof Circle) {
-					Circle circle = (Circle) selectedFigure;
-					circle.getCenterPoint().x += diffX;
-					circle.getCenterPoint().y += diffY;
-				} else if(selectedFigure instanceof Square) {
-					Square square = (Square) selectedFigure;
-					square.getTopLeft().x += diffX;
-					square.getBottomRight().x += diffX;
-					square.getTopLeft().y += diffY;
-					square.getBottomRight().y += diffY;
-				} else if(selectedFigure instanceof Ellipse) {
-					Ellipse ellipse = (Ellipse) selectedFigure;
-					ellipse.getCenterPoint().x += diffX;
-					ellipse.getCenterPoint().y += diffY;
-				}
+				selectedFigure.move((eventPoint.getX() - startPoint.getX()) / 100,(eventPoint.getY() - startPoint.getY()) / 100);
 				redrawCanvas();
 			}
 		});
@@ -186,7 +171,7 @@ public class PaintPane extends BorderPane {
 	}
 
 	void redrawCanvas() {
-		gc.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
+		gc.clearRect(0, 0, canvas.getWidth(), canvas.getHeight()); //limpieza del lienzo
 		for(Figure figure : canvasState.figures()) {
 			if(figure == selectedFigure) {
 				gc.setStroke(Color.RED);
