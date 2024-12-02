@@ -1,4 +1,3 @@
-
 import Figure;
 
 import java.util.ArrayList;
