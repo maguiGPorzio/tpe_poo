@@ -1,10 +1,12 @@
-public class Rectangle implements Figure {
+package backend.model;
+
+public class Square implements Figure {
 
     private final Point topLeft, bottomRight;
 
-    public Rectangle(Point topLeft, Point bottomRight) {
+    public Square(Point topLeft, double size) {
         this.topLeft = topLeft;
-        this.bottomRight = bottomRight;
+        this.bottomRight = new Point(topLeft.x + size, topLeft.y + size);
     }
 
     public Point getTopLeft() {
@@ -17,7 +19,7 @@ public class Rectangle implements Figure {
 
     @Override
     public String toString() {
-        return String.format("Rectángulo [ %s , %s ]", topLeft, bottomRight);
+        return String.format("Cuadrado [ %s , %s ]", topLeft, bottomRight);
     }
 
 }

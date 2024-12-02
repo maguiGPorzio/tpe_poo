@@ -1,3 +1,5 @@
+package backend.model;
+
 public class Circle implements Figure {
 
     protected final Point centerPoint;

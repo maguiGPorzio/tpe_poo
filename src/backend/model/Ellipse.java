@@ -1,3 +1,5 @@
+package backend.model;
+
 public class Ellipse implements Figure {
 
     protected final Point centerPoint;

@@ -1,4 +1,6 @@
-import CanvasState;
+package frontend;
+
+import backend.CanvasState;
 import backend.model.*;
 import javafx.geometry.Insets;
 import javafx.scene.Cursor;
