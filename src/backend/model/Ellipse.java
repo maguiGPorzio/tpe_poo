@@ -1,6 +1,8 @@
 package backend.model;
 
+import frontend.Shadow;
 import frontend.drawable.DrawableEllipse;
+import frontend.drawable.DrawableRectangle;
 import javafx.scene.paint.Color;
 
 public abstract class Ellipse extends Figure {
@@ -8,7 +10,7 @@ public abstract class Ellipse extends Figure {
     protected Point centerPoint;
     protected double sMayorAxis, sMinorAxis;
 
-    public Ellipse(Point centerPoint, double sMayorAxis, double sMinorAxis, boolean shadow, boolean gradient, boolean bevel, Color color1, Color color2){
+    public Ellipse(Point centerPoint, double sMayorAxis, double sMinorAxis, Shadow shadow, boolean gradient, boolean bevel, Color color1, Color color2){
         super(shadow, gradient, bevel, color1, color2);
         this.centerPoint = centerPoint;
         setAxis(sMayorAxis, sMinorAxis);
@@ -53,6 +55,28 @@ public abstract class Ellipse extends Figure {
     private void setAxis(double sMayorAxis, double sMinorAxis){
         this.sMayorAxis = sMayorAxis;
         this.sMinorAxis = sMinorAxis;
+    }
+
+    @Override
+    public Figure duplicate(){
+        Point newCenterPoint = new Point(centerPoint.getX() - OFFSET, centerPoint.getY() - OFFSET);
+        return new DrawableEllipse(newCenterPoint, sMayorAxis, sMinorAxis, shadow, gradient, bevel, color1, color2);
+    }
+
+    @Override
+    public Pair<Figure> divide(){
+        Point center1, center2;
+        if(sMayorAxis >= sMinorAxis){ //respetando el eje horizontal
+            center1 = new Point(centerPoint.getX() - sMayorAxis/2, centerPoint.getY());
+            center2 = new Point(centerPoint.getX() + sMayorAxis/2, centerPoint.getY());
+        }
+        else{
+            center1 = new Point(centerPoint.getX(), centerPoint.getY() - sMayorAxis/2);
+            center2 = new Point(centerPoint.getX(), centerPoint.getY() + sMayorAxis/2);
+        }
+        DrawableEllipse sub1 = new DrawableEllipse(center1, sMayorAxis/2, sMinorAxis/2, shadow, gradient, bevel, color1, color2);
+        DrawableEllipse sub2 = new DrawableEllipse(center2, sMayorAxis/2, sMinorAxis/2, shadow, gradient, bevel, color1, color2);
+        return new Pair<Figure>(sub1, sub2);
     }
 
 }

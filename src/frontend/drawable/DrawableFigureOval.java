@@ -12,9 +12,9 @@ import javafx.scene.shape.ArcType;
 
 public interface DrawableFigureOval extends Drawable {
 
-    default void drawShade(Shadow shadow, GraphicsContext gc, Point centerPoint, double sMayorAxis, double sMinorAxis){
+    default void drawShade(Shadow shadow, GraphicsContext gc, Color firstFillColor, Point centerPoint, double sMayorAxis, double sMinorAxis){
         if(shadow.hasShade()){
-            gc.setFill(shadow.getType().getShadeColour());
+            gc.setFill(shadow.getType().getShadeColor(firstFillColor));
             gc.fillOval(centerPoint.getX() - (sMayorAxis / 2) + shadow.getType().getOffsetX(), centerPoint.getY() - (sMinorAxis) + shadow.getType().getOffsetY(), sMayorAxis, sMinorAxis);
         }
     }
@@ -40,7 +40,7 @@ public interface DrawableFigureOval extends Drawable {
     }
 
     default void drawOval(Shadow shadow, boolean gradient, boolean bevel, GraphicsContext gc, Color lineColor, Color firstColor, Color secondColor, boolean isSelected, Point centerPoint, Double sMayorAxis, Double sMinorAxis){
-        drawShade(shadow, gc,  centerPoint, sMayorAxis, sMinorAxis);
+        drawShade(shadow, gc, firstColor,centerPoint, sMayorAxis, sMinorAxis);
         double arcX = centerPoint.getX() - sMayorAxis / 2;
         double arcY = centerPoint.getY() - sMinorAxis / 2;
         drawBevel(bevel, gc, arcX, arcY, sMayorAxis, sMinorAxis);

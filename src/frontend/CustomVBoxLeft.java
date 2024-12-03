@@ -1,10 +1,9 @@
-package frontend.drawable;
+package frontend;
 
-import frontend.buttons.CircleButton;
-import frontend.buttons.EllipseButton;
-import frontend.buttons.RectangleButton;
-import frontend.buttons.SquareButton;
+import frontend.buttons.*;
 import javafx.collections.FXCollections;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Cursor;
@@ -17,35 +16,35 @@ public class CustomVBoxLeft extends VBox {
     private static final int PADDING=5;
     private static final int MIN_WIDTH=100;
     private static final int BUTTON_MIN_WIDTH=90;
+    private static final int SPACING=10;
 
     private final static String SELECT="seleccion";
     private final static String RECTANGLE="Rectangulo";
     private final static String CIRCLE="circulo";
     private final static String ELLIPSE="Elipse";
     private final static String SQUARE="Cuadrado";
-    private final static String ERASE="Rectangulo";
+    private final static String ERASE="Borrar";
     private static final Color DEFAULT_FILL_COLOR = Color.YELLOW;
     private static final Color DEFAULT_SECOND_COLOR = Color.ORANGE;
 
     private final ToggleButton selectionButton = new ToggleButton(SELECT);
-    private final ToggleButton rectangleButton = new RectangleButton(RECTANGLE);
-    private final ToggleButton circleButton = new CircleButton(CIRCLE);
-    private final ToggleButton squareButton = new SquareButton(SQUARE);
-    private final ToggleButton ellipseButton = new EllipseButton(ELLIPSE);
+    private final FigureButton rectangleButton = new RectangleButton(RECTANGLE);
+    private final FigureButton circleButton = new CircleButton(CIRCLE);
+    private final FigureButton squareButton = new SquareButton(SQUARE);
+    private final FigureButton ellipseButton = new EllipseButton(ELLIPSE);
     private final ToggleButton deleteButton = new ToggleButton(ERASE);
-
     private final ChoiceBox shadowType = new ChoiceBox(FXCollections.observableArrayList("Simple Shadow", "Color Shadow", "Simple Inverted", "Color Inverted"));
-
     private final CheckBox bevel = new CheckBox("Biselado");
-
     private final ToggleButton copyFormatButton = new ToggleButton("Copiar Fmt.");
+
+    public FigureButton[] figureButtonsArray={rectangleButton, circleButton, squareButton,ellipseButton};
 
     // Selector de color de relleno
     ColorPicker fillColorPicker = new ColorPicker(DEFAULT_FILL_COLOR); //componente visual que permite a los usuarios seleccionar un color
     ColorPicker secondFillColorPicker = new ColorPicker(DEFAULT_SECOND_COLOR);
 
     public CustomVBoxLeft(){
-        ToggleButton[] toolsArr = {selectionButton, rectangleButton, squareButton, circleButton, ellipseButton, deleteButton};
+        ToggleButton[] toolsArr = {selectionButton, rectangleButton, squareButton, circleButton, ellipseButton};
         ToggleGroup tools = new ToggleGroup();
         for (ToggleButton tool : toolsArr) {
             tool.setMinWidth(BUTTON_MIN_WIDTH);
@@ -57,8 +56,29 @@ public class CustomVBoxLeft extends VBox {
         setStyle("-fx-background-color: #999");
         setPrefWidth(MIN_WIDTH);
         setAlignment(Pos.CENTER_LEFT);
+        setSpacing(SPACING);
 
         getChildren().addAll(toolsArr);
+        getChildren().add(new Separator());
+        getChildren().addAll(deleteButton,shadowType, bevel, copyFormatButton, fillColorPicker, secondFillColorPicker);
 
     }
+
+    public void setFigureButtonAction(EventHandler<ActionEvent> action) {
+        for (FigureButton figureToggleButton : figureButtonsArray) {
+            figureToggleButton.setOnAction(action);
+        }
+    }
+
+    public FigureButton[] getFigureButtons(){
+        return figureButtonsArray;
+    }
+
+    public void setEraseAction(EventHandler<ActionEvent> action){ //EventHandler<ActionEvent> especifica lo que pasa cuando el boton es presionado
+        deleteButton.setOnAction(action);
+    }
+    public void setCopyFormatAction(EventHandler<ActionEvent> action){ //EventHandler<ActionEvent> especifica lo que pasa cuando el boton es presionado
+        copyFormatButton.setOnAction(action);
+    }
+
 }

@@ -34,7 +34,6 @@ public enum ShadowType {
         this.offsetY = offsetY;
     }
 
-
     private final double offsetX, offsetY;
 
     public abstract Color getShadeColor(Color base);

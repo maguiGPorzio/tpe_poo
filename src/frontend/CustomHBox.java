@@ -1,6 +1,8 @@
 package frontend;
 
 import javafx.collections.FXCollections;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Cursor;
@@ -15,6 +17,7 @@ public class CustomHBox extends HBox {
     private static final int PADDING=5;
     private static final int MIN_WIDTH=100;
     private static final int BUTTON_MIN_WIDTH=90;
+    private static final int SPACING=10;
 
     private final static String BRING_TO_FRONT="Traer al frente";
     private final static String MOVE_TO_BACK="Enviar al fondo";
@@ -44,8 +47,17 @@ public class CustomHBox extends HBox {
         setStyle("-fx-background-color: #999");
         setPrefWidth(MIN_WIDTH);
         setAlignment(Pos.TOP_CENTER);
+        setSpacing(SPACING);
 
         getChildren().addAll(toolsArr);
 
     }
+
+    public void setMoveToFrontAction(EventHandler<ActionEvent> action){moveToFrontButton.setOnAction(action);}
+    public void setMoveToBackAction(EventHandler<ActionEvent> action){moveToBack.setOnAction(action);}
+    public void setLayerAction(EventHandler<ActionEvent> action){layers.setOnAction(action);} //esta no se como funciona
+    public void setShowAction(EventHandler<ActionEvent> action){showButton.setOnAction(action);}
+    public void setHideAction(EventHandler<ActionEvent> action){hideButton.setOnAction(action);}
+    public void setAddLayerAction(EventHandler<ActionEvent> action){addLayerButton.setOnAction(action);}
+    public void setRemoveLayerAction(EventHandler<ActionEvent> action){removeLayerButton.setOnAction(action);}
 }

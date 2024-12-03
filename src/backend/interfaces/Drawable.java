@@ -5,5 +5,5 @@ import javafx.scene.paint.Color;
 
 @FunctionalInterface
 public interface Drawable {
-    void draw(GraphicsContext gc, Color lineColor, Color fillColor, boolean isSelected);
+    void draw(GraphicsContext gc, Color lineColor, boolean isSelected);
 }

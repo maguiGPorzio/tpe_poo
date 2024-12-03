@@ -44,4 +44,5 @@ public abstract class Figure implements Movable, Drawable, Choosable {
     }
 
     public abstract Figure duplicate();
+    public abstract Pair<Figure> divide();
 }

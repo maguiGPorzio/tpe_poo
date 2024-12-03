@@ -2,57 +2,35 @@ package frontend;
 
 import backend.CanvasState;
 import backend.model.*;
-import frontend.buttons.*;
-import frontend.drawable.CustomVBoxLeft;
-import javafx.geometry.Insets;
-import javafx.scene.Cursor;
+import frontend.buttons.FigureButton;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.control.ColorPicker;
-import javafx.scene.control.ToggleButton;
-import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
-
-import java.util.HashMap;
-import java.util.Map;
 
 public class PaintPane extends BorderPane {
 
-	// BackEnd
 	CanvasState canvasState;
+	Point startPoint;
+	Figure selectedFigure;
+	StatusPane statusPane;
 
 	private static final int CANVAS_WIDTH = 800;
 	private static final int CANVAS_HEIGHT = 600;
 	private static final Color LINE_COLOR = Color.BLACK;
 	private static final int LINE_WIDTH = 1;
 
-	// Canvas y relacionados
 	Canvas canvas = new Canvas(CANVAS_WIDTH, CANVAS_HEIGHT);
-	GraphicsContext gc = canvas.getGraphicsContext2D(); //Este contexto gráfico (GraphicsContext) permite realizar operaciones de dibujo en el lienzo (Canvas), como dibujar líneas, rectángulos, óvalos, imágenes, textos, y más.
+	GraphicsContext gc = canvas.getGraphicsContext2D();
 	Color lineColor = LINE_COLOR;
-
-	// Dibujar una figura
-	Point startPoint;
-
-	// Seleccionar una figura
-	Figure selectedFigure;
-
-	// StatusBar
-	StatusPane statusPane; // mostrar un mensaje de estado en una interfaz grafica
-
-	// Colores de relleno de cada figura
-	Map<Figure, Color> figureColorMap = new HashMap<>();
 
 	private final CustomHBox tBox=new CustomHBox();
 	private final CustomVBoxRight rBox=new CustomVBoxRight();
 	private final CustomVBoxLeft lBox=new CustomVBoxLeft();
 
 	public PaintPane(CanvasState canvasState, StatusPane statusPane) {
-		this.canvasState = canvasState; //almacena el estado actual del canvas
-		this.statusPane = statusPane; //muestra informacion del estado el usuario
-
+		this.canvasState = canvasState;
+		this.statusPane = statusPane;
 		gc.setLineWidth(LINE_WIDTH);
 
 		canvas.setOnMousePressed(event -> {
@@ -64,29 +42,7 @@ public class PaintPane extends BorderPane {
 			if((startPoint == null) || (endPoint.getX() < startPoint.getX() || endPoint.getY() < startPoint.getY())) {
 				return ; //aca deberiamos agregar tema errores
 			}
-
-
-
-			Figure newFigure = null;
-			if(rectangleButton.isSelected()) {
-				newFigure = new Rectangle(startPoint, endPoint);
-			}
-			else if(circleButton.isSelected()) {
-				double circleRadius = Math.abs(endPoint.getX() - startPoint.getX());
-				newFigure = new Circle(startPoint, circleRadius);
-			} else if(squareButton.isSelected()) {
-				double size = Math.abs(endPoint.getX() - startPoint.getX());
-				newFigure = new Square(startPoint, size);
-			} else if(ellipseButton.isSelected()) {
-				Point centerPoint = new Point(Math.abs(endPoint.x + startPoint.x) / 2, (Math.abs((endPoint.y + startPoint.y)) / 2));
-				double sMayorAxis = Math.abs(endPoint.x - startPoint.x);
-				double sMinorAxis = Math.abs(endPoint.y - startPoint.y);
-				newFigure = new Ellipse(centerPoint, sMayorAxis, sMinorAxis);
-			} else {
-				return;
-			}
-			figureColorMap.put(newFigure, fillColorPicker.getValue());
-			canvasState.addFigure(newFigure);
+			canvasState.addFigure(generateFigure(startPoint, endPoint));
 			startPoint = null;
 			redrawCanvas();
 		});
@@ -150,10 +106,19 @@ public class PaintPane extends BorderPane {
 		setRight(canvas);
 	}
 
+	private Figure generateFigure(Point startPoint, Point endPoint) {
+		for (FigureButton figureButton : lBox.getFigureButtons()) {
+			if (figureButton.isSelected()) {
+				return figureButton.generate(startPoint, endPoint, gc, toBackendColor(tools.getFillColor()), toBackendColor(lineColor), LINE_WIDTH, checkBoxes.isShadowSelected(), checkBoxes.isGradientSelected(), checkBoxes.isArchSelected());
+			}
+		}
+		return null;
+	}
+
 	void redrawCanvas() {
 		gc.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
 		for(Figure figure : canvasState.figures()) {
-			figure.draw(gc,lineColor,figureColorMap.get(figure),figure == selectedFigure);
+			figure.draw(gc,lineColor,figure == selectedFigure);
 		}
 	}
 
