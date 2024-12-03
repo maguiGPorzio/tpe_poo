@@ -14,6 +14,13 @@ public abstract class Rectangle extends Figure {
         this.bottomRight = bottomRight;
     }
 
+    protected double getVLength(){
+        return topLeft.getY() - bottomRight.getY();
+    }
+    protected double getHLength(){
+        return bottomRight.getX() - topLeft.getX();
+    }
+
     public Point getTopLeft() {
         return topLeft;
     }
@@ -27,7 +34,7 @@ public abstract class Rectangle extends Figure {
         return String.format("Rectángulo [ %s , %s ]", topLeft, bottomRight);
     }
 
-    private Point getCenter(){
+    protected Point getCenter(){
         return new Point((bottomRight.getX()+topLeft.getX())/2, (bottomRight.getY()+topLeft.getY())/2);
     }
 
@@ -63,5 +70,23 @@ public abstract class Rectangle extends Figure {
         Point newTopLeft = new Point(topLeft.getX() - OFFSET, topLeft.getY() - OFFSET);
         Point newBottomRight = new Point(bottomRight.getX() - OFFSET, bottomRight.getY() - OFFSET);
         return new DrawableRectangle(newTopLeft, newBottomRight, shadow, gradient, bevel, color1, color2);
+    }
+
+    public Pair<DrawableRectangle> divide(){
+        double verticalLength = getVLength();
+        double horizontalLength = getHLength();
+
+        if (verticalLength >= horizontalLength) { //dividimos manteniendo eje vertical
+            double centerX = (topLeft.getX() + bottomRight.getX())/2;
+            Rectangle sub1 = new DrawableRectangle(topLeft, new Point(centerX, bottomRight.getY()), shadow, gradient, bevel, color1, color2);
+            Rectangle sub2 = new DrawableRectangle(new Point(centerX, topLeft.getY()), bottomRight, shadow, gradient, bevel, color1, color2);
+        }
+        else{ // dividimos manteniendo el eje horizontal
+            double centerY = (topLeft.getY() + bottomRight.getY())/2;
+            Rectangle sub1 = new DrawableRectangle(topLeft, new Point(bottomRight.getX(), centerY), shadow, gradient, bevel, color1, color2);
+            Rectangle sub2 = new DrawableRectangle(new Point(topLeft.getX(), centerY), bottomRight, shadow, gradient, bevel, color1, color2);
+        }
+        
+        return new Pair<DrawableRectangle>(sub1, sub2);
     }
 }

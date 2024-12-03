@@ -2,6 +2,8 @@ package frontend;
 
 import backend.CanvasState;
 import backend.model.*;
+import frontend.buttons.*;
+import frontend.drawable.CustomVBoxLeft;
 import javafx.geometry.Insets;
 import javafx.scene.Cursor;
 import javafx.scene.canvas.Canvas;
@@ -21,29 +23,15 @@ public class PaintPane extends BorderPane {
 	// BackEnd
 	CanvasState canvasState;
 
+	private static final int CANVAS_WIDTH = 800;
+	private static final int CANVAS_HEIGHT = 600;
+	private static final Color LINE_COLOR = Color.BLACK;
+	private static final int LINE_WIDTH = 1;
+
 	// Canvas y relacionados
-	Canvas canvas = new Canvas(800, 600);
-	GraphicsContext gc = canvas.getGraphicsContext2D();
-	Color lineColor = Color.BLACK;
-	Color defaultFillColor = Color.YELLOW;
-
-	// Botones Barra Izquierda
-	ToggleButton selectionButton = new ToggleButton("Seleccionar");
-	ToggleButton rectangleButton = new ToggleButton("Rectángulo");
-	ToggleButton circleButton = new ToggleButton("Círculo");
-	ToggleButton squareButton = new ToggleButton("Cuadrado");
-	ToggleButton ellipseButton = new ToggleButton("Elipse");
-	ToggleButton deleteButton = new ToggleButton("Borrar");
-
-	//Botones que faltan
-	ToggleButton rotateButton = new ToggleButton("Girar D");
-	ToggleButton flipHButton = new ToggleButton("Voltear H");
-	ToggleButton flipVButton = new ToggleButton("Voltear V");
-	ToggleButton duplicateButton = new ToggleButton("Duplicar");
-	ToggleButton divideButton = new ToggleButton("Dividir");
-
-	// Selector de color de relleno
-	ColorPicker fillColorPicker = new ColorPicker(defaultFillColor);
+	Canvas canvas = new Canvas(CANVAS_WIDTH, CANVAS_HEIGHT);
+	GraphicsContext gc = canvas.getGraphicsContext2D(); //Este contexto gráfico (GraphicsContext) permite realizar operaciones de dibujo en el lienzo (Canvas), como dibujar líneas, rectángulos, óvalos, imágenes, textos, y más.
+	Color lineColor = LINE_COLOR;
 
 	// Dibujar una figura
 	Point startPoint;
@@ -52,28 +40,20 @@ public class PaintPane extends BorderPane {
 	Figure selectedFigure;
 
 	// StatusBar
-	StatusPane statusPane;
+	StatusPane statusPane; // mostrar un mensaje de estado en una interfaz grafica
 
 	// Colores de relleno de cada figura
 	Map<Figure, Color> figureColorMap = new HashMap<>();
 
+	private final CustomHBox tBox=new CustomHBox();
+	private final CustomVBoxRight rBox=new CustomVBoxRight();
+	private final CustomVBoxLeft lBox=new CustomVBoxLeft();
+
 	public PaintPane(CanvasState canvasState, StatusPane statusPane) {
-		this.canvasState = canvasState;
-		this.statusPane = statusPane;
-		ToggleButton[] toolsArr = {selectionButton, rectangleButton, circleButton, squareButton, ellipseButton, deleteButton};
-		ToggleGroup tools = new ToggleGroup();
-		for (ToggleButton tool : toolsArr) {
-			tool.setMinWidth(90);
-			tool.setToggleGroup(tools);
-			tool.setCursor(Cursor.HAND);
-		}
-		VBox buttonsBox = new VBox(10);
-		buttonsBox.getChildren().addAll(toolsArr);
-		buttonsBox.getChildren().add(fillColorPicker);
-		buttonsBox.setPadding(new Insets(5));
-		buttonsBox.setStyle("-fx-background-color: #999");
-		buttonsBox.setPrefWidth(100);
-		gc.setLineWidth(1);
+		this.canvasState = canvasState; //almacena el estado actual del canvas
+		this.statusPane = statusPane; //muestra informacion del estado el usuario
+
+		gc.setLineWidth(LINE_WIDTH);
 
 		canvas.setOnMousePressed(event -> {
 			startPoint = new Point(event.getX(), event.getY());
@@ -84,6 +64,8 @@ public class PaintPane extends BorderPane {
 			if((startPoint == null) || (endPoint.getX() < startPoint.getX() || endPoint.getY() < startPoint.getY())) {
 				return ; //aca deberiamos agregar tema errores
 			}
+
+
 
 			Figure newFigure = null;
 			if(rectangleButton.isSelected()) {

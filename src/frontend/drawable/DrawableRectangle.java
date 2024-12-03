@@ -15,7 +15,7 @@ public class DrawableRectangle extends Rectangle implements DrawableFigureRectan
     }
 
     public void draw(GraphicsContext gc, Color lineColor, Color fillColor, boolean isSelected){
-        drawRectangle(gc,lineColor,fillColor, isSelected, topLeft,bottomRight);
+        drawRectangle(this.hasShade(), this.hasGradient(), this.hasBevel(), gc, isSelected, topLeft,bottomRight);
     }
 
     public boolean belongs(Point eventPoint){

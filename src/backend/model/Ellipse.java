@@ -55,10 +55,4 @@ public abstract class Ellipse extends Figure {
         this.sMinorAxis = sMinorAxis;
     }
 
-    @Override
-    public Figure duplicate(){
-        Point newCenterPoint = new Point(centerPoint.getX() - OFFSET, centerPoint.getY() - OFFSET);
-        return new DrawableEllipse(newCenterPoint, sMayorAxis, sMinorAxis, shadow, gradient, bevel, color1, color2);
-    }
-
 }

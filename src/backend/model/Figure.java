@@ -3,20 +3,21 @@ package backend.model;
 import backend.interfaces.Choosable;
 import backend.interfaces.Drawable;
 import backend.interfaces.Movable;
+import frontend.Shadow;
 import javafx.scene.paint.Color;
 
 public abstract class Figure implements Movable, Drawable, Choosable {
 
     protected Color color1, color2;
-    protected boolean shadow;
+    protected Shadow shadow;
     protected boolean gradient;
     protected boolean bevel;
 
-    public Figure(boolean shadow, boolean gradient, boolean bevel, Color color1, Color color2){
+    public Figure(Shadow shadow, boolean gradient, boolean bevel, Color color1, Color color2){
         setProperties(shadow, gradient, bevel, color1, color2);
     }
 
-    public void setProperties(boolean shadow, boolean gradient, boolean bevel, Color color1, Color color2){
+    public void setProperties(Shadow shadow, boolean gradient, boolean bevel, Color color1, Color color2){
         this.shadow = shadow;
         this.gradient = gradient;
         this.bevel = bevel;
@@ -32,13 +33,13 @@ public abstract class Figure implements Movable, Drawable, Choosable {
 
     public abstract void flipV();
 
-    public boolean isShade() {
+    public Shadow hasShade() {
         return shadow;
     }
-    public boolean isGradient() {
+    public boolean hasGradient() {
         return gradient;
     }
-    public boolean isBevel() {
+    public boolean hasBevel() {
         return bevel;
     }
 
