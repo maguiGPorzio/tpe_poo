@@ -1,14 +1,17 @@
 package backend.model;
 
-public class Ellipse extends Figure {
+import frontend.drawable.DrawableEllipse;
+import javafx.scene.paint.Color;
+
+public abstract class Ellipse extends Figure {
 
     protected Point centerPoint;
-    protected final double sMayorAxis, sMinorAxis;
+    protected double sMayorAxis, sMinorAxis;
 
-    public Ellipse(Point centerPoint, double sMayorAxis, double sMinorAxis) {
+    public Ellipse(Point centerPoint, double sMayorAxis, double sMinorAxis, boolean shadow, boolean gradient, boolean bevel, Color color1, Color color2){
+        super(shadow, gradient, bevel, color1, color2);
         this.centerPoint = centerPoint;
-        this.sMayorAxis = sMayorAxis;
-        this.sMinorAxis = sMinorAxis;
+        setAxis(sMayorAxis, sMinorAxis);
     }
 
     @Override
@@ -31,6 +34,31 @@ public class Ellipse extends Figure {
     @Override
     public void move(double diffX, double diffY){
         centerPoint.move(diffX, diffY);
+    }
+
+    public void rotate(){
+        setAxis(sMinorAxis, sMayorAxis);
+    }
+
+    public void flipV(){
+        double diffY = sMinorAxis * 2;
+        centerPoint.move(0, -diffY);
+    }
+
+    public void flipH(){
+        double diffX = sMayorAxis * 2;
+        centerPoint.move(diffX, 0);
+    }
+
+    private void setAxis(double sMayorAxis, double sMinorAxis){
+        this.sMayorAxis = sMayorAxis;
+        this.sMinorAxis = sMinorAxis;
+    }
+
+    @Override
+    public Figure duplicate(){
+        Point newCenterPoint = new Point(centerPoint.getX() - OFFSET, centerPoint.getY() - OFFSET);
+        return new DrawableEllipse(newCenterPoint, sMayorAxis, sMinorAxis, shadow, gradient, bevel, color1, color2);
     }
 
 }

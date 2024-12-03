@@ -4,7 +4,7 @@ import backend.interfaces.Movable;
 
 public class Point implements Movable {
 
-    public double x, y;
+    private double x, y;
 
     public Point(double x, double y) {
         this.x = x;

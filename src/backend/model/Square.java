@@ -1,9 +1,11 @@
 package backend.model;
 
-public class Square extends Rectangle {
+import javafx.scene.paint.Color;
 
-    public Square(Point topLeft, double size) {
-        super(topLeft, new Point(topLeft.x + size, topLeft.y + size));
+public abstract class Square extends Rectangle {
+
+    public Square(Point topLeft, double size, boolean shadow, boolean gradient, boolean bevel, Color color1, Color color2) {
+        super(topLeft, new Point(topLeft.getX() + size, topLeft.getY() + size), shadow, gradient, bevel, color1, color2);
     }
 
 
