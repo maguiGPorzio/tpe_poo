@@ -103,14 +103,6 @@ public class PaintPane extends BorderPane {
 			}
 		});
 
-//		deleteButton.setOnAction(event -> {
-//			if (selectedFigure != null) {
-//				canvasState.deleteFigure(selectedFigure);
-//				selectedFigure = null;
-//				redrawCanvas();
-//			}
-//		});
-
 		setLeft(lBox);
 		setRight(rBox);
 		setTop(tBox);
@@ -118,6 +110,10 @@ public class PaintPane extends BorderPane {
 	}
 
 	private Figure generateFigure(Point startPoint, Point endPoint) {
+		if (!lBox.isSelectionButtonSelected()){
+			FigureButton figureButton=(FigureButton) lBox.getFigureButtons().getSelectedToggle();
+			return figureButton.generate(startPoint,endPoint); //agregar shadow, bevel, gradiente
+		}
 	}
 
 	void redrawCanvas() {
