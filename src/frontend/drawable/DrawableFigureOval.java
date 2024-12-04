@@ -16,7 +16,7 @@ public interface DrawableFigureOval extends Drawable {
     default void drawShade(ShadowType shadow, GraphicsContext gc, Color firstFillColor, Point centerPoint, double sMayorAxis, double sMinorAxis){
         if(!shadow.equals(ShadowType.NOSHADOW)){
             gc.setFill(shadow.getShadeColor(firstFillColor));
-            gc.fillOval(centerPoint.getX() - (sMayorAxis / 2) + shadow.getOffsetX(), centerPoint.getY() - (sMinorAxis) + shadow.getOffsetY(), sMayorAxis, sMinorAxis);
+            gc.fillOval(centerPoint.getX() - (sMayorAxis / 2) + shadow.getOffsetX(), centerPoint.getY() - (sMinorAxis / 2) + shadow.getOffsetY(), sMayorAxis, sMinorAxis);
         }
     }
 
@@ -47,14 +47,9 @@ public interface DrawableFigureOval extends Drawable {
         drawBevel(format.getBevel(), gc, arcX, arcY, sMayorAxis, sMinorAxis);
         gc.setStroke(isSelected ? Color.RED : Color.BLACK);
         gc.setFill(format.getColor1());
-        gc.fillOval(centerPoint.getX() - sMayorAxis, centerPoint.getY() - sMinorAxis, sMinorAxis*2, sMayorAxis*2);
-        gc.strokeOval(centerPoint.getX() - sMayorAxis, centerPoint.getY() - sMinorAxis, sMinorAxis*2, sMayorAxis*2);
+        gc.strokeOval(centerPoint.getX() - (sMayorAxis / 2), centerPoint.getY() - (sMinorAxis / 2), sMayorAxis, sMinorAxis);
+        gc.fillOval(centerPoint.getX() - (sMayorAxis / 2), centerPoint.getY() - (sMinorAxis / 2), sMayorAxis, sMinorAxis);
         drawGradient(format.getGradient(), gc, format.getColor1(), format.getColor2());
-    }
-
-    default double belongsInOval(Point eventPoint, Point centerPoint, Double mayorAxis, Double minorAxis){
-        return (Math.pow(eventPoint.getX() - centerPoint.getX(), 2) / Math.pow(mayorAxis, 2)) +
-                (Math.pow(eventPoint.getY() - centerPoint.getY(), 2) / Math.pow(minorAxis, 2));
     }
 
 }

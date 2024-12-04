@@ -13,11 +13,7 @@ public class DrawableEllipse extends Ellipse implements DrawableFigureOval {
     }
 
     public void draw(GraphicsContext gc, boolean isSelected){
-        drawOval(format, gc, isSelected, centerPoint, sMayorAxis/2, sMinorAxis/2);
-    }
-
-    public boolean belongs(Point eventPoint){
-        return belongsInOval(eventPoint, centerPoint,sMayorAxis,sMinorAxis) <= 0.30;
+        drawOval(format, gc, isSelected, centerPoint, sMayorAxis, sMinorAxis);
     }
 
 }

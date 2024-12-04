@@ -8,6 +8,7 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Cursor;
 import javafx.scene.control.*;
+import javafx.scene.effect.Shadow;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 
@@ -18,9 +19,9 @@ public class CustomVBoxLeft extends VBox {
     private static final int BUTTON_MIN_WIDTH=90;
     private static final int SPACING=10;
 
-    private final static String SELECT="seleccion";
-    private final static String RECTANGLE="Rectangulo";
-    private final static String CIRCLE="circulo";
+    private final static String SELECT="Selección";
+    private final static String RECTANGLE="Rectángulo";
+    private final static String CIRCLE="Círculo";
     private final static String ELLIPSE="Elipse";
     private final static String SQUARE="Cuadrado";
     private final static String ERASE="Borrar";
@@ -33,12 +34,11 @@ public class CustomVBoxLeft extends VBox {
     private final FigureButton squareButton = new SquareButton(SQUARE);
     private final FigureButton ellipseButton = new EllipseButton(ELLIPSE);
     private final ToggleButton deleteButton = new ToggleButton(ERASE);
-    private final ChoiceBox shadowType = new ChoiceBox(FXCollections.observableArrayList("Simple Shadow", "Color Shadow", "Simple Inverted", "Color Inverted"));
+    private final ChoiceBox<String> shadowType = new ChoiceBox(FXCollections.observableArrayList("Simple Shadow", "Color Shadow", "Simple Inverted", "Color Inverted"));
     private final CheckBox bevel = new CheckBox("Biselado");
     private final ToggleButton copyFormatButton = new ToggleButton("Copiar Fmt.");
 
-    // Selector de color de relleno
-    ColorPicker fillColorPicker = new ColorPicker(DEFAULT_FILL_COLOR); //componente visual que permite a los usuarios seleccionar un color
+    ColorPicker fillColorPicker = new ColorPicker(DEFAULT_FILL_COLOR);
     ColorPicker secondFillColorPicker = new ColorPicker(DEFAULT_SECOND_COLOR);
 
     ToggleButton[] toolsArr = {selectionButton, rectangleButton, squareButton, circleButton, ellipseButton};
@@ -71,6 +71,7 @@ public class CustomVBoxLeft extends VBox {
     public void setEraseAction(EventHandler<ActionEvent> action){ //EventHandler<ActionEvent> especifica lo que pasa cuando el boton es presionado
         deleteButton.setOnAction(action);
     }
+
     public void setCopyFormatAction(EventHandler<ActionEvent> action){ //EventHandler<ActionEvent> especifica lo que pasa cuando el boton es presionado
         copyFormatButton.setOnAction(action);
     }
@@ -79,4 +80,26 @@ public class CustomVBoxLeft extends VBox {
         return selectionButton.isSelected();
     }
 
+    public boolean isBevel(){
+        return bevel.isSelected();
+    }
+
+    public ShadowType getShadow(){
+        if (shadowType.getValue() == null){
+            return ShadowType.NOSHADOW;
+        }
+        return ShadowType.values()[shadowType.getSelectionModel().getSelectedIndex() + 1];
+    }
+
+    public boolean hasGradient(){
+        return fillColorPicker.equals(secondFillColorPicker);
+    }
+
+    public Color getColo1(){
+        return fillColorPicker.getValue();
+    }
+
+    public Color getColo2(){
+        return secondFillColorPicker.getValue();
+    }
 }

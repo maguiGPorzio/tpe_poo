@@ -78,7 +78,7 @@ public abstract class Rectangle extends Figure {
         double horizontalLength = getHLength();
 
         Figure sub1, sub2;
-        if (verticalLength >= horizontalLength) { //dividimos manteniendo eje vertical
+        if (verticalLength <= horizontalLength) { //dividimos manteniendo eje vertical
             double centerX = (topLeft.getX() + bottomRight.getX())/2;
             sub1 = new DrawableRectangle(topLeft, new Point(centerX, bottomRight.getY()), format);
             sub2 = new DrawableRectangle(new Point(centerX, topLeft.getY()), bottomRight, format);
@@ -90,5 +90,10 @@ public abstract class Rectangle extends Figure {
         }
 
         return new Pair<Figure>(sub1, sub2);
+    }
+
+    public boolean belongs(Point eventPoint){
+        return eventPoint.getX() > topLeft.getX() && eventPoint.getX() < bottomRight.getX() &&
+                eventPoint.getY() > topLeft.getY() && eventPoint.getY() < bottomRight.getY();
     }
 }

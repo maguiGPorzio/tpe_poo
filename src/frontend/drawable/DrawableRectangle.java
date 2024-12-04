@@ -15,7 +15,4 @@ public class DrawableRectangle extends Rectangle implements DrawableFigureRectan
         drawRectangle(format, gc, isSelected, topLeft, bottomRight);
     }
 
-    public boolean belongs(Point eventPoint){
-        return belongsInRectangle(eventPoint, topLeft, bottomRight);
-    }
 }

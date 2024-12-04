@@ -6,11 +6,9 @@ import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Cursor;
-import javafx.scene.control.ChoiceBox;
-import javafx.scene.control.RadioButton;
-import javafx.scene.control.ToggleButton;
-import javafx.scene.control.ToggleGroup;
+import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
+import java.util.stream.Stream;
 
 public class CustomHBox extends HBox {
 
@@ -25,6 +23,9 @@ public class CustomHBox extends HBox {
     private final static String HIDE="Ocultar";
     private final static String ADD_LAYER="Agregar capa";
     private final static String ERASE_LAYER="Eliminar una capa";
+    private final static String LAYERS_SUBTITLE="Capas";
+
+    Label layers_subtitle = new Label(LAYERS_SUBTITLE);
 
     private final ToggleButton moveToFrontButton = new ToggleButton(BRING_TO_FRONT);
     private final ToggleButton moveToBack = new ToggleButton(MOVE_TO_BACK);
@@ -35,6 +36,8 @@ public class CustomHBox extends HBox {
     private final ToggleButton removeLayerButton = new ToggleButton(ERASE_LAYER);
 
     public CustomHBox(){
+        ToggleButton[] toolsArrLeft = {moveToFrontButton, moveToBack};
+        ToggleButton[] toolsArrRight = {addLayerButton, removeLayerButton};
         ToggleButton[] toolsArr = {moveToFrontButton, moveToBack, addLayerButton, removeLayerButton};
         ToggleGroup tools = new ToggleGroup();
         for (ToggleButton tool : toolsArr) {
@@ -49,8 +52,9 @@ public class CustomHBox extends HBox {
         setAlignment(Pos.TOP_CENTER);
         setSpacing(SPACING);
 
-        getChildren().addAll(toolsArr);
-
+        getChildren().addAll(toolsArrLeft);
+        getChildren().addAll(layers_subtitle, layers, showButton, hideButton);
+        getChildren().addAll(toolsArrRight);
     }
 
     public void setMoveToFrontAction(EventHandler<ActionEvent> action){moveToFrontButton.setOnAction(action);}

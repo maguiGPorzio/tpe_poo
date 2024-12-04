@@ -15,7 +15,7 @@ public abstract class Figure implements Movable, Drawable, Choosable {
         this.format = format;
     }
 
-    protected final static double OFFSET = 0.5;
+    protected final static double OFFSET = 10.0;
 
     public abstract void rotate();
 
@@ -36,6 +36,8 @@ public abstract class Figure implements Movable, Drawable, Choosable {
     public Format getFormat(){
         return format;
     }
+
+    public void setFormat(Format format){ this.format = format; }
 
     public abstract Figure duplicate();
     public abstract Pair<Figure> divide();

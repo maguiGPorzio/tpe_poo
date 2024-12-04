@@ -12,12 +12,7 @@ public class DrawableCircle extends Circle implements DrawableFigureOval{
     }
 
     public void draw(GraphicsContext gc, boolean isSelected){
-        drawOval(format, gc, isSelected, centerPoint, getRadius(), getRadius());
+        drawOval(format, gc, isSelected, centerPoint, getRadius()*2, getRadius()*2);
     }
-
-    public boolean belongs(Point eventPoint) {
-        return belongsInOval(eventPoint, centerPoint,1.0,1.0) < getRadius();
-    }
-
 
 }

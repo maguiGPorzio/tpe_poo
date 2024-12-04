@@ -41,12 +41,12 @@ public abstract class Ellipse extends Figure {
     }
 
     public void flipV(){
-        double diffY = sMinorAxis * 2;
+        double diffY = sMinorAxis;
         centerPoint.move(0, -diffY);
     }
 
     public void flipH(){
-        double diffX = sMayorAxis * 2;
+        double diffX = sMayorAxis;
         centerPoint.move(diffX, 0);
     }
 
@@ -65,16 +65,20 @@ public abstract class Ellipse extends Figure {
     public Pair<Figure> divide(){
         Point center1, center2;
         if(sMayorAxis >= sMinorAxis){ //respetando el eje horizontal
-            center1 = new Point(centerPoint.getX() - sMayorAxis/2, centerPoint.getY());
-            center2 = new Point(centerPoint.getX() + sMayorAxis/2, centerPoint.getY());
+            center1 = new Point(centerPoint.getX() - sMayorAxis/4, centerPoint.getY());
+            center2 = new Point(centerPoint.getX() + sMayorAxis/4, centerPoint.getY());
         }
         else{
-            center1 = new Point(centerPoint.getX(), centerPoint.getY() - sMayorAxis/2);
-            center2 = new Point(centerPoint.getX(), centerPoint.getY() + sMayorAxis/2);
+            center1 = new Point(centerPoint.getX(), centerPoint.getY() - sMayorAxis/4);
+            center2 = new Point(centerPoint.getX(), centerPoint.getY() + sMayorAxis/4);
         }
         DrawableEllipse sub1 = new DrawableEllipse(center1, sMayorAxis/2, sMinorAxis/2, format);
         DrawableEllipse sub2 = new DrawableEllipse(center2, sMayorAxis/2, sMinorAxis/2, format);
         return new Pair<Figure>(sub1, sub2);
+    }
+
+    public boolean belongs(Point eventPoint){
+        return (Math.pow(eventPoint.getX() - centerPoint.getX(), 2) / Math.pow(sMayorAxis, 2)) + (Math.pow(eventPoint.getY() - getCenterPoint().getY(), 2) / Math.pow(sMinorAxis, 2)) <= 0.30;
     }
 
 }

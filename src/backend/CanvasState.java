@@ -2,14 +2,20 @@ package backend;
 
 import backend.model.Figure;
 import backend.model.Pair;
+import frontend.ShadowType;
 
 import java.util.*;
+import java.util.List;
+
+import javafx.scene.paint.Color;
 
 public class CanvasState {
 
     private final int INITIAL_LAYERS = 3;
     private int currentLayer = 0;
     private final SortedMap<Integer, Layer> layers = new TreeMap<>();
+    private Format copiedFormat;
+    private Figure selectedFigure;
 
     public CanvasState() {
         // Inicializar las capas iniciales
@@ -19,11 +25,16 @@ public class CanvasState {
     }
 
     public void addFigure(Figure figure) {
-        layers.get(currentLayer).addFigure(figure);
+        if(figure != null){
+            layers.get(currentLayer).addFigure(figure);
+        }
     }
 
-    public void deleteFigure(Figure figure) {
-        layers.get(currentLayer).removeFigure(figure);
+    public void deleteFigure() {
+        if (selectedFigure != null) {
+            layers.get(currentLayer).removeFigure(selectedFigure);
+            selectedFigure = null;
+        }
     }
 
     public void addLayer(){
@@ -55,42 +66,51 @@ public class CanvasState {
         }
     }
 
-    public Format copyFormat(Figure figure){
-        return figure.getFormat(); //Esto hay que cambiarlo pero me da paja en este momento
+    public void getFormat(){
+        copiedFormat = selectedFigure.getFormat();
     }
 
-    public void rotate(Figure figure){
+    public void copyFormat(){
+        selectedFigure.setFormat(copiedFormat);
+    }
+
+    public void setFormat(ShadowType shadowType, boolean gradient, boolean bevel, Color color1, Color color2){
+        selectedFigure.setFormat(new Format(gradient, bevel, shadowType, color1, color2));
+    }
+
+    public void rotate(){
         List<Figure> l = figuresInLayer(currentLayer);
-        if(l.contains(figure)){
-            figure.rotate();
+        if(l.contains(selectedFigure)){
+            selectedFigure.rotate();
         }
     }
 
-    public void flipV(Figure figure){
+    public void flipV(){
         List<Figure> l = figuresInLayer(currentLayer);
-        if(l.contains(figure)){
-            figure.flipV();
+        if(l.contains(selectedFigure)){
+            selectedFigure.flipV();
         }
     }
 
-    public void flipH(Figure figure){
+    public void flipH(){
         List<Figure> l = figuresInLayer(currentLayer);
-        if(l.contains(figure)){
-            figure.flipH();
+        if(l.contains(selectedFigure)){
+            selectedFigure.flipH();
         }
     }
 
-    public void duplicate(Figure figure){
-        Figure newFigure = figure.duplicate();
-        addFigure(figure);
+    public void duplicate(){
+        Figure newFigure = selectedFigure.duplicate();
+        addFigure(selectedFigure);
     }
 
-    public void divide(Figure figure){
-        Pair<Figure> figurePair = figure.divide();
+    public void divide(){
+        Pair<Figure> figurePair = selectedFigure.divide();
         Figure figure1 = figurePair.getLeft();
         Figure figure2 = figurePair.getRight();
         addFigure(figure1);
         addFigure(figure2);
+        deleteFigure();
     }
 
     public void showLayer(){
@@ -102,18 +122,18 @@ public class CanvasState {
         layers.get(currentLayer).hideLayer();
     }
 
-    public void moveToFront(Figure figure){
+    public void moveToFront(){
         List<Figure> l = figuresInLayer(currentLayer);
-        if(l.contains(figure)){
-            layers.get(currentLayer).moveToFront(figure);
+        if(l.contains(selectedFigure)){
+            layers.get(currentLayer).moveToFront(selectedFigure);
         }
     }
 
-    public void moveToBack(Figure figure){
+    public void moveToBack(){
         List<Figure> l = figuresInLayer(currentLayer);
         // se mueve la figura únicamente si ésta pertenece a la capa seleccionada
-        if(l.contains(figure)){
-            layers.get(currentLayer).moveToBack(figure);
+        if(l.contains(selectedFigure)){
+            layers.get(currentLayer).moveToBack(selectedFigure);
         }
 
     }
@@ -153,5 +173,9 @@ public class CanvasState {
         return getFigures(getVisibleLayers());
     }
 
+    public void setSelectedFigure(Figure figure){ this.selectedFigure = figure; }
 
+    public Figure getSelectedFigure() {
+        return selectedFigure;
+    }
 }

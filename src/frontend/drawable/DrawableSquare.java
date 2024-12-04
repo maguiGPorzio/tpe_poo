@@ -16,8 +16,4 @@ public class DrawableSquare extends Square implements  DrawableFigureRectangle{
         drawRectangle(format, gc, isSelected, topLeft, bottomRight);
     }
 
-    public boolean belongs(Point eventPoint){
-        return belongsInRectangle(eventPoint, topLeft, bottomRight);
-    }
-
 }

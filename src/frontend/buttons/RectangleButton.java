@@ -1,5 +1,6 @@
 package frontend.buttons;
 
+import backend.Format;
 import backend.model.Figure;
 import backend.model.Point;
 import backend.model.Rectangle;
@@ -12,7 +13,7 @@ public class RectangleButton extends FigureButton{
         super(action);
     }
 
-    public Figure generate(Point endPoint, Point startPoint, ShadowType shadow, boolean gradient, boolean bevel, Color color1, Color color2){
-        return new DrawableRectangle(startPoint, endPoint, shadow, gradient, bevel, color1, color2);
+    public Figure generate(Point startPoint, Point endPoint, ShadowType shadow, boolean gradient, boolean bevel, Color color1, Color color2){
+        return new DrawableRectangle(startPoint, endPoint, new Format(gradient, bevel, shadow, color1, color2));
     }
 }

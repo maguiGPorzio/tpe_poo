@@ -19,6 +19,9 @@ public class CustomVBoxRight extends VBox {
     private final static String ROTATE_D="Girar D";
     private final static String FLIP_H="Voltear H";
     private final static String FLIP_V="Voltear V";
+    private final static String TITLE="Acciones:";
+
+    Label title = new Label(TITLE);
 
     private final ToggleButton rotateButton = new ToggleButton(ROTATE_D);
     private final ToggleButton flipHButton = new ToggleButton(FLIP_H);
@@ -36,7 +39,7 @@ public class CustomVBoxRight extends VBox {
         setAlignment(Pos.CENTER_RIGHT);
         setSpacing(SPACING);
 
-        getChildren().addAll(rotateButton,flipHButton,flipVButton,duplicateButton, divideButton);
+        getChildren().addAll(title, rotateButton,flipHButton,flipVButton,duplicateButton, divideButton);
     }
 
     public void setFlipVAction(EventHandler<ActionEvent> action){flipVButton.setOnAction(action);}

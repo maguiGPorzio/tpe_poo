@@ -20,7 +20,7 @@ public interface DrawableFigureRectangle {
 
         if(!shadow.equals(ShadowType.NOSHADOW)) {
             gc.setFill(shadow.getShadeColor(firstFillColor));
-            gc.fillRect(topLeft.getX() - shadow.getOffsetX(), topLeft.getY() - shadow.getOffsetY(), Math.abs(topLeft.getX() - bottomRight.getX()), Math.abs(topLeft.getY() - bottomRight.getY()));
+            gc.fillRect(topLeft.getX() + shadow.getOffsetX(), topLeft.getY() + shadow.getOffsetY(), Math.abs(topLeft.getX() - bottomRight.getX()), Math.abs(topLeft.getY() - bottomRight.getY()));
         }
     }
 
@@ -36,7 +36,7 @@ public interface DrawableFigureRectangle {
     default void drawBevel(boolean isBevel, GraphicsContext gc, Point topLeft, Point bottomRight){
         if(isBevel){
             double x = topLeft.getX();
-            double y = bottomRight.getY();
+            double y = topLeft.getY();
             double width = Math.abs(x - bottomRight.getX());
             double height = Math.abs(y - bottomRight.getY());
             gc.setLineWidth(10);
@@ -50,21 +50,17 @@ public interface DrawableFigureRectangle {
     }
 
     default void drawRectangle(Format format, GraphicsContext gc, boolean isSelected, Point topLeft, Point bottomRight){
-        drawShade(format.getShadow(), gc, format.getColor1(), topLeft, bottomRight);
-        drawBevel(format.getBevel(), gc, topLeft, bottomRight);
-        gc.setStroke(isSelected ? Color.RED : Color.BLACK);
-        gc.setFill(format.getColor1());
-        double width = Math.abs(topLeft.getX() - bottomRight.getX());
-        double height = Math.abs(topLeft.getY() - bottomRight.getY());
-        gc.fillRect(topLeft.getX(), topLeft.getY(), width, height);
-        gc.strokeRect(topLeft.getX(), topLeft.getY(), width, height);
-        drawGradient(format.getGradient(), gc, format.getColor1(), format.getColor2());
+        if(topLeft.getX() < bottomRight.getX() && topLeft.getY() > bottomRight.getY()){
+            drawShade(format.getShadow(), gc, format.getColor1(), topLeft, bottomRight);
+            drawBevel(format.getBevel(), gc, topLeft, bottomRight);
+            gc.setStroke(isSelected ? Color.RED : Color.BLACK);
+            gc.setFill(format.getColor1());
+            double width = Math.abs(topLeft.getX() - bottomRight.getX());
+            double height = Math.abs(topLeft.getY() - bottomRight.getY());
+            gc.fillRect(topLeft.getX(), topLeft.getY(), width, height);
+            gc.strokeRect(topLeft.getX(), topLeft.getY(), width, height);
+            drawGradient(format.getGradient(), gc, format.getColor1(), format.getColor2());
+        }
     }
-
-    default boolean belongsInRectangle(Point eventPoint, Point topLeft, Point bottomRight){
-        return eventPoint.getX() > topLeft.getX() && eventPoint.getX() < bottomRight.getX() &&
-                eventPoint.getY() > topLeft.getY() && eventPoint.getY() < bottomRight.getY();
-    }
-
 
 }

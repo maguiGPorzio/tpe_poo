@@ -7,6 +7,7 @@ import javafx.scene.paint.Color;
 // Chequear esto pq el codigo de simple y el de colour es lo mismo y desp. lo mismo con lo otro
 // ahora no se me ocurre como hacerlo mejor
 
+
 public enum ShadowType {
     NOSHADOW(0.0, 0.0) {
       @Override
