@@ -16,5 +16,4 @@ public class MyBrowser extends Application {
         primaryStage.setScene(scene);
         primaryStage.show();
     }
-
 }

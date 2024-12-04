@@ -1,17 +1,15 @@
 package backend.model;
 
-import frontend.ShadowType;
 import frontend.drawable.DrawableEllipse;
-import frontend.drawable.DrawableRectangle;
-import javafx.scene.paint.Color;
+import backend.Format;
 
 public abstract class Ellipse extends Figure {
 
     protected Point centerPoint;
     protected double sMayorAxis, sMinorAxis;
 
-    public Ellipse(Point centerPoint, double sMayorAxis, double sMinorAxis, ShadowType shadow, boolean gradient, boolean bevel, Color color1, Color color2){
-        super(shadow, gradient, bevel, color1, color2);
+    public Ellipse(Point centerPoint, double sMayorAxis, double sMinorAxis, Format format){
+        super(format);
         this.centerPoint = centerPoint;
         setAxis(sMayorAxis, sMinorAxis);
     }
@@ -60,7 +58,7 @@ public abstract class Ellipse extends Figure {
     @Override
     public Figure duplicate(){
         Point newCenterPoint = new Point(centerPoint.getX() - OFFSET, centerPoint.getY() - OFFSET);
-        return new DrawableEllipse(newCenterPoint, sMayorAxis, sMinorAxis, shadow, gradient, bevel, color1, color2);
+        return new DrawableEllipse(newCenterPoint, sMayorAxis, sMinorAxis, format);
     }
 
     @Override
@@ -74,8 +72,8 @@ public abstract class Ellipse extends Figure {
             center1 = new Point(centerPoint.getX(), centerPoint.getY() - sMayorAxis/2);
             center2 = new Point(centerPoint.getX(), centerPoint.getY() + sMayorAxis/2);
         }
-        DrawableEllipse sub1 = new DrawableEllipse(center1, sMayorAxis/2, sMinorAxis/2, shadow, gradient, bevel, color1, color2);
-        DrawableEllipse sub2 = new DrawableEllipse(center2, sMayorAxis/2, sMinorAxis/2, shadow, gradient, bevel, color1, color2);
+        DrawableEllipse sub1 = new DrawableEllipse(center1, sMayorAxis/2, sMinorAxis/2, format);
+        DrawableEllipse sub2 = new DrawableEllipse(center2, sMayorAxis/2, sMinorAxis/2, format);
         return new Pair<Figure>(sub1, sub2);
     }
 

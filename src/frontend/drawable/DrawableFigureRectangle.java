@@ -1,5 +1,6 @@
 package frontend.drawable;
 
+import backend.Format;
 import backend.model.Point;
 import frontend.ShadowType;
 import javafx.scene.canvas.GraphicsContext;
@@ -48,16 +49,16 @@ public interface DrawableFigureRectangle {
         }
     }
 
-    default void drawRectangle(ShadowType shadow, boolean gradient, boolean bevel, GraphicsContext gc, Color firstFillColor, Color secondFillColor, boolean isSelected, Point topLeft, Point bottomRight){
-        drawShade(shadow, gc, firstFillColor, topLeft, bottomRight);
-        drawBevel(bevel, gc, topLeft, bottomRight);
+    default void drawRectangle(Format format, GraphicsContext gc, boolean isSelected, Point topLeft, Point bottomRight){
+        drawShade(format.getShadow(), gc, format.getColor1(), topLeft, bottomRight);
+        drawBevel(format.getBevel(), gc, topLeft, bottomRight);
         gc.setStroke(isSelected ? Color.RED : Color.BLACK);
-        gc.setFill(firstFillColor);
+        gc.setFill(format.getColor1());
         double width = Math.abs(topLeft.getX() - bottomRight.getX());
         double height = Math.abs(topLeft.getY() - bottomRight.getY());
         gc.fillRect(topLeft.getX(), topLeft.getY(), width, height);
         gc.strokeRect(topLeft.getX(), topLeft.getY(), width, height);
-        drawGradient(gradient, gc, firstFillColor, secondFillColor);
+        drawGradient(format.getGradient(), gc, format.getColor1(), format.getColor2());
     }
 
     default boolean belongsInRectangle(Point eventPoint, Point topLeft, Point bottomRight){

@@ -2,19 +2,17 @@ package frontend.drawable;
 
 import backend.model.Circle;
 import backend.model.Point;
-import frontend.ShadowType;
+import backend.Format;
 import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.paint.Color;
 
 public class DrawableCircle extends Circle implements DrawableFigureOval{
 
-
-    public DrawableCircle(Point centerPoint, double radius, ShadowType shadow, boolean gradient, boolean bevel, Color color1, Color color2){
-        super(centerPoint, radius, shadow, gradient, bevel, color1, color2);
+    public DrawableCircle(Point centerPoint, double radius, Format format){
+        super(centerPoint, radius, format);
     }
 
     public void draw(GraphicsContext gc, boolean isSelected){
-        drawOval(shadow, gradient, bevel, gc, color1, color2, isSelected, centerPoint, getRadius(), getRadius());
+        drawOval(format, gc, isSelected, centerPoint, getRadius(), getRadius());
     }
 
     public boolean belongs(Point eventPoint) {

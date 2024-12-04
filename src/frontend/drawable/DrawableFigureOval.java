@@ -9,6 +9,7 @@ import javafx.scene.paint.CycleMethod;
 import javafx.scene.paint.RadialGradient;
 import javafx.scene.paint.Stop;
 import javafx.scene.shape.ArcType;
+import backend.Format;
 
 public interface DrawableFigureOval extends Drawable {
 
@@ -39,16 +40,16 @@ public interface DrawableFigureOval extends Drawable {
         }
     }
 
-    default void drawOval(ShadowType shadow, boolean gradient, boolean bevel, GraphicsContext gc, Color firstColor, Color secondColor, boolean isSelected, Point centerPoint, Double sMayorAxis, Double sMinorAxis){
-        drawShade(shadow, gc, firstColor,centerPoint, sMayorAxis, sMinorAxis);
+    default void drawOval(Format format, GraphicsContext gc, boolean isSelected, Point centerPoint, Double sMayorAxis, Double sMinorAxis){
+        drawShade(format.getShadow(), gc, format.getColor1(),centerPoint, sMayorAxis, sMinorAxis);
         double arcX = centerPoint.getX() - sMayorAxis / 2;
         double arcY = centerPoint.getY() - sMinorAxis / 2;
-        drawBevel(bevel, gc, arcX, arcY, sMayorAxis, sMinorAxis);
+        drawBevel(format.getBevel(), gc, arcX, arcY, sMayorAxis, sMinorAxis);
         gc.setStroke(isSelected ? Color.RED : Color.BLACK);
-        gc.setFill(firstColor);
+        gc.setFill(format.getColor1());
         gc.fillOval(centerPoint.getX() - sMayorAxis, centerPoint.getY() - sMinorAxis, sMinorAxis*2, sMayorAxis*2);
         gc.strokeOval(centerPoint.getX() - sMayorAxis, centerPoint.getY() - sMinorAxis, sMinorAxis*2, sMayorAxis*2);
-        drawGradient(gradient, gc, firstColor, secondColor);
+        drawGradient(format.getGradient(), gc, format.getColor1(), format.getColor2());
     }
 
     default double belongsInOval(Point eventPoint, Point centerPoint, Double mayorAxis, Double minorAxis){

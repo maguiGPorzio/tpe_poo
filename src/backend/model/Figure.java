@@ -1,28 +1,18 @@
 package backend.model;
 
+import backend.Format;
 import backend.interfaces.Choosable;
 import backend.interfaces.Drawable;
 import backend.interfaces.Movable;
 import frontend.ShadowType;
-import javafx.scene.paint.Color;
+
 
 public abstract class Figure implements Movable, Drawable, Choosable {
 
-    protected Color color1, color2;
-    protected ShadowType shadow;
-    protected boolean gradient;
-    protected boolean bevel;
+    protected Format format;
 
-    public Figure(ShadowType shadow, boolean gradient, boolean bevel, Color color1, Color color2){
-        setProperties(shadow, gradient, bevel, color1, color2);
-    }
-
-    public void setProperties(ShadowType shadow, boolean gradient, boolean bevel, Color color1, Color color2){
-        this.shadow = shadow;
-        this.gradient = gradient;
-        this.bevel = bevel;
-        this.color1 = color1;
-        this.color2 = color2;
+    public Figure(Format format){
+        this.format = format;
     }
 
     protected final static double OFFSET = 0.5;
@@ -34,13 +24,17 @@ public abstract class Figure implements Movable, Drawable, Choosable {
     public abstract void flipV();
 
     public ShadowType hasShade() {
-        return shadow;
+        return format.getShadow();
     }
     public boolean hasGradient() {
-        return gradient;
+        return format.getGradient();
     }
     public boolean hasBevel() {
-        return bevel;
+        return format.getBevel();
+    }
+
+    public Format getFormat(){
+        return format;
     }
 
     public abstract Figure duplicate();

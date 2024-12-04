@@ -1,17 +1,14 @@
 package backend.model;
 
-import frontend.ShadowType;
-import frontend.drawable.DrawableEllipse;
 import frontend.drawable.DrawableRectangle;
-import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.paint.Color;
+import backend.Format;
 
 public abstract class Rectangle extends Figure {
 
     protected Point topLeft, bottomRight;
 
-    public Rectangle(Point topLeft, Point bottomRight, ShadowType shadow, boolean gradient, boolean bevel, Color color1, Color color2) {
-        super(shadow, gradient, bevel, color1, color2);
+    public Rectangle(Point topLeft, Point bottomRight, Format format) {
+        super(format);
         this.topLeft = topLeft;
         this.bottomRight = bottomRight;
     }
@@ -72,7 +69,7 @@ public abstract class Rectangle extends Figure {
     public Figure duplicate(){
         Point newTopLeft = new Point(topLeft.getX() - OFFSET, topLeft.getY() - OFFSET);
         Point newBottomRight = new Point(bottomRight.getX() - OFFSET, bottomRight.getY() - OFFSET);
-        return new DrawableRectangle(newTopLeft, newBottomRight, shadow, gradient, bevel, color1, color2);
+        return new DrawableRectangle(newTopLeft, newBottomRight, format);
     }
 
     @Override
@@ -83,13 +80,13 @@ public abstract class Rectangle extends Figure {
         Figure sub1, sub2;
         if (verticalLength >= horizontalLength) { //dividimos manteniendo eje vertical
             double centerX = (topLeft.getX() + bottomRight.getX())/2;
-            sub1 = new DrawableRectangle(topLeft, new Point(centerX, bottomRight.getY()), shadow, gradient, bevel, color1, color2);
-            sub2 = new DrawableRectangle(new Point(centerX, topLeft.getY()), bottomRight, shadow, gradient, bevel, color1, color2);
+            sub1 = new DrawableRectangle(topLeft, new Point(centerX, bottomRight.getY()), format);
+            sub2 = new DrawableRectangle(new Point(centerX, topLeft.getY()), bottomRight, format);
         }
         else{ // dividimos manteniendo el eje horizontal
             double centerY = (topLeft.getY() + bottomRight.getY())/2;
-            sub1 = new DrawableRectangle(topLeft, new Point(bottomRight.getX(), centerY), shadow, gradient, bevel, color1, color2);
-            sub2 = new DrawableRectangle(new Point(topLeft.getX(), centerY), bottomRight, shadow, gradient, bevel, color1, color2);
+            sub1 = new DrawableRectangle(topLeft, new Point(bottomRight.getX(), centerY), format);
+            sub2 = new DrawableRectangle(new Point(topLeft.getX(), centerY), bottomRight, format);
         }
 
         return new Pair<Figure>(sub1, sub2);

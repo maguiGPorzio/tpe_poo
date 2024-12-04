@@ -1,5 +1,6 @@
 package frontend.drawable;
 
+import backend.Format;
 import backend.model.Point;
 import backend.model.Square;
 import frontend.ShadowType;
@@ -8,11 +9,11 @@ import javafx.scene.paint.Color;
 
 public class DrawableSquare extends Square implements  DrawableFigureRectangle{
 
-    public DrawableSquare(Point topLeft, double size, ShadowType shadow, boolean gradient, boolean bevel, Color color1, Color color2){
-        super(topLeft, size, shadow, gradient, bevel, color1, color2);
+    public DrawableSquare(Point topLeft, double size, Format format){
+        super(topLeft, size, format);
     }
     public void draw(GraphicsContext gc, boolean isSelected){
-        drawRectangle(this.hasShade(), this.hasGradient(), this.hasBevel(), gc, this.color1, this.color2, isSelected, topLeft, bottomRight);
+        drawRectangle(format, gc, isSelected, topLeft, bottomRight);
     }
 
     public boolean belongs(Point eventPoint){
