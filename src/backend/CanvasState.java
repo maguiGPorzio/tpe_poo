@@ -12,15 +12,21 @@ import javafx.scene.paint.Color;
 public class CanvasState {
 
     private final int INITIAL_LAYERS = 3;
-    private int currentLayer = 0;
-    private final SortedMap<Integer, Layer> layers = new TreeMap<>();
+    private int currentLayer = 1;
+    public final SortedMap<Integer, Layer> layers = new TreeMap<>(); //lo pongo publico para intentar
     private Format copiedFormat;
     private Figure selectedFigure;
 
     public CanvasState() {
         // Inicializar las capas iniciales
-        for (int i = 0; i < INITIAL_LAYERS; i++) {
+        for (int i = 1; i <= INITIAL_LAYERS; i++) {
             layers.put(i, new Layer());
+        }
+    }
+
+    public void setCurrentLayer(int layer){
+        if(layers.containsKey(layer)){
+            currentLayer = layer;
         }
     }
 

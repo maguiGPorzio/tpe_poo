@@ -92,14 +92,14 @@ public class CustomVBoxLeft extends VBox {
     }
 
     public boolean hasGradient(){
-        return fillColorPicker.equals(secondFillColorPicker);
+        return !fillColorPicker.equals(secondFillColorPicker);
     }
 
-    public Color getColo1(){
+    public Color getColor1(){
         return fillColorPicker.getValue();
     }
 
-    public Color getColo2(){
+    public Color getColor2(){
         return secondFillColorPicker.getValue();
     }
 }

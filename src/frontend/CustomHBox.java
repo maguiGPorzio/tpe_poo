@@ -64,4 +64,8 @@ public class CustomHBox extends HBox {
     public void setHideAction(EventHandler<ActionEvent> action){hideButton.setOnAction(action);}
     public void setAddLayerAction(EventHandler<ActionEvent> action){addLayerButton.setOnAction(action);}
     public void setRemoveLayerAction(EventHandler<ActionEvent> action){removeLayerButton.setOnAction(action);}
+
+    public int getCurrentLayer(){
+        return layers.getSelectionModel().getSelectedIndex() + 1;
+    }
 }

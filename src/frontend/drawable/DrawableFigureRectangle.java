@@ -50,7 +50,7 @@ public interface DrawableFigureRectangle {
     }
 
     default void drawRectangle(Format format, GraphicsContext gc, boolean isSelected, Point topLeft, Point bottomRight){
-        if(topLeft.getX() < bottomRight.getX() && topLeft.getY() > bottomRight.getY()){
+        if(topLeft.getX() < bottomRight.getX() && topLeft.getY() < bottomRight.getY()){
             drawShade(format.getShadow(), gc, format.getColor1(), topLeft, bottomRight);
             drawBevel(format.getBevel(), gc, topLeft, bottomRight);
             gc.setStroke(isSelected ? Color.RED : Color.BLACK);

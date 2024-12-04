@@ -8,11 +8,12 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.paint.Color;
 
+import java.util.SortedMap;
+
 public class PaintPane extends BorderPane {
 
 	CanvasState canvasState;
 	Point startPoint;
-	Figure selectedFigure;
 	StatusPane statusPane;
 
 	private static final int CANVAS_WIDTH = 800;
@@ -83,7 +84,7 @@ public class PaintPane extends BorderPane {
 					if(figureBelongs(figure, eventPoint)) {
 						found = true;
 						canvasState.setSelectedFigure(figure);
-						canvasState.setFormat(lBox.getShadow(),lBox.hasGradient(), lBox.isBevel(), lBox.getColo1(), lBox.getColo2());
+						canvasState.setFormat(lBox.getShadow(),lBox.hasGradient(), lBox.isBevel(), lBox.getColor1(), lBox.getColor2());
 						label.append(figure.toString());
 					}
 				}
@@ -109,7 +110,7 @@ public class PaintPane extends BorderPane {
 		});
 
 		lBox.setEraseAction(event -> {
-			if (selectedFigure != null) {
+			if (canvasState.getSelectedFigure() != null) {
 				canvasState.deleteFigure();
 				redrawCanvas();
 			}
@@ -124,10 +125,10 @@ public class PaintPane extends BorderPane {
 		lBox.setEraseAction(event -> {canvasState.deleteFigure();});
 
 		tBox.setAddLayerAction(event -> {canvasState.addLayer();});
-		tBox.setHideAction(event -> {canvasState.hideLayer();});
-		tBox.setShowAction(event -> {canvasState.showLayer();});
-		tBox.setMoveToBackAction(event -> {canvasState.moveToBack();});
-		tBox.setMoveToFrontAction(event -> {canvasState.moveToFront();});
+		tBox.setHideAction(event -> {canvasState.hideLayer(); redrawCanvas();});
+		tBox.setShowAction(event -> {canvasState.showLayer(); redrawCanvas();});
+		tBox.setMoveToBackAction(event -> {canvasState.moveToBack(); redrawCanvas();});
+		tBox.setMoveToFrontAction(event -> {canvasState.moveToFront(); redrawCanvas();});
 		tBox.setRemoveLayerAction(event -> {canvasState.removeLayer();});
 
 		setLeft(lBox);
@@ -139,18 +140,16 @@ public class PaintPane extends BorderPane {
 	private Figure generateFigure(Point startPoint, Point endPoint) {
 		if (!lBox.isSelectionButtonSelected()){
 			FigureButton figureButton=(FigureButton) lBox.getFigureButtons().getSelectedToggle();
-			return figureButton.generate(startPoint, endPoint,lBox.getShadow(),lBox.hasGradient(), lBox.isBevel(), lBox.getColo1(), lBox.getColo2());
+			canvasState.setCurrentLayer(tBox.getCurrentLayer());
+			return figureButton.generate(startPoint, endPoint,lBox.getShadow(),lBox.hasGradient(), lBox.isBevel(), lBox.getColor1(), lBox.getColor2());
 		}
 		return null;
 	}
 
-
-
 	void redrawCanvas() {
 		gc.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
-		Figure fig = canvasState.getSelectedFigure();
-		if(fig != null){
-			fig.draw(gc, true);
+		for(Figure figure : canvasState.figures()) {
+			figure.draw(gc,figure == canvasState.getSelectedFigure());
 		}
 	}
 
