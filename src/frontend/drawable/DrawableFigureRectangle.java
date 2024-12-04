@@ -12,6 +12,11 @@ public interface DrawableFigureRectangle {
 
 
     default void drawShade(ShadowType shadow, GraphicsContext gc, Color firstFillColor, Point topLeft, Point bottomRight){
+        // aca me queda la duda si no es mejor estilo directamente no hacer el if
+        // y que dibuje arriba (?
+        // no se como quedara
+        // pero es pq NOSHADOW tiene implementado el getShadeColor tb
+
         if(!shadow.equals(ShadowType.NOSHADOW)) {
             gc.setFill(shadow.getShadeColor(firstFillColor));
             gc.fillRect(topLeft.getX() - shadow.getOffsetX(), topLeft.getY() - shadow.getOffsetY(), Math.abs(topLeft.getX() - bottomRight.getX()), Math.abs(topLeft.getY() - bottomRight.getY()));
