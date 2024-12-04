@@ -5,6 +5,7 @@ import backend.model.*;
 import frontend.buttons.FigureButton;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.control.ToggleButton;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.paint.Color;
 
@@ -24,9 +25,9 @@ public class PaintPane extends BorderPane {
 	GraphicsContext gc = canvas.getGraphicsContext2D();
 	Color lineColor = LINE_COLOR;
 
-	private final CustomHBox tBox=new CustomHBox();
-	private final CustomVBoxRight rBox=new CustomVBoxRight();
-	private final CustomVBoxLeft lBox=new CustomVBoxLeft();
+	private final CustomHBox tBox = new CustomHBox();
+	private final CustomVBoxRight rBox = new CustomVBoxRight();
+	private final CustomVBoxLeft lBox = new CustomVBoxLeft();
 
 	public PaintPane(CanvasState canvasState, StatusPane statusPane) {
 		this.canvasState = canvasState;
@@ -65,7 +66,7 @@ public class PaintPane extends BorderPane {
 		});
 
 		canvas.setOnMouseClicked(event -> {
-			if(selectionButton.isSelected()) {
+			if(lBox.isSelectionButtonSelected()) {
 				Point eventPoint = new Point(event.getX(), event.getY());
 				boolean found = false;
 				StringBuilder label = new StringBuilder("Se seleccionó: ");
@@ -87,14 +88,14 @@ public class PaintPane extends BorderPane {
 		});
 
 		canvas.setOnMouseDragged(event -> {
-			if(selectionButton.isSelected()) {
+			if(lBox.isSelectionButtonSelected()) {
 				Point eventPoint = new Point(event.getX(), event.getY());
 				selectedFigure.move((eventPoint.getX() - startPoint.getX()) / 100,(eventPoint.getY() - startPoint.getY()) / 100);
 				redrawCanvas();
 			}
 		});
 
-		deleteButton.setOnAction(event -> {
+		lBox.setEraseAction(event -> {
 			if (selectedFigure != null) {
 				canvasState.deleteFigure(selectedFigure);
 				selectedFigure = null;
@@ -102,17 +103,21 @@ public class PaintPane extends BorderPane {
 			}
 		});
 
-		setLeft(buttonsBox);
-		setRight(canvas);
+//		deleteButton.setOnAction(event -> {
+//			if (selectedFigure != null) {
+//				canvasState.deleteFigure(selectedFigure);
+//				selectedFigure = null;
+//				redrawCanvas();
+//			}
+//		});
+
+		setLeft(lBox);
+		setRight(rBox);
+		setTop(tBox);
+		setCenter(canvas);
 	}
 
 	private Figure generateFigure(Point startPoint, Point endPoint) {
-		for (FigureButton figureButton : lBox.getFigureButtons()) {
-			if (figureButton.isSelected()) {
-				return figureButton.generate(startPoint, endPoint, gc, toBackendColor(tools.getFillColor()), toBackendColor(lineColor), LINE_WIDTH, checkBoxes.isShadowSelected(), checkBoxes.isGradientSelected(), checkBoxes.isArchSelected());
-			}
-		}
-		return null;
 	}
 
 	void redrawCanvas() {

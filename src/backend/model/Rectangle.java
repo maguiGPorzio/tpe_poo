@@ -1,6 +1,6 @@
 package backend.model;
 
-import frontend.Shadow;
+import frontend.ShadowType;
 import frontend.drawable.DrawableEllipse;
 import frontend.drawable.DrawableRectangle;
 import javafx.scene.canvas.GraphicsContext;
@@ -10,7 +10,7 @@ public abstract class Rectangle extends Figure {
 
     protected Point topLeft, bottomRight;
 
-    public Rectangle(Point topLeft, Point bottomRight, Shadow shadow, boolean gradient, boolean bevel, Color color1, Color color2) {
+    public Rectangle(Point topLeft, Point bottomRight, ShadowType shadow, boolean gradient, boolean bevel, Color color1, Color color2) {
         super(shadow, gradient, bevel, color1, color2);
         this.topLeft = topLeft;
         this.bottomRight = bottomRight;

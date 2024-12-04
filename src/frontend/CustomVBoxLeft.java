@@ -37,15 +37,15 @@ public class CustomVBoxLeft extends VBox {
     private final CheckBox bevel = new CheckBox("Biselado");
     private final ToggleButton copyFormatButton = new ToggleButton("Copiar Fmt.");
 
-    public FigureButton[] figureButtonsArray={rectangleButton, circleButton, squareButton,ellipseButton};
-
     // Selector de color de relleno
     ColorPicker fillColorPicker = new ColorPicker(DEFAULT_FILL_COLOR); //componente visual que permite a los usuarios seleccionar un color
     ColorPicker secondFillColorPicker = new ColorPicker(DEFAULT_SECOND_COLOR);
 
+    ToggleButton[] toolsArr = {selectionButton, rectangleButton, squareButton, circleButton, ellipseButton};
+    ToggleGroup tools = new ToggleGroup();
+
     public CustomVBoxLeft(){
-        ToggleButton[] toolsArr = {selectionButton, rectangleButton, squareButton, circleButton, ellipseButton};
-        ToggleGroup tools = new ToggleGroup();
+
         for (ToggleButton tool : toolsArr) {
             tool.setMinWidth(BUTTON_MIN_WIDTH);
             tool.setCursor(Cursor.HAND);
@@ -64,14 +64,8 @@ public class CustomVBoxLeft extends VBox {
 
     }
 
-    public void setFigureButtonAction(EventHandler<ActionEvent> action) {
-        for (FigureButton figureToggleButton : figureButtonsArray) {
-            figureToggleButton.setOnAction(action);
-        }
-    }
-
-    public FigureButton[] getFigureButtons(){
-        return figureButtonsArray;
+    public ToggleGroup getFigureButtons(){
+        return tools;
     }
 
     public void setEraseAction(EventHandler<ActionEvent> action){ //EventHandler<ActionEvent> especifica lo que pasa cuando el boton es presionado
@@ -79,6 +73,10 @@ public class CustomVBoxLeft extends VBox {
     }
     public void setCopyFormatAction(EventHandler<ActionEvent> action){ //EventHandler<ActionEvent> especifica lo que pasa cuando el boton es presionado
         copyFormatButton.setOnAction(action);
+    }
+
+    public boolean isSelectionButtonSelected(){
+        return selectionButton.isSelected();
     }
 
 }

@@ -2,7 +2,7 @@ package frontend.drawable;
 
 import backend.interfaces.Drawable;
 import backend.model.Point;
-import frontend.Shadow;
+import frontend.ShadowType;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.CycleMethod;
@@ -12,10 +12,10 @@ import javafx.scene.shape.ArcType;
 
 public interface DrawableFigureOval extends Drawable {
 
-    default void drawShade(Shadow shadow, GraphicsContext gc, Color firstFillColor, Point centerPoint, double sMayorAxis, double sMinorAxis){
-        if(shadow.hasShade()){
-            gc.setFill(shadow.getType().getShadeColor(firstFillColor));
-            gc.fillOval(centerPoint.getX() - (sMayorAxis / 2) + shadow.getType().getOffsetX(), centerPoint.getY() - (sMinorAxis) + shadow.getType().getOffsetY(), sMayorAxis, sMinorAxis);
+    default void drawShade(ShadowType shadow, GraphicsContext gc, Color firstFillColor, Point centerPoint, double sMayorAxis, double sMinorAxis){
+        if(!shadow.equals(ShadowType.NOSHADOW)){
+            gc.setFill(shadow.getShadeColor(firstFillColor));
+            gc.fillOval(centerPoint.getX() - (sMayorAxis / 2) + shadow.getOffsetX(), centerPoint.getY() - (sMinorAxis) + shadow.getOffsetY(), sMayorAxis, sMinorAxis);
         }
     }
 
@@ -39,12 +39,12 @@ public interface DrawableFigureOval extends Drawable {
         }
     }
 
-    default void drawOval(Shadow shadow, boolean gradient, boolean bevel, GraphicsContext gc, Color lineColor, Color firstColor, Color secondColor, boolean isSelected, Point centerPoint, Double sMayorAxis, Double sMinorAxis){
+    default void drawOval(ShadowType shadow, boolean gradient, boolean bevel, GraphicsContext gc, Color firstColor, Color secondColor, boolean isSelected, Point centerPoint, Double sMayorAxis, Double sMinorAxis){
         drawShade(shadow, gc, firstColor,centerPoint, sMayorAxis, sMinorAxis);
         double arcX = centerPoint.getX() - sMayorAxis / 2;
         double arcY = centerPoint.getY() - sMinorAxis / 2;
         drawBevel(bevel, gc, arcX, arcY, sMayorAxis, sMinorAxis);
-        gc.setStroke(isSelected ? Color.RED : lineColor);
+        gc.setStroke(isSelected ? Color.RED : Color.BLACK);
         gc.setFill(firstColor);
         gc.fillOval(centerPoint.getX() - sMayorAxis, centerPoint.getY() - sMinorAxis, sMinorAxis*2, sMayorAxis*2);
         gc.strokeOval(centerPoint.getX() - sMayorAxis, centerPoint.getY() - sMinorAxis, sMinorAxis*2, sMayorAxis*2);

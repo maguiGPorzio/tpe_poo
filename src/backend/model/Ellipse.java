@@ -1,6 +1,6 @@
 package backend.model;
 
-import frontend.Shadow;
+import frontend.ShadowType;
 import frontend.drawable.DrawableEllipse;
 import frontend.drawable.DrawableRectangle;
 import javafx.scene.paint.Color;
@@ -10,7 +10,7 @@ public abstract class Ellipse extends Figure {
     protected Point centerPoint;
     protected double sMayorAxis, sMinorAxis;
 
-    public Ellipse(Point centerPoint, double sMayorAxis, double sMinorAxis, Shadow shadow, boolean gradient, boolean bevel, Color color1, Color color2){
+    public Ellipse(Point centerPoint, double sMayorAxis, double sMinorAxis, ShadowType shadow, boolean gradient, boolean bevel, Color color1, Color color2){
         super(shadow, gradient, bevel, color1, color2);
         this.centerPoint = centerPoint;
         setAxis(sMayorAxis, sMinorAxis);

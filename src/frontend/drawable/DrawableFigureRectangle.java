@@ -1,7 +1,7 @@
 package frontend.drawable;
 
 import backend.model.Point;
-import frontend.Shadow;
+import frontend.ShadowType;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.CycleMethod;
@@ -11,10 +11,10 @@ import javafx.scene.paint.Stop;
 public interface DrawableFigureRectangle {
 
 
-    default void drawShade(Shadow shadow, GraphicsContext gc, Color firstFillColor, Point topLeft, Point bottomRight){
-        if(shadow.hasShade()) {
-            gc.setFill(shadow.getType().getShadeColor(firstFillColor));
-            gc.fillRect(topLeft.getX() - shadow.getType().getOffsetX(), topLeft.getY() - shadow.getType().getOffsetY(), Math.abs(topLeft.getX() - bottomRight.getX()), Math.abs(topLeft.getY() - bottomRight.getY()));
+    default void drawShade(ShadowType shadow, GraphicsContext gc, Color firstFillColor, Point topLeft, Point bottomRight){
+        if(!shadow.equals(ShadowType.NOSHADOW)) {
+            gc.setFill(shadow.getShadeColor(firstFillColor));
+            gc.fillRect(topLeft.getX() - shadow.getOffsetX(), topLeft.getY() - shadow.getOffsetY(), Math.abs(topLeft.getX() - bottomRight.getX()), Math.abs(topLeft.getY() - bottomRight.getY()));
         }
     }
 
@@ -43,10 +43,10 @@ public interface DrawableFigureRectangle {
         }
     }
 
-    default void drawRectangle(Shadow shadow, boolean gradient, boolean bevel, GraphicsContext gc, Color lineColor, Color firstFillColor, Color secondFillColor, boolean isSelected, Point topLeft, Point bottomRight){
+    default void drawRectangle(ShadowType shadow, boolean gradient, boolean bevel, GraphicsContext gc, Color firstFillColor, Color secondFillColor, boolean isSelected, Point topLeft, Point bottomRight){
         drawShade(shadow, gc, firstFillColor, topLeft, bottomRight);
         drawBevel(bevel, gc, topLeft, bottomRight);
-        gc.setStroke(isSelected ? Color.RED : lineColor);
+        gc.setStroke(isSelected ? Color.RED : Color.BLACK);
         gc.setFill(firstFillColor);
         double width = Math.abs(topLeft.getX() - bottomRight.getX());
         double height = Math.abs(topLeft.getY() - bottomRight.getY());

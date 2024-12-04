@@ -3,7 +3,7 @@ package frontend.buttons;
 import backend.model.Ellipse;
 import backend.model.Figure;
 import backend.model.Point;
-import frontend.Shadow;
+import frontend.ShadowType;
 import frontend.drawable.DrawableEllipse;
 import javafx.scene.paint.Color;
 
@@ -12,7 +12,7 @@ public class EllipseButton extends FigureButton{
         super(action);
     }
 
-    public Figure generate(Point endPoint, Point startPoint, Shadow shadow, boolean gradient, boolean bevel, Color color1, Color color2){
+    public Figure generate(Point endPoint, Point startPoint, ShadowType shadow, boolean gradient, boolean bevel, Color color1, Color color2){
         Point centerPoint = new Point(Math.abs(endPoint.getX() + startPoint.getX()) / 2, (Math.abs((endPoint.getY() + startPoint.getY())) / 2));
         double sMayorAxis = Math.abs(endPoint.getX() - startPoint.getX());
         double sMinorAxis = Math.abs(endPoint.getY() - startPoint.getY());
