@@ -29,4 +29,8 @@ public class Point implements Movable {
         this.x += diffX;
         this.y += diffY;
     }
+
+    public double distance(Point other){
+        return Math.pow((Math.pow(x-other.x,2))+(Math.pow(y-other.y, 2)), 0.5);
+    }
 }

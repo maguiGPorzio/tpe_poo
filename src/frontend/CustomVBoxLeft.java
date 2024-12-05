@@ -1,6 +1,7 @@
 package frontend;
 
 import frontend.buttons.*;
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -72,6 +73,8 @@ public class CustomVBoxLeft extends VBox {
 
     public void setEraseAction(EventHandler<ActionEvent> action){ //EventHandler<ActionEvent> especifica lo que pasa cuando el boton es presionado
         deleteButton.setOnAction(action);
+        deleteButton.setSelected(false);
+        deleteButton.setFocusTraversable(false);
     }
 
     public void setCopyFormatAction(EventHandler<ActionEvent> action){ //EventHandler<ActionEvent> especifica lo que pasa cuando el boton es presionado

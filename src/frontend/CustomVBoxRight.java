@@ -50,10 +50,15 @@ public class CustomVBoxRight extends VBox {
         getChildren().addAll(title, rotateButton,flipHButton,flipVButton,duplicateButton, divideButton);
     }
 
-    public void setFlipVAction(EventHandler<ActionEvent> action){flipVButton.setOnAction(action);}
-    public void setFlipHAction(EventHandler<ActionEvent> action){flipHButton.setOnAction(action);}
-    public void setRotateAction(EventHandler<ActionEvent> action){rotateButton.setOnAction(action);}
-    public void setDuplicateAction(EventHandler<ActionEvent> action){duplicateButton.setOnAction(action);}
-    public void setDivideAction(EventHandler<ActionEvent> action){divideButton.setOnAction(action);}
+    public void setFlipVAction(EventHandler<ActionEvent> action){flipVButton.setOnAction(action); deselectButton(flipVButton);}
+    public void setFlipHAction(EventHandler<ActionEvent> action){flipHButton.setOnAction(action); deselectButton(flipHButton);}
+    public void setRotateAction(EventHandler<ActionEvent> action){rotateButton.setOnAction(action); deselectButton(rotateButton);}
+    public void setDuplicateAction(EventHandler<ActionEvent> action){duplicateButton.setOnAction(action); deselectButton(duplicateButton);}
+    public void setDivideAction(EventHandler<ActionEvent> action){divideButton.setOnAction(action); deselectButton(divideButton);}
+
+    private void deselectButton(ToggleButton button){
+        button.setSelected(false);
+        button.setFocusTraversable(false);
+    }
 
 }

@@ -109,7 +109,7 @@ public class PaintPane extends BorderPane {
 		rBox.setFlipHAction(event -> {canvasState.flipH(); redrawCanvas();});
 		rBox.setDuplicateAction(event -> {canvasState.duplicate(); redrawCanvas();});
 		rBox.setDivideAction(event -> {canvasState.divide(); redrawCanvas();});
-		lBox.setEraseAction(event -> {canvasState.deleteFigure();});
+		lBox.setEraseAction(event -> {canvasState.deleteFigure(); redrawCanvas();});
 		tBox.setAddLayerAction(event -> {canvasState.addLayer();});
 		tBox.setHideAction(event -> {canvasState.hideLayer(); redrawCanvas();});
 		tBox.setShowAction(event -> {canvasState.showLayer(); redrawCanvas();});

@@ -14,7 +14,7 @@ public class CircleButton extends FigureButton{
     }
 
     public Figure generate(Point startPoint, Point endPoint, ShadowType shadow, boolean bevel, Color color1, Color color2){
-        double circleRadius = Math.abs(endPoint.getX() - startPoint.getX());
+        double circleRadius = startPoint.distance(endPoint);
         return new DrawableCircle(startPoint, circleRadius, new Format(bevel, shadow, color1, color2));
     }
 }
