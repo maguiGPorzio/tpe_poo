@@ -196,11 +196,9 @@ public class CanvasState {
         return layers.get(currentLayer).isVisible();
     }
 
-    public int getCurrentLayer() {
-        return currentLayer;
-    }
-
-    public int getLastLayer(){
-        return layers.lastKey();
+    public void applyCurrentShadow(ShadowType shadow){
+        if(selectedFigure != null){
+            selectedFigure.setFormat(new Format(selectedFigure.hasBevel(), shadow, selectedFigure.getFormat().getColor1(), selectedFigure.getFormat().getColor2()));
+        }
     }
 }

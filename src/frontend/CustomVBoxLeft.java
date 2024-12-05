@@ -35,7 +35,7 @@ public class CustomVBoxLeft extends VBox {
     private final FigureButton squareButton = new SquareButton(SQUARE);
     private final FigureButton ellipseButton = new EllipseButton(ELLIPSE);
     private final ToggleButton deleteButton = new ToggleButton(ERASE);
-    private final ChoiceBox<String> shadowType = new ChoiceBox(FXCollections.observableArrayList("Simple Shadow", "Color Shadow", "Simple Inverted", "Color Inverted"));
+    private final ChoiceBox<String> shadowType = new ChoiceBox(FXCollections.observableArrayList(" ","Simple Shadow", "Color Shadow", "Simple Inverted", "Color Inverted"));
     private final CheckBox bevel = new CheckBox("Biselado");
     private final ToggleButton copyFormatButton = new ToggleButton("Copiar Fmt.");
 
@@ -48,6 +48,7 @@ public class CustomVBoxLeft extends VBox {
     public CustomVBoxLeft(){
 
         bevel.setSelected(false);
+        shadowType.setValue(shadowType.getItems().getFirst());
 
         for (ToggleButton tool : toolsArr) {
             tool.setMinWidth(BUTTON_MIN_WIDTH);
@@ -90,10 +91,7 @@ public class CustomVBoxLeft extends VBox {
     }
 
     public ShadowType getShadow(){
-        if (shadowType.getValue() == null){
-            return ShadowType.NOSHADOW;
-        }
-        return ShadowType.values()[shadowType.getSelectionModel().getSelectedIndex() + 1];
+        return  ShadowType.values()[shadowType.getSelectionModel().getSelectedIndex()];
     }
 
     public Color getColor1(){
@@ -106,5 +104,13 @@ public class CustomVBoxLeft extends VBox {
 
     public boolean isFigureSelected(){
         return !isSelectionButtonSelected() && tools.getSelectedToggle() != null;
+    }
+
+    public void setShadow(ShadowType shadow){
+        shadowType.setValue(shadowType.getItems().toArray()[shadow.ordinal()].toString());
+    }
+
+    public void setChangeShadowAction(EventHandler<ActionEvent> action){
+        shadowType.setOnAction(action);
     }
 }

@@ -72,8 +72,9 @@ public class PaintPane extends BorderPane {
 					if(figureBelongs(figure, eventPoint) && canvasState.belongsInCurrentLayer(figure)) {
 						found = true;
 						canvasState.setSelectedFigure(figure);
-						canvasState.setFormat(lBox.getShadow(), lBox.isBevel(), lBox.getColor1(), lBox.getColor2());
 						label.append(figure.toString());
+						lBox.setShadow(figure.getFormat().getShadow());
+						canvasState.setFormat(lBox.getShadow(), lBox.isBevel(), lBox.getColor1(), lBox.getColor2());
 					}
 				}
 				if (found) {
@@ -114,6 +115,7 @@ public class PaintPane extends BorderPane {
 		tBox.setShowAction(event -> {canvasState.showLayer(); redrawCanvas();});
 		tBox.setMoveToBackAction(event -> {canvasState.moveToBack(); redrawCanvas();});
 		tBox.setMoveToFrontAction(event -> {canvasState.moveToFront(); redrawCanvas();});
+		lBox.setChangeShadowAction(event -> {canvasState.applyCurrentShadow(lBox.getShadow()); redrawCanvas();});
 
 		//layers
 		tBox.setChangeLayerAction(event -> {
