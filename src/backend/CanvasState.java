@@ -50,11 +50,11 @@ public class CanvasState {
             layers.remove(currentLayer);
             // nos posicionamos en la capa existente que le sigue.
             int previousLayer=INITIAL_LAYERS;
-            for(int l=1 ; l<currentLayer ; l++){
+            for(int l=3 ; l<currentLayer ; l++){
                 if(layers.containsKey(l)){
                     previousLayer = l;
                 }
-            }
+            } 
             changeLayer(previousLayer);
         } else {
             System.out.println("No se pueden eliminar las capas iniciales."); //aca deberiamos ver tema errores

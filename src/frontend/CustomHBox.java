@@ -88,19 +88,23 @@ public class CustomHBox extends HBox {
 
     public void setAddLayerAction(EventHandler<ActionEvent> action){
         addLayerButton.setOnAction(event -> {
+            currentLayer = getCurrentLayer();
             String newLayer = "Capa %d".formatted(++lastLayer);
             layersList.add(newLayer);
             System.out.println(layersList);
             currentLayer = lastLayer;
             layers.setValue(layersList.getLast());
             action.handle(event);
+            lastLayer = getLayerFromString(layersList.getLast());
             System.out.println("CAPA EN EL FRONT(set add layer): %d".formatted(currentLayer));
         });
     }
     public void setRemoveLayerAction(EventHandler<ActionEvent> action){
         removeLayerButton.setOnAction(event -> {
+            currentLayer = getCurrentLayer();
             if (currentLayer > MIN_LAYERS) {
                 String layerToRemove = "Capa %d".formatted(currentLayer);
+                System.out.println(layerToRemove);
                 layersList.removeIf( s -> s.equals(layerToRemove));
                 layers.getItems().removeIf(s -> s.equals(layerToRemove));
                 currentLayer = Math.max(MIN_LAYERS, currentLayer-1);
