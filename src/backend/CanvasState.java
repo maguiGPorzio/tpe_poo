@@ -42,19 +42,20 @@ public class CanvasState {
 
     public void addLayer(){
         layers.put(layers.lastKey()+1, new Layer());
+        changeLayer(layers.lastKey());
     }
 
     public void removeLayer(){
         if (currentLayer > INITIAL_LAYERS) {
             layers.remove(currentLayer);
             // nos posicionamos en la capa existente que le sigue.
-            int previousLayer=1;
+            int previousLayer=INITIAL_LAYERS;
             for(int l=1 ; l<currentLayer ; l++){
                 if(layers.containsKey(l)){
                     previousLayer = l;
                 }
             }
-            currentLayer = previousLayer;
+            changeLayer(previousLayer);
         } else {
             System.out.println("No se pueden eliminar las capas iniciales."); //aca deberiamos ver tema errores
         }
@@ -64,6 +65,8 @@ public class CanvasState {
     public void changeLayer(int layer) {
         if (layers.containsKey(layer)) {
             currentLayer = layer; // Cambiar a la capa indicada
+            System.out.println("CAPA EN EL BACK: %d".formatted(currentLayer));
+            selectedFigure = null;
         } else {
             System.out.println("Error: Capa inválida."); //aca deberiamos ver tema errores
         }
@@ -102,18 +105,10 @@ public class CanvasState {
         }
     }
 
-    // Esto esta re feo, pq copie y pegue el addFigure y le hice currentLayer++, pero chequando que la layer exista y haciendo un metodo o algo asi, deberia quedar ok
-    // le agregue el selectedFigure != null para que no tire exepcion
-    // habria que hacer un metodo que chequee eso xq lo usamos bastante
     public void duplicate() {
         if (selectedFigure != null) {
             Figure newFigure = selectedFigure.duplicate();
-            if (newFigure != null) {
-                layers.get(currentLayer++).addFigure(newFigure);
-            }
-
-            //        addFigure(selectedFigure); // esto estaba antes
-
+            addFigure(newFigure);
         }
     }
 
@@ -192,5 +187,21 @@ public class CanvasState {
 
     public Figure getSelectedFigure() {
         return selectedFigure;
+    }
+
+    public boolean belongsInCurrentLayer(Figure figure){
+        return layers.get(currentLayer).getFiguresInLayer().contains(figure);
+    }
+
+    public boolean isCurrentLayerVisible(){
+        return layers.get(currentLayer).isVisible();
+    }
+
+    public int getCurrentLayer() {
+        return currentLayer;
+    }
+
+    public int getLastLayer(){
+        return layers.lastKey();
     }
 }

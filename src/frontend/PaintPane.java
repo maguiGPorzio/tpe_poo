@@ -69,7 +69,7 @@ public class PaintPane extends BorderPane {
 				boolean found = false;
 				StringBuilder label = new StringBuilder("Se seleccionó: ");
 				for (Figure figure : canvasState.getCurrentFigures()) {
-					if(figureBelongs(figure, eventPoint)) {
+					if(figureBelongs(figure, eventPoint) && canvasState.belongsInCurrentLayer(figure)) {
 						found = true;
 						canvasState.setSelectedFigure(figure);
 						canvasState.setFormat(lBox.getShadow(), lBox.isBevel(), lBox.getColor1(), lBox.getColor2());
@@ -110,12 +110,22 @@ public class PaintPane extends BorderPane {
 		rBox.setDuplicateAction(event -> {canvasState.duplicate(); redrawCanvas();});
 		rBox.setDivideAction(event -> {canvasState.divide(); redrawCanvas();});
 		lBox.setEraseAction(event -> {canvasState.deleteFigure(); redrawCanvas();});
-		tBox.setAddLayerAction(event -> {canvasState.addLayer();});
+		tBox.setAddLayerAction(event -> {
+			canvasState.addLayer();
+		});
 		tBox.setHideAction(event -> {canvasState.hideLayer(); redrawCanvas();});
 		tBox.setShowAction(event -> {canvasState.showLayer(); redrawCanvas();});
 		tBox.setMoveToBackAction(event -> {canvasState.moveToBack(); redrawCanvas();});
+		tBox.setChangeLayerAction(event -> {
+			canvasState.changeLayer(tBox.getCurrentLayer());
+			tBox.setLayerVisibility(canvasState.isCurrentLayerVisible());
+			redrawCanvas();
+		});
 		tBox.setMoveToFrontAction(event -> {canvasState.moveToFront(); redrawCanvas();});
-		tBox.setRemoveLayerAction(event -> {canvasState.removeLayer();});
+		tBox.setRemoveLayerAction(event -> {
+			canvasState.removeLayer();
+			redrawCanvas();
+		});
 
 		setLeft(lBox);
 		setRight(rBox);
