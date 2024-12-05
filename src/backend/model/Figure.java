@@ -16,6 +16,8 @@ public abstract class Figure implements Movable, Drawable, Choosable {
     }
 
     protected final static double OFFSET = 10.0;
+    protected final static double RECTANGLE_OFFSET = 0.0;
+    protected final static double OVAL_OFFSET = 0.0;
 
     public abstract void rotate();
 

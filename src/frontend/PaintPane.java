@@ -8,8 +8,6 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.paint.Color;
 
-import java.util.SortedMap;
-
 public class PaintPane extends BorderPane {
 
 	CanvasState canvasState;
@@ -34,27 +32,20 @@ public class PaintPane extends BorderPane {
 		this.statusPane = statusPane;
 		gc.setLineWidth(LINE_WIDTH);
 
-//		Este evento se activa cuando el usuario presiona el botón del mouse sobre el lienzo.
-//		Obtiene las coordenadas actuales del mouse (event.getX() y event.getY()).
-//		Guarda estas coordenadas en la variable startPoint, que define el punto inicial de la figura que se va a dibujar.
 		canvas.setOnMousePressed(event -> {
 			startPoint = new Point(event.getX(), event.getY());
 		});
 
-//		Este evento se activa cuando el usuario suelta el botón del mouse.
-//		Las coordenadas actuales del mouse (event.getX() y event.getY()) se guardan en endPoint, que define el punto final de la figura.
 		canvas.setOnMouseReleased(event -> {
 			Point endPoint = new Point(event.getX(), event.getY());
 			if(startPoint == null) {
-				return ; //aca deberiamos agregar tema errores
+				return ;
 			}
 			canvasState.addFigure(generateFigure(startPoint, endPoint));
 			startPoint = null;
 			redrawCanvas();
 		});
 
-//		Detecta cada movimiento del mouse sobre el área del componente al que está asociado.
-//		Llama al manejador que se le asigna (un EventHandler<MouseEvent>) cada vez que el evento ocurre.
 		canvas.setOnMouseMoved(event -> {
 			Point eventPoint = new Point(event.getX(), event.getY());
 			boolean found = false;
@@ -72,10 +63,7 @@ public class PaintPane extends BorderPane {
 			}
 		});
 
-//		Se activa cuando el usuario presiona y suelta el botón del mouse en el componente.
-//		Puedes diferenciar entre clic simple, doble clic u otros patrones utilizando las propiedades del evento.
 		canvas.setOnMouseClicked(event -> {
-			//aca falta poner que pasa si no aprieta
 			if(lBox.isSelectionButtonSelected()) {
 				Point eventPoint = new Point(event.getX(), event.getY());
 				boolean found = false;
@@ -97,7 +85,6 @@ public class PaintPane extends BorderPane {
 			}
 		});
 
-//		Cuando el usuario presiona un botón del mouse y, sin soltarlo, mueve el mouse sobre el componente.
 		canvas.setOnMouseDragged(event -> {
 			if(lBox.isSelectionButtonSelected()) {
 				Point eventPoint = new Point(event.getX(), event.getY());
@@ -116,14 +103,13 @@ public class PaintPane extends BorderPane {
 			}
 		});
 
+
 		rBox.setRotateAction(event -> {canvasState.rotate(); redrawCanvas();});
 		rBox.setFlipVAction(event -> {canvasState.flipV(); redrawCanvas();});
 		rBox.setFlipHAction(event -> {canvasState.flipH(); redrawCanvas();});
 		rBox.setDuplicateAction(event -> {canvasState.duplicate(); redrawCanvas();});
 		rBox.setDivideAction(event -> {canvasState.divide(); redrawCanvas();});
-
 		lBox.setEraseAction(event -> {canvasState.deleteFigure();});
-
 		tBox.setAddLayerAction(event -> {canvasState.addLayer();});
 		tBox.setHideAction(event -> {canvasState.hideLayer(); redrawCanvas();});
 		tBox.setShowAction(event -> {canvasState.showLayer(); redrawCanvas();});
@@ -138,7 +124,7 @@ public class PaintPane extends BorderPane {
 	}
 
 	private Figure generateFigure(Point startPoint, Point endPoint) {
-		if (!lBox.isSelectionButtonSelected()){
+		if (lBox.isFigureSelected()){
 			FigureButton figureButton=(FigureButton) lBox.getFigureButtons().getSelectedToggle();
 			canvasState.setCurrentLayer(tBox.getCurrentLayer());
 			return figureButton.generate(startPoint, endPoint,lBox.getShadow(),lBox.hasGradient(), lBox.isBevel(), lBox.getColor1(), lBox.getColor2());
@@ -148,7 +134,7 @@ public class PaintPane extends BorderPane {
 
 	void redrawCanvas() {
 		gc.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
-		for(Figure figure : canvasState.figures()) {
+		for(Figure figure : canvasState.visibleFigures()) {
 			figure.draw(gc,figure == canvasState.getSelectedFigure());
 		}
 	}

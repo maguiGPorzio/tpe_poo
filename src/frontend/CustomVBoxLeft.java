@@ -46,6 +46,8 @@ public class CustomVBoxLeft extends VBox {
 
     public CustomVBoxLeft(){
 
+        bevel.setSelected(false);
+
         for (ToggleButton tool : toolsArr) {
             tool.setMinWidth(BUTTON_MIN_WIDTH);
             tool.setCursor(Cursor.HAND);
@@ -101,5 +103,9 @@ public class CustomVBoxLeft extends VBox {
 
     public Color getColor2(){
         return secondFillColorPicker.getValue();
+    }
+
+    public boolean isFigureSelected(){
+        return !isSelectionButtonSelected() && tools.getSelectedToggle() != null;
     }
 }

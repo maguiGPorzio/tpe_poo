@@ -57,10 +57,10 @@ public abstract class Rectangle extends Figure {
 
     public void rotate(){
         Point centerPoint = getCenter();
-        double topLeftX = centerPoint.getX() - topLeft.getY() + centerPoint.getY();
-        double topLeftY = centerPoint.getY() + topLeft.getX() - centerPoint.getX();
-        double bottomRightX = centerPoint.getX() - bottomRight.getY() + centerPoint.getY();
-        double bottomRightY = centerPoint.getY() + bottomRight.getX() - centerPoint.getX();
+        double topLeftX = centerPoint.getX() - (bottomRight.getY() - centerPoint.getY());
+        double topLeftY = centerPoint.getY() - (centerPoint.getX() - topLeft.getX());
+        double bottomRightX = centerPoint.getX() + (centerPoint.getY() - topLeft.getY());
+        double bottomRightY = centerPoint.getY() + (bottomRight.getX() - centerPoint.getX());
         topLeft = new Point(topLeftX, topLeftY);
         bottomRight = new Point(bottomRightX, bottomRightY);
     }

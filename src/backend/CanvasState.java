@@ -3,10 +3,7 @@ package backend;
 import backend.model.Figure;
 import backend.model.Pair;
 import frontend.ShadowType;
-
 import java.util.*;
-import java.util.List;
-
 import javafx.scene.paint.Color;
 
 public class CanvasState {

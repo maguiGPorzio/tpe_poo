@@ -2,6 +2,7 @@ package frontend;
 
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.Cursor;
 import javafx.scene.control.*;
 import javafx.scene.layout.VBox;
 import javafx.event.ActionEvent;
@@ -11,7 +12,7 @@ public class CustomVBoxRight extends VBox {
 
     private static final int PADDING=5;
     private static final int MIN_WIDTH=100;
-    //private static final int BUTTON_MIN_WIDTH=90;
+    private static final int BUTTON_MIN_WIDTH=90;
     private static final int SPACING=10;
 
     private final static String DIVIDE="Dividir";
@@ -29,9 +30,16 @@ public class CustomVBoxRight extends VBox {
     private final ToggleButton duplicateButton = new ToggleButton(DUPLICATE);
     private final ToggleButton divideButton = new ToggleButton(DIVIDE);
 
-
+    ToggleButton[] toolsArr = {rotateButton,flipHButton,flipVButton, duplicateButton, divideButton};
+    ToggleGroup tools = new ToggleGroup();
 
     public CustomVBoxRight(){
+
+        for (ToggleButton tool : toolsArr) {
+            tool.setMinWidth(BUTTON_MIN_WIDTH);
+            tool.setCursor(Cursor.HAND);
+            tool.setToggleGroup(tools);
+        }
 
         setPadding(new Insets(PADDING));
         setStyle("-fx-background-color: #999");

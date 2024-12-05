@@ -12,7 +12,7 @@ public class DrawableRectangle extends Rectangle implements DrawableFigureRectan
     }
 
     public void draw(GraphicsContext gc, boolean isSelected){
-        drawRectangle(format, gc, isSelected, topLeft, bottomRight);
+        drawRectangle(format, gc, isSelected, topLeft, bottomRight, OFFSET);
     }
 
 }

@@ -13,7 +13,6 @@ public class DrawableSquare extends Square implements  DrawableFigureRectangle{
         super(topLeft, size, format);
     }
     public void draw(GraphicsContext gc, boolean isSelected){
-        drawRectangle(format, gc, isSelected, topLeft, bottomRight);
+        drawRectangle(format, gc, isSelected, topLeft, bottomRight, OFFSET);
     }
-
 }
