@@ -1,5 +1,6 @@
 package frontend;
 
+import backend.Format;
 import frontend.buttons.*;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
@@ -28,6 +29,8 @@ public class CustomVBoxLeft extends VBox {
     private final static String ERASE="Borrar";
     private static final Color DEFAULT_FILL_COLOR = Color.YELLOW;
     private static final Color DEFAULT_SECOND_COLOR = Color.ORANGE;
+    private boolean copiedFormatedMode = false;
+    private Format savedFormat = new Format(false, ShadowType.NOSHADOW, DEFAULT_FILL_COLOR, DEFAULT_SECOND_COLOR );
 
     private final ToggleButton selectionButton = new ToggleButton(SELECT);
     private final FigureButton rectangleButton = new RectangleButton(RECTANGLE);
@@ -74,13 +77,18 @@ public class CustomVBoxLeft extends VBox {
 
     public void setEraseAction(EventHandler<ActionEvent> action){ //EventHandler<ActionEvent> especifica lo que pasa cuando el boton es presionado
         deleteButton.setOnAction(action);
-        deleteButton.setSelected(false);
-        deleteButton.setFocusTraversable(false);
+        deselectButton(deleteButton);
+    }
+
+    private void deselectButton(ToggleButton button){
+        button.setSelected(false);
+        button.setFocusTraversable(false);
     }
 
     public void setCopyFormatAction(EventHandler<ActionEvent> action){ //EventHandler<ActionEvent> especifica lo que pasa cuando el boton es presionado
+        copiedFormatedMode = true;
+        copyFormatButton.setSelected(true);
         copyFormatButton.setOnAction(action);
-
     }
 
     public boolean isSelectionButtonSelected(){
@@ -103,25 +111,10 @@ public class CustomVBoxLeft extends VBox {
         return secondFillColorPicker.getValue();
     }
 
-    public void setColor1(Color color){
-        fillColorPicker.setValue(color);
-    }
-
-    public void setColor2(Color color){
-        secondFillColorPicker.setValue(color);
-    }
-
     public boolean isFigureSelected(){
         return !isSelectionButtonSelected() && tools.getSelectedToggle() != null;
     }
 
-    public void setShadow(ShadowType shadow){
-        shadowType.setValue(shadowType.getItems().toArray()[shadow.ordinal()].toString());
-    }
-
-    public void setBevel(boolean state){
-        bevel.setSelected(state);
-    }
 
     public void setChangeShadowAction(EventHandler<ActionEvent> action){
         shadowType.setOnAction(action);
@@ -137,6 +130,28 @@ public class CustomVBoxLeft extends VBox {
 
     public void setColor2Action(EventHandler<ActionEvent> action){
         secondFillColorPicker.setOnAction(action);
+    }
+
+    public Format getCopiedFormat(){ //al ser llamada, apaga la flag copiedFormatMode
+        copiedFormatedMode = false;
+        deselectButton(copyFormatButton);
+        return savedFormat;
+    }
+
+    public void setSavedFormat(Format format){
+        copiedFormatedMode = true;
+        savedFormat = format;
+    }
+
+    public boolean hasCopiedFormat(){
+        return copiedFormatedMode;
+    }
+
+    public void setProperties(Format format){
+        shadowType.setValue(shadowType.getItems().toArray()[format.getShadow().ordinal()].toString());
+        bevel.setSelected(format.getBevel());
+        fillColorPicker.setValue(format.getColor1());
+        secondFillColorPicker.setValue(format.getColor2());
     }
 
 }

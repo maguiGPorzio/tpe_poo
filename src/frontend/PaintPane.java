@@ -77,10 +77,10 @@ public class PaintPane extends BorderPane {
 							found = true;
 							canvasState.setSelectedFigure(figure);
 							label.append(figure.toString());
-							lBox.setShadow(figure.getFormat().getShadow());
-							lBox.setBevel(figure.getFormat().getBevel());
-							lBox.setColor1(figure.getFormat().getColor1());
-							lBox.setColor2(figure.getFormat().getColor2());
+							if(lBox.hasCopiedFormat()){
+								figure.setFormat(lBox.getCopiedFormat());
+							}
+							lBox.setProperties(figure.getFormat());
 							canvasState.setFormat(lBox.getShadow(), lBox.isBevel(), lBox.getColor1(), lBox.getColor2());
 						}
 					}
@@ -89,6 +89,7 @@ public class PaintPane extends BorderPane {
 					statusPane.updateStatus(label.toString());
 				} else {
 					statusPane.updateStatus("Ninguna figura encontrada");
+					canvasState.setSelectedFigure(null);
 				}
 				redrawCanvas();
 			}
@@ -127,7 +128,11 @@ public class PaintPane extends BorderPane {
 		lBox.setBevelAction(event -> {canvasState.applyCurrentBevel(lBox.isBevel()); redrawCanvas();});
 		lBox.setColor1Action(event -> {canvasState.applyCurrentColor1(lBox.getColor1()); redrawCanvas(); });
 		lBox.setColor2Action(event -> {canvasState.applyCurrentColor2(lBox.getColor2()); redrawCanvas(); });
-
+		lBox.setCopyFormatAction(event -> {
+			if(canvasState.getSelectedFigure() != null){
+				lBox.setSavedFormat(canvasState.getSelectedFigure().getFormat());
+			}
+		});
 
 		//layers
 		tBox.setChangeLayerAction(event -> {
@@ -152,6 +157,7 @@ public class PaintPane extends BorderPane {
 
 	private Figure generateFigure(Point startPoint, Point endPoint) {
 		if (lBox.isFigureSelected()){
+			canvasState.setSelectedFigure(null);
 			FigureButton figureButton=(FigureButton) lBox.getFigureButtons().getSelectedToggle();
 			canvasState.setCurrentLayer(tBox.getCurrentLayer());
 			return figureButton.generate(startPoint, endPoint,lBox.getShadow(), lBox.isBevel(), lBox.getColor1(), lBox.getColor2());
