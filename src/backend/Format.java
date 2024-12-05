@@ -1,6 +1,7 @@
 package backend;
 
 import javafx.scene.paint.Color;
+
 import frontend.ShadowType;
 
 public class Format {
