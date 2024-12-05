@@ -103,13 +103,18 @@ public class CanvasState {
     }
 
     // Esto esta re feo, pq copie y pegue el addFigure y le hice currentLayer++, pero chequando que la layer exista y haciendo un metodo o algo asi, deberia quedar ok
-    public void duplicate(){
-        Figure newFigure = selectedFigure.duplicate();
-        if(newFigure != null){
-            layers.get(currentLayer++).addFigure(newFigure);
-        }
+    // le agregue el selectedFigure != null para que no tire exepcion
+    // habria que hacer un metodo que chequee eso xq lo usamos bastante
+    public void duplicate() {
+        if (selectedFigure != null) {
+            Figure newFigure = selectedFigure.duplicate();
+            if (newFigure != null) {
+                layers.get(currentLayer++).addFigure(newFigure);
+            }
 
-        //        addFigure(selectedFigure); // esto estaba antes
+            //        addFigure(selectedFigure); // esto estaba antes
+
+        }
     }
 
     public void divide(){
