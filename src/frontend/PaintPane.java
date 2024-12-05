@@ -70,11 +70,16 @@ public class PaintPane extends BorderPane {
 				StringBuilder label = new StringBuilder("Se seleccionó: ");
 				for (Figure figure : canvasState.getCurrentFigures()) {
 					if(figureBelongs(figure, eventPoint) && canvasState.belongsInCurrentLayer(figure)) {
-						found = true;
-						canvasState.setSelectedFigure(figure);
-						label.append(figure.toString());
-						lBox.setShadow(figure.getFormat().getShadow());
-						canvasState.setFormat(lBox.getShadow(), lBox.isBevel(), lBox.getColor1(), lBox.getColor2());
+						if(figure == canvasState.getSelectedFigure()){ //al volver a clickear se deselecciona
+							canvasState.setSelectedFigure(null);
+						}
+						else{
+							found = true;
+							canvasState.setSelectedFigure(figure);
+							label.append(figure.toString());
+							lBox.setShadow(figure.getFormat().getShadow());
+							canvasState.setFormat(lBox.getShadow(), lBox.isBevel(), lBox.getColor1(), lBox.getColor2());
+						}
 					}
 				}
 				if (found) {
