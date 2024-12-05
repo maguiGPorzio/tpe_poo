@@ -110,23 +110,27 @@ public class PaintPane extends BorderPane {
 		rBox.setDuplicateAction(event -> {canvasState.duplicate(); redrawCanvas();});
 		rBox.setDivideAction(event -> {canvasState.divide(); redrawCanvas();});
 		lBox.setEraseAction(event -> {canvasState.deleteFigure(); redrawCanvas();});
-		tBox.setAddLayerAction(event -> {
-			canvasState.addLayer();
-		});
 		tBox.setHideAction(event -> {canvasState.hideLayer(); redrawCanvas();});
 		tBox.setShowAction(event -> {canvasState.showLayer(); redrawCanvas();});
 		tBox.setMoveToBackAction(event -> {canvasState.moveToBack(); redrawCanvas();});
+		tBox.setMoveToFrontAction(event -> {canvasState.moveToFront(); redrawCanvas();});
+
+		//layers
 		tBox.setChangeLayerAction(event -> {
 			canvasState.changeLayer(tBox.getCurrentLayer());
 			tBox.setLayerVisibility(canvasState.isCurrentLayerVisible());
 			redrawCanvas();
 		});
-		tBox.setMoveToFrontAction(event -> {canvasState.moveToFront(); redrawCanvas();});
 		tBox.setRemoveLayerAction(event -> {
 			canvasState.removeLayer();
 			redrawCanvas();
 		});
+		tBox.setAddLayerAction(event -> {
+			canvasState.addLayer();
+			//aca no va redraw()?
+		});
 
+		//display
 		setLeft(lBox);
 		setRight(rBox);
 		setTop(tBox);

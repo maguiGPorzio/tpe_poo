@@ -65,7 +65,6 @@ public class CanvasState {
     public void changeLayer(int layer) {
         if (layers.containsKey(layer)) {
             currentLayer = layer; // Cambiar a la capa indicada
-            System.out.println("CAPA EN EL BACK: %d".formatted(currentLayer));
             selectedFigure = null;
         } else {
             System.out.println("Error: Capa inválida."); //aca deberiamos ver tema errores

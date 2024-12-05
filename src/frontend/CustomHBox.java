@@ -86,36 +86,6 @@ public class CustomHBox extends HBox {
         hideButton.setOnAction(action);
     }
 
-    public void setAddLayerAction(EventHandler<ActionEvent> action){
-        addLayerButton.setOnAction(event -> {
-            currentLayer = getCurrentLayer();
-            String newLayer = "Capa %d".formatted(++lastLayer);
-            layersList.add(newLayer);
-            System.out.println(layersList);
-            currentLayer = lastLayer;
-            layers.setValue(layersList.getLast());
-            action.handle(event);
-            lastLayer = getLayerFromString(layersList.getLast());
-            System.out.println("CAPA EN EL FRONT(set add layer): %d".formatted(currentLayer));
-        });
-    }
-    public void setRemoveLayerAction(EventHandler<ActionEvent> action){
-        removeLayerButton.setOnAction(event -> {
-            currentLayer = getCurrentLayer();
-            if (currentLayer > MIN_LAYERS) {
-                String layerToRemove = "Capa %d".formatted(currentLayer);
-                System.out.println(layerToRemove);
-                layersList.removeIf( s -> s.equals(layerToRemove));
-                layers.getItems().removeIf(s -> s.equals(layerToRemove));
-                currentLayer = Math.max(MIN_LAYERS, currentLayer-1);
-                layers.setValue(layersList.get(findCurrentIndex()));
-                System.out.println("CAPA EN EL FRONT(set REMOVE layer): %d".formatted(currentLayer));
-                lastLayer = getLayerFromString(layersList.getLast());
-            }
-            action.handle(event);
-        });
-    }
-
     private int getLayerFromString(String s){
         String[] fragments = s.split(" ");
         return Integer.parseInt(fragments[fragments.length-1]);
@@ -123,13 +93,47 @@ public class CustomHBox extends HBox {
 
     public int getCurrentLayer(){
         int i = getLayerFromString(layers.getSelectionModel().getSelectedItem());
-        System.out.println("CAPA EN EL FRONT: %d".formatted(i));
         return i;
     }
 
+    //Change layer
     public void setChangeLayerAction(EventHandler<ActionEvent> action){
         currentLayer = getCurrentLayer();
         layers.setOnAction(action);
+    }
+
+    //Remove layer
+    public void setRemoveLayerAction(EventHandler<ActionEvent> action){
+        removeLayerButton.setOnAction(event -> {
+            if (currentLayer > MIN_LAYERS) {
+                currentLayer=getCurrentLayer();
+                System.out.println("La current layer en el front antes de borrar es: Capa %d".formatted(currentLayer));
+                String layerToRemove = "Capa %d".formatted(currentLayer);
+                int layerBelowNumber=getLayerBelow();//esto tiene que ir aca si o si, antes de sacar la layer de la lista
+                layersList.removeIf( s -> s.equals(layerToRemove));
+                layers.getItems().removeIf(s -> s.equals(layerToRemove));
+                currentLayer = Math.max(MIN_LAYERS, layerBelowNumber);
+                layers.setValue(layersList.get(findCurrentIndex()));
+                lastLayer = getLayerFromString(layersList.getLast());
+                System.out.println("After removal");
+                System.out.println(layersList);
+            }
+            action.handle(event);
+        });
+    }
+
+    //Add layer
+    public void setAddLayerAction(EventHandler<ActionEvent> action){
+        addLayerButton.setOnAction(event -> {
+            currentLayer=getCurrentLayer();
+            String newLayer = "Capa %d".formatted(++lastLayer);
+            layersList.add(newLayer);
+            currentLayer = lastLayer;
+            layers.setValue(layersList.getLast());
+            action.handle(event);
+            System.out.println("After adding");
+            System.out.println(layersList);
+        });
     }
 
     public void setLayerVisibility(boolean visibility){
@@ -139,6 +143,14 @@ public class CustomHBox extends HBox {
 
     private int findCurrentIndex(){
         return layersList.indexOf("Capa %d".formatted(currentLayer));
+    }
+
+    private int getLayerBelowIndex(String layer){
+        return layersList.indexOf(layer)-1;
+    }
+
+    private int getLayerBelow(){
+        return getLayerFromString(layersList.get(getLayerBelowIndex("Capa %d".formatted(currentLayer))));
     }
 
 }
