@@ -72,7 +72,7 @@ public class PaintPane extends BorderPane {
 					if(figureBelongs(figure, eventPoint)) {
 						found = true;
 						canvasState.setSelectedFigure(figure);
-						canvasState.setFormat(lBox.getShadow(),lBox.hasGradient(), lBox.isBevel(), lBox.getColor1(), lBox.getColor2());
+						canvasState.setFormat(lBox.getShadow(), lBox.isBevel(), lBox.getColor1(), lBox.getColor2());
 						label.append(figure.toString());
 					}
 				}
@@ -127,7 +127,7 @@ public class PaintPane extends BorderPane {
 		if (lBox.isFigureSelected()){
 			FigureButton figureButton=(FigureButton) lBox.getFigureButtons().getSelectedToggle();
 			canvasState.setCurrentLayer(tBox.getCurrentLayer());
-			return figureButton.generate(startPoint, endPoint,lBox.getShadow(),lBox.hasGradient(), lBox.isBevel(), lBox.getColor1(), lBox.getColor2());
+			return figureButton.generate(startPoint, endPoint,lBox.getShadow(), lBox.isBevel(), lBox.getColor1(), lBox.getColor2());
 		}
 		return null;
 	}

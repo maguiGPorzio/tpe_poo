@@ -23,11 +23,11 @@ public interface DrawableFigureRectangle {
         }
     }
 
-    default void drawGradient(boolean isGradient, GraphicsContext gc, Color firstFillColor, Color secondFillColor){
-        LinearGradient linearGradient = new LinearGradient(0, 0, 1, 0, true, CycleMethod.NO_CYCLE,
-                new Stop(0, firstFillColor),
-                new Stop(1, secondFillColor));
-        gc.setFill(linearGradient);
+    default void drawGradient(GraphicsContext gc, Color firstFillColor, Color secondFillColor){
+            LinearGradient linearGradient = new LinearGradient(0, 0, 1, 0, true, CycleMethod.NO_CYCLE,
+                    new Stop(0, firstFillColor),
+                    new Stop(1, secondFillColor));
+            gc.setFill(linearGradient);
     }
 
     default void drawBevel(boolean isBevel, GraphicsContext gc, Point topLeft, Point bottomRight, double offset){
@@ -51,13 +51,12 @@ public interface DrawableFigureRectangle {
         if(topLeft.getX() < bottomRight.getX() && topLeft.getY() < bottomRight.getY()){
             drawShade(format.getShadow(), gc, format.getColor1(), topLeft, bottomRight);
             drawBevel(format.getBevel(), gc, topLeft, bottomRight, offset);
+            drawGradient(gc, format.getColor1(), format.getColor2());
             gc.setStroke(isSelected ? Color.RED : Color.BLACK);
-            gc.setFill(format.getColor1());
             double width = Math.abs(topLeft.getX() - bottomRight.getX());
             double height = Math.abs(topLeft.getY() - bottomRight.getY());
             gc.fillRect(topLeft.getX(), topLeft.getY(), width, height);
             gc.strokeRect(topLeft.getX(), topLeft.getY(), width, height);
-            drawGradient(format.getGradient(), gc, format.getColor1(), format.getColor2());
         }
     }
 

@@ -74,22 +74,16 @@ public abstract class Rectangle extends Figure {
 
     @Override
     public Pair<Figure> divide(){
-        double verticalLength = getVLength();
-        double horizontalLength = getHLength();
-
         Figure sub1, sub2;
-        if (verticalLength <= horizontalLength) { //dividimos manteniendo eje vertical
-            double centerX = (topLeft.getX() + bottomRight.getX())/2;
-            sub1 = new DrawableRectangle(topLeft, new Point(centerX, bottomRight.getY()), format);
-            sub2 = new DrawableRectangle(new Point(centerX, topLeft.getY()), bottomRight, format);
-        }
-        else{ // dividimos manteniendo el eje horizontal
-            double centerY = (topLeft.getY() + bottomRight.getY())/2;
-            sub1 = new DrawableRectangle(topLeft, new Point(bottomRight.getX(), centerY), format);
-            sub2 = new DrawableRectangle(new Point(topLeft.getX(), centerY), bottomRight, format);
-        }
-
-        return new Pair<Figure>(sub1, sub2);
+        double centerY = (topLeft.getY() + bottomRight.getY())/2;
+        double centerX = (topLeft.getX() + bottomRight.getX())/2;
+        Point s1topLeft = new Point(topLeft.getX(), centerY + (topLeft.getY() - bottomRight.getY())/4);
+        Point s1bottomRight = new Point(centerX, centerY - (topLeft.getY() - bottomRight.getY())/4);
+        sub1 = new DrawableRectangle(s1topLeft, s1bottomRight, format);
+        Point s2topLeft = new Point(s1bottomRight.getX(), s1topLeft.getY());
+        Point s2bottomRight = new Point(bottomRight.getX(), s1bottomRight.getY());
+        sub2 = new DrawableRectangle(s2topLeft, s2bottomRight, format);
+        return new Pair<>(sub1, sub2);
     }
 
     public boolean belongs(Point eventPoint){

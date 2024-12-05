@@ -93,10 +93,6 @@ public class CustomVBoxLeft extends VBox {
         return ShadowType.values()[shadowType.getSelectionModel().getSelectedIndex() + 1];
     }
 
-    public boolean hasGradient(){
-        return !fillColorPicker.equals(secondFillColorPicker);
-    }
-
     public Color getColor1(){
         return fillColorPicker.getValue();
     }

@@ -13,10 +13,10 @@ public class EllipseButton extends FigureButton{
         super(action);
     }
 
-    public Figure generate(Point startPoint, Point endPoint, ShadowType shadow, boolean gradient, boolean bevel, Color color1, Color color2){
+    public Figure generate(Point startPoint, Point endPoint, ShadowType shadow, boolean bevel, Color color1, Color color2){
         Point centerPoint = new Point(Math.abs(endPoint.getX() + startPoint.getX()) / 2, (Math.abs((endPoint.getY() + startPoint.getY())) / 2));
         double sMayorAxis = Math.abs(endPoint.getX() - startPoint.getX());
         double sMinorAxis = Math.abs(endPoint.getY() - startPoint.getY());
-        return new DrawableEllipse(centerPoint, sMayorAxis, sMinorAxis, new Format(gradient, bevel, shadow, color1, color2));
+        return new DrawableEllipse(centerPoint, sMayorAxis, sMinorAxis, new Format(bevel, shadow, color1, color2));
     }
 }

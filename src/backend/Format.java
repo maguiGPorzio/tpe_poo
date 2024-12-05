@@ -5,17 +5,16 @@ import frontend.ShadowType;
 
 public class Format {
 
-    private boolean gradient, bevel;
+    private boolean bevel;
     private ShadowType shadow;
     private Color color1, color2;
 
-    public Format(boolean gradient, boolean bevel, ShadowType shadow, Color color1, Color color2){
-        setProperties(shadow, gradient, bevel, color1, color2);
+    public Format(boolean bevel, ShadowType shadow, Color color1, Color color2){
+        setProperties(shadow, bevel, color1, color2);
     }
 
-    public void setProperties(ShadowType shadow, boolean gradient, boolean bevel, Color color1, Color color2){
+    public void setProperties(ShadowType shadow,  boolean bevel, Color color1, Color color2){
         this.shadow = shadow;
-        this.gradient = gradient;
         this.bevel = bevel;
         this.color1 = color1;
         this.color2 = color2;
@@ -31,10 +30,6 @@ public class Format {
 
     public ShadowType getShadow() {
         return shadow;
-    }
-
-    public boolean getGradient(){
-        return gradient;
     }
 
     public boolean getBevel(){

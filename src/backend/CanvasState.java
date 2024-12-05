@@ -77,8 +77,8 @@ public class CanvasState {
         selectedFigure.setFormat(copiedFormat);
     }
 
-    public void setFormat(ShadowType shadowType, boolean gradient, boolean bevel, Color color1, Color color2){
-        selectedFigure.setFormat(new Format(gradient, bevel, shadowType, color1, color2));
+    public void setFormat(ShadowType shadowType, boolean bavel, Color color1, Color color2){
+        selectedFigure.setFormat(new Format(bavel, shadowType, color1, color2));
     }
 
     public void rotate(){
@@ -102,18 +102,25 @@ public class CanvasState {
         }
     }
 
+    // Esto esta re feo, pq copie y pegue el addFigure y le hice currentLayer++, pero chequando que la layer exista y haciendo un metodo o algo asi, deberia quedar ok
     public void duplicate(){
         Figure newFigure = selectedFigure.duplicate();
-        addFigure(selectedFigure);
+        if(newFigure != null){
+            layers.get(currentLayer++).addFigure(newFigure);
+        }
+
+        //        addFigure(selectedFigure); // esto estaba antes
     }
 
     public void divide(){
-        Pair<Figure> figurePair = selectedFigure.divide();
-        Figure figure1 = figurePair.getLeft();
-        Figure figure2 = figurePair.getRight();
-        addFigure(figure1);
-        addFigure(figure2);
-        deleteFigure();
+        if(selectedFigure != null) {
+            Pair<Figure> figurePair = selectedFigure.divide();
+            Figure figure1 = figurePair.getLeft();
+            Figure figure2 = figurePair.getRight();
+            addFigure(figure1);
+            addFigure(figure2);
+            deleteFigure();
+        }
     }
 
     public void showLayer(){

@@ -11,5 +11,5 @@ public abstract class FigureButton extends ToggleButton {
         super(action);
     }
 
-    public abstract Figure generate(Point startPoint, Point endPoint, ShadowType shadow, boolean gradient, boolean bevel, Color color1, Color color2);
+    public abstract Figure generate(Point startPoint, Point endPoint, ShadowType shadow, boolean bevel, Color color1, Color color2);
 }

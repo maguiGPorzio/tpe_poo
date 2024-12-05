@@ -20,7 +20,7 @@ public interface DrawableFigureOval extends Drawable {
         }
     }
 
-    default void drawGradient(boolean isGradient, GraphicsContext gc, Color firstFillColor, Color secondFillColor){
+    default void drawGradient(GraphicsContext gc, Color firstFillColor, Color secondFillColor){
             RadialGradient radialGradient = new RadialGradient(0, 0, 0.5, 0.5, 0.5, true,
                     CycleMethod.NO_CYCLE,
                     new Stop(0, firstFillColor),
@@ -44,10 +44,9 @@ public interface DrawableFigureOval extends Drawable {
         double arcX = centerPoint.getX() - sMayorAxis / 2;
         double arcY = centerPoint.getY() - sMinorAxis / 2;
         drawBevel(format.getBevel(), gc, arcX, arcY, sMayorAxis, sMinorAxis, offset);
+        drawGradient(gc, format.getColor1(), format.getColor2());
         gc.setStroke(isSelected ? Color.RED : Color.BLACK);
-        gc.setFill(format.getColor1());
         gc.strokeOval(centerPoint.getX() - (sMayorAxis / 2), centerPoint.getY() - (sMinorAxis / 2), sMayorAxis, sMinorAxis);
         gc.fillOval(centerPoint.getX() - (sMayorAxis / 2), centerPoint.getY() - (sMinorAxis / 2), sMayorAxis, sMinorAxis);
-        drawGradient(format.getGradient(), gc, format.getColor1(), format.getColor2());
     }
 }

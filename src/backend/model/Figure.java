@@ -28,9 +28,7 @@ public abstract class Figure implements Movable, Drawable, Choosable {
     public ShadowType hasShade() {
         return format.getShadow();
     }
-    public boolean hasGradient() {
-        return format.getGradient();
-    }
+
     public boolean hasBevel() {
         return format.getBevel();
     }
