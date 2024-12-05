@@ -96,8 +96,8 @@ public class CustomHBox extends HBox {
 
     public void setRemoveLayerAction(EventHandler<ActionEvent> action){
         removeLayerButton.setOnAction(event -> {
+            currentLayer=getCurrentLayer();
             if (currentLayer > MIN_LAYERS) {
-                currentLayer=getCurrentLayer();
                 System.out.println("La current layer en el front antes de borrar es: Capa %d".formatted(currentLayer));
                 String layerToRemove = "Capa %d".formatted(currentLayer);
                 int layerBelowNumber=getLayerBelow();//esto tiene que ir aca si o si, antes de sacar la layer de la lista
@@ -132,7 +132,6 @@ public class CustomHBox extends HBox {
     }
 
     //funciones privadas auxiliares
-
     private int findCurrentIndex(){
         return layersList.indexOf("Capa %d".formatted(currentLayer));
     }
