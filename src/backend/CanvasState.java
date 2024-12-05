@@ -170,7 +170,7 @@ public class CanvasState {
         return layers.getOrDefault(layer, new Layer()).getFiguresInLayer();
     }
 
-    public Iterable<Figure> getCurrentFigures(){
+    public List<Figure> getCurrentFigures(){
         return figuresInLayer(currentLayer);
     }
 

@@ -8,6 +8,8 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.paint.Color;
 
+import java.util.List;
+
 public class PaintPane extends BorderPane {
 
 	CanvasState canvasState;
@@ -68,7 +70,7 @@ public class PaintPane extends BorderPane {
 				Point eventPoint = new Point(event.getX(), event.getY());
 				boolean found = false;
 				StringBuilder label = new StringBuilder("Se seleccionó: ");
-				for (Figure figure : canvasState.getCurrentFigures()) {
+				for (Figure figure : canvasState.getCurrentFigures().reversed()) {
 					if(figureBelongs(figure, eventPoint) && canvasState.belongsInCurrentLayer(figure)) {
 						if(figure == canvasState.getSelectedFigure()){ //al volver a clickear se deselecciona
 							canvasState.setSelectedFigure(null);
@@ -83,6 +85,7 @@ public class PaintPane extends BorderPane {
 							lBox.setProperties(figure.getFormat());
 							canvasState.setFormat(lBox.getShadow(), lBox.isBevel(), lBox.getColor1(), lBox.getColor2());
 						}
+						break;
 					}
 				}
 				if (found) {
