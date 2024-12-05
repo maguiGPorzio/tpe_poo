@@ -71,38 +71,29 @@ public class CustomHBox extends HBox {
         getChildren().addAll(toolsArrLeft);
         getChildren().addAll(layers_subtitle, layers, showButton, hideButton);
         getChildren().addAll(toolsArrRight);
-
-
     }
 
+    //hide, show, moveToBack, moveToFront buttons
     public void setMoveToFrontAction(EventHandler<ActionEvent> action){moveToFrontButton.setOnAction(action);}
     public void setMoveToBackAction(EventHandler<ActionEvent> action){moveToBack.setOnAction(action);}
     public void setShowAction(EventHandler<ActionEvent> action){
-
         showButton.setOnAction(action);
     }
-
     public void setHideAction(EventHandler<ActionEvent> action){
         hideButton.setOnAction(action);
     }
 
-    private int getLayerFromString(String s){
-        String[] fragments = s.split(" ");
-        return Integer.parseInt(fragments[fragments.length-1]);
-    }
-
+    //Layers buttons
     public int getCurrentLayer(){
         int i = getLayerFromString(layers.getSelectionModel().getSelectedItem());
         return i;
     }
 
-    //Change layer
     public void setChangeLayerAction(EventHandler<ActionEvent> action){
         currentLayer = getCurrentLayer();
         layers.setOnAction(action);
     }
 
-    //Remove layer
     public void setRemoveLayerAction(EventHandler<ActionEvent> action){
         removeLayerButton.setOnAction(event -> {
             if (currentLayer > MIN_LAYERS) {
@@ -122,7 +113,6 @@ public class CustomHBox extends HBox {
         });
     }
 
-    //Add layer
     public void setAddLayerAction(EventHandler<ActionEvent> action){
         addLayerButton.setOnAction(event -> {
             currentLayer=getCurrentLayer();
@@ -141,6 +131,8 @@ public class CustomHBox extends HBox {
         hideButton.setSelected(!visibility);
     }
 
+    //funciones privadas auxiliares
+
     private int findCurrentIndex(){
         return layersList.indexOf("Capa %d".formatted(currentLayer));
     }
@@ -153,4 +145,8 @@ public class CustomHBox extends HBox {
         return getLayerFromString(layersList.get(getLayerBelowIndex("Capa %d".formatted(currentLayer))));
     }
 
+    private int getLayerFromString(String s){
+        String[] fragments = s.split(" ");
+        return Integer.parseInt(fragments[fragments.length-1]);
+    }
 }

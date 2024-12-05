@@ -146,14 +146,14 @@ public class PaintPane extends BorderPane {
 		return null;
 	}
 
-	void redrawCanvas() {
+	private void redrawCanvas() {
 		gc.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
 		for(Figure figure : canvasState.visibleFigures()) {
 			figure.draw(gc,figure == canvasState.getSelectedFigure());
 		}
 	}
 
-	boolean figureBelongs(Figure figure, Point eventPoint) {
+	private boolean figureBelongs(Figure figure, Point eventPoint) {
 		return figure.belongs(eventPoint);
 	}
 
