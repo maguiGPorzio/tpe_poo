@@ -80,6 +80,7 @@ public class CustomVBoxLeft extends VBox {
 
     public void setCopyFormatAction(EventHandler<ActionEvent> action){ //EventHandler<ActionEvent> especifica lo que pasa cuando el boton es presionado
         copyFormatButton.setOnAction(action);
+
     }
 
     public boolean isSelectionButtonSelected(){
@@ -102,6 +103,14 @@ public class CustomVBoxLeft extends VBox {
         return secondFillColorPicker.getValue();
     }
 
+    public void setColor1(Color color){
+        fillColorPicker.setValue(color);
+    }
+
+    public void setColor2(Color color){
+        secondFillColorPicker.setValue(color);
+    }
+
     public boolean isFigureSelected(){
         return !isSelectionButtonSelected() && tools.getSelectedToggle() != null;
     }
@@ -110,7 +119,24 @@ public class CustomVBoxLeft extends VBox {
         shadowType.setValue(shadowType.getItems().toArray()[shadow.ordinal()].toString());
     }
 
+    public void setBevel(boolean state){
+        bevel.setSelected(state);
+    }
+
     public void setChangeShadowAction(EventHandler<ActionEvent> action){
         shadowType.setOnAction(action);
     }
+
+    public void setBevelAction(EventHandler<ActionEvent> action){
+        bevel.setOnAction(action);
+    }
+
+    public void setColor1Action(EventHandler<ActionEvent> action){
+        fillColorPicker.setOnAction(action);
+    }
+
+    public void setColor2Action(EventHandler<ActionEvent> action){
+        secondFillColorPicker.setOnAction(action);
+    }
+
 }

@@ -198,7 +198,26 @@ public class CanvasState {
 
     public void applyCurrentShadow(ShadowType shadow){
         if(selectedFigure != null){
-            selectedFigure.setFormat(new Format(selectedFigure.hasBevel(), shadow, selectedFigure.getFormat().getColor1(), selectedFigure.getFormat().getColor2()));
+            selectedFigure.getFormat().setShadow(shadow);
         }
     }
+
+    public void applyCurrentBevel(boolean bevel){
+        if(selectedFigure != null){
+            selectedFigure.getFormat().setBevel(bevel);
+        }
+    }
+
+    public void applyCurrentColor1(Color color){
+        if(selectedFigure != null){
+            selectedFigure.getFormat().setColor1(color);
+        }
+    }
+
+    public void applyCurrentColor2(Color color){
+        if(selectedFigure != null){
+            selectedFigure.getFormat().setColor2(color);
+        }
+    }
+
 }

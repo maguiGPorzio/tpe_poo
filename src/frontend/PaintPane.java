@@ -78,6 +78,9 @@ public class PaintPane extends BorderPane {
 							canvasState.setSelectedFigure(figure);
 							label.append(figure.toString());
 							lBox.setShadow(figure.getFormat().getShadow());
+							lBox.setBevel(figure.getFormat().getBevel());
+							lBox.setColor1(figure.getFormat().getColor1());
+							lBox.setColor2(figure.getFormat().getColor2());
 							canvasState.setFormat(lBox.getShadow(), lBox.isBevel(), lBox.getColor1(), lBox.getColor2());
 						}
 					}
@@ -121,6 +124,10 @@ public class PaintPane extends BorderPane {
 		tBox.setMoveToBackAction(event -> {canvasState.moveToBack(); redrawCanvas();});
 		tBox.setMoveToFrontAction(event -> {canvasState.moveToFront(); redrawCanvas();});
 		lBox.setChangeShadowAction(event -> {canvasState.applyCurrentShadow(lBox.getShadow()); redrawCanvas();});
+		lBox.setBevelAction(event -> {canvasState.applyCurrentBevel(lBox.isBevel()); redrawCanvas();});
+		lBox.setColor1Action(event -> {canvasState.applyCurrentColor1(lBox.getColor1()); redrawCanvas(); });
+		lBox.setColor2Action(event -> {canvasState.applyCurrentColor2(lBox.getColor2()); redrawCanvas(); });
+
 
 		//layers
 		tBox.setChangeLayerAction(event -> {
@@ -134,7 +141,6 @@ public class PaintPane extends BorderPane {
 		});
 		tBox.setAddLayerAction(event -> {
 			canvasState.addLayer();
-			//aca no va redraw()?
 		});
 
 		//display
