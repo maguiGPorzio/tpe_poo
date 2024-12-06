@@ -1,6 +1,6 @@
 package frontend.buttons;
 
-import backend.Format;
+import frontend.drawable.Format;
 import backend.model.Figure;
 import backend.model.Point;
 import frontend.ShadowType;

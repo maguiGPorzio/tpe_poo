@@ -1,6 +1,6 @@
 package frontend;
 
-import backend.Format;
+import frontend.drawable.Format;
 import frontend.buttons.*;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;

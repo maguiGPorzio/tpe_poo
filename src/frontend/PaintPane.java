@@ -4,6 +4,7 @@ import backend.CanvasState;
 import frontend.drawable.Drawable;
 import backend.model.*;
 import frontend.buttons.FigureButton;
+import frontend.drawable.Format;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.layout.BorderPane;
@@ -11,7 +12,7 @@ import javafx.scene.paint.Color;
 
 public class PaintPane extends BorderPane {
 
-	CanvasState<Color> canvasState;
+	CanvasState canvasState;
 	Point startPoint;
 	StatusPane statusPane;
 
@@ -27,7 +28,7 @@ public class PaintPane extends BorderPane {
 	private final CustomVBoxRight rBox = new CustomVBoxRight();
 	private final CustomVBoxLeft lBox = new CustomVBoxLeft();
 
-	public PaintPane(CanvasState<Color> canvasState, StatusPane statusPane) {
+	public PaintPane(CanvasState canvasState, StatusPane statusPane) {
 		this.canvasState = canvasState;
 		this.statusPane = statusPane;
 		gc.setLineWidth(LINE_WIDTH);
@@ -155,7 +156,7 @@ public class PaintPane extends BorderPane {
 		setCenter(canvas);
 	}
 
-	private Figure<Color> generateFigure(Point startPoint, Point endPoint) {
+	private Figure generateFigure(Point startPoint, Point endPoint) {
 		if (lBox.isFigureSelected()){
 			canvasState.setSelectedFigure(null);
 			FigureButton figureButton=(FigureButton) lBox.getFigureButtons().getSelectedToggle();
@@ -168,12 +169,40 @@ public class PaintPane extends BorderPane {
 
 	private void redrawCanvas() {
 		gc.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
-		for(Figure<Color> figure : canvasState.visibleFigures()) {
+		for(Figure figure : canvasState.visibleFigures()) {
 			((Drawable)figure).draw(figure == canvasState.getSelectedFigure());
 		}
 	}
 
-	private boolean figureBelongs(Figure<Color> figure, Point eventPoint) {
+	public void setFormat(ShadowType shadowType, boolean bavel, Color color1, Color color2){
+		selectedFigure.setFormat(new Format(bavel, shadowType, color1, color2));
+	}
+
+	public void applyCurrentShadow(ShadowType shadow){
+		if(selectedFigure != null){
+			selectedFigure.getFormat().setShadow(shadow);
+		}
+	}
+
+	public void applyCurrentBevel(boolean bevel){
+		if(selectedFigure != null){
+			selectedFigure.getFormat().setBevel(bevel);
+		}
+	}
+
+	public void applyCurrentColor1(Color color){
+		if(selectedFigure != null){
+			selectedFigure.getFormat().setColor1(color);
+		}
+	}
+
+	public void applyCurrentColor2(Color color){
+		if(selectedFigure != null){
+			selectedFigure.getFormat().setColor2(color);
+		}
+	}
+
+	private boolean figureBelongs(Figure figure, Point eventPoint) {
 		return figure.belongs(eventPoint);
 	}
 

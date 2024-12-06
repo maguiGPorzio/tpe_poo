@@ -8,7 +8,6 @@ import javafx.scene.paint.CycleMethod;
 import javafx.scene.paint.RadialGradient;
 import javafx.scene.paint.Stop;
 import javafx.scene.shape.ArcType;
-import backend.Format;
 
 public interface DrawableFigureOval extends Drawable {
 

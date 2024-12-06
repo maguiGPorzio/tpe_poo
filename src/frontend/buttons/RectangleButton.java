@@ -1,9 +1,8 @@
 package frontend.buttons;
 
-import backend.Format;
+import frontend.drawable.Format;
 import backend.model.Figure;
 import backend.model.Point;
-import backend.model.Rectangle;
 import frontend.ShadowType;
 import frontend.drawable.DrawableRectangle;
 import javafx.scene.canvas.GraphicsContext;

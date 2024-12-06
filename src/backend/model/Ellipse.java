@@ -1,15 +1,11 @@
 package backend.model;
 
-import frontend.drawable.DrawableEllipse;
-import backend.Format;
-
-public class Ellipse<Color> extends Figure<Color> {
+public class Ellipse extends Figure{
 
     protected Point centerPoint;
     protected double sMayorAxis, sMinorAxis;
 
-    public Ellipse(Point centerPoint, double sMayorAxis, double sMinorAxis, Format<Color> format){
-        super(format);
+    public Ellipse(Point centerPoint, double sMayorAxis, double sMinorAxis){
         this.centerPoint = centerPoint;
         setAxis(sMayorAxis, sMinorAxis);
     }
@@ -56,13 +52,13 @@ public class Ellipse<Color> extends Figure<Color> {
     }
 
     @Override
-    public Figure<Color> duplicate(){
+    public Figure duplicate(){
         Point newCenterPoint = new Point(centerPoint.getX() - OFFSET, centerPoint.getY() - OFFSET);
-        return new Ellipse<>(newCenterPoint, sMayorAxis, sMinorAxis, format);
+        return new Ellipse(newCenterPoint, sMayorAxis, sMinorAxis);
     }
 
     @Override
-    public Pair<Figure<Color>> divide(){
+    public Pair<Figure> divide(){
         Point center1, center2;
         if(sMayorAxis >= sMinorAxis){ //respetando el eje horizontal
             center1 = new Point(centerPoint.getX() - sMayorAxis/4, centerPoint.getY());
@@ -72,8 +68,8 @@ public class Ellipse<Color> extends Figure<Color> {
             center1 = new Point(centerPoint.getX(), centerPoint.getY() - sMayorAxis/4);
             center2 = new Point(centerPoint.getX(), centerPoint.getY() + sMayorAxis/4);
         }
-        Ellipse<Color> sub1 = new Ellipse<>(center1, sMayorAxis/2, sMinorAxis/2, format);
-        Ellipse<Color> sub2 = new Ellipse<>(center2, sMayorAxis/2, sMinorAxis/2, format);
+        Ellipse sub1 = new Ellipse(center1, sMayorAxis/2, sMinorAxis/2);
+        Ellipse sub2 = new Ellipse(center2, sMayorAxis/2, sMinorAxis/2);
         return new Pair<>(sub1, sub2);
     }
 

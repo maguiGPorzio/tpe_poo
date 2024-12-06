@@ -1,12 +1,9 @@
 package backend.model;
 
+public class Circle extends Ellipse{
 
-import backend.Format;
-
-public class Circle<Color> extends Ellipse<Color> {
-
-    public Circle(Point centerPoint, double radius, Format<Color> format) {
-        super(centerPoint, radius * 2, radius * 2, format);
+    public Circle(Point centerPoint, double radius) {
+        super(centerPoint, radius * 2, radius * 2);
     }
 
     @Override

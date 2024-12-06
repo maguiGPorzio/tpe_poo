@@ -1,13 +1,10 @@
 package backend.model;
 
-import backend.Format;
-
-public class Rectangle<Color> extends Figure<Color> {
+public class Rectangle extends Figure {
 
     protected Point topLeft, bottomRight;
 
-    public Rectangle(Point topLeft, Point bottomRight, Format<Color> format) {
-        super(format);
+    public Rectangle(Point topLeft, Point bottomRight) {
         this.topLeft = topLeft;
         this.bottomRight = bottomRight;
     }
@@ -58,23 +55,23 @@ public class Rectangle<Color> extends Figure<Color> {
     }
 
     @Override
-    public Figure<Color> duplicate(){
+    public Figure duplicate(){
         Point newTopLeft = new Point(topLeft.getX() - OFFSET, topLeft.getY() - OFFSET);
         Point newBottomRight = new Point(bottomRight.getX() - OFFSET, bottomRight.getY() - OFFSET);
-        return new Rectangle<>(newTopLeft, newBottomRight, format);
+        return new Rectangle(newTopLeft, newBottomRight);
     }
 
     @Override
-    public Pair<Figure<Color>> divide(){
-        Figure<Color> sub1, sub2;
+    public Pair<Figure> divide(){
+        Figure sub1, sub2;
         double centerY = (topLeft.getY() + bottomRight.getY())/2;
         double centerX = (topLeft.getX() + bottomRight.getX())/2;
         Point s1topLeft = new Point(topLeft.getX(), centerY + (topLeft.getY() - bottomRight.getY())/4);
         Point s1bottomRight = new Point(centerX, centerY - (topLeft.getY() - bottomRight.getY())/4);
-        sub1 = new Rectangle<>(s1topLeft, s1bottomRight, format);
+        sub1 = new Rectangle(s1topLeft, s1bottomRight);
         Point s2topLeft = new Point(s1bottomRight.getX(), s1topLeft.getY());
         Point s2bottomRight = new Point(bottomRight.getX(), s1bottomRight.getY());
-        sub2 = new Rectangle<>(s2topLeft, s2bottomRight, format);
+        sub2 = new Rectangle(s2topLeft, s2bottomRight);
         return new Pair<>(sub1, sub2);
     }
 

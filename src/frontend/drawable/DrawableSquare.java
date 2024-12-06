@@ -1,11 +1,8 @@
 package frontend.drawable;
 
-import backend.Format;
 import backend.model.Point;
 import backend.model.Square;
-import frontend.ShadowType;
 import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.paint.Color;
 
 public class DrawableSquare extends Square implements  DrawableFigureRectangle{
 

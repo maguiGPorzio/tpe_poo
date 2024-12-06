@@ -3,7 +3,6 @@ package frontend.drawable;
 import backend.model.Ellipse;
 import backend.model.Point;
 import javafx.scene.canvas.GraphicsContext;
-import backend.Format;
 import javafx.scene.paint.Color;
 
 

@@ -3,20 +3,24 @@ package backend;
 import backend.model.Figure;
 import backend.model.Pair;
 import frontend.ShadowType;
+import frontend.drawable.Format;
+
 import java.util.*;
 
-public class CanvasState<Color> {
+public class CanvasState {
 
     private final int INITIAL_LAYERS = 3;
     private int currentLayer = 1;
-    public final SortedMap<Integer, Layer<Color>> layers = new TreeMap<>(); //lo pongo publico para intentar
-    private Format<Color> copiedFormat;
-    private Figure<Color> selectedFigure;
+    public final SortedMap<Integer, Layer> layers = new TreeMap<>(); //lo pongo publico para intentar
+    private Format copiedFormat;
+    private Figure selectedFigure;
+
+    protected final static double OFFSET = 10.0;
 
     public CanvasState() {
         // Inicializar las capas iniciales
         for (int i = 1; i <= INITIAL_LAYERS; i++) {
-            layers.put(i, new Layer<>());
+            layers.put(i, new Layer());
         }
     }
 
@@ -26,7 +30,7 @@ public class CanvasState<Color> {
         }
     }
 
-    public void addFigure(Figure<Color> figure) {
+    public void addFigure(Figure figure) {
         if(figure != null){
             layers.get(currentLayer).addFigure(figure);
         }
@@ -40,7 +44,7 @@ public class CanvasState<Color> {
     }
 
     public void addLayer(){
-        layers.put(layers.lastKey()+1, new Layer<>());
+        layers.put(layers.lastKey()+1, new Layer());
         changeLayer(layers.lastKey());
     }
 
@@ -70,26 +74,22 @@ public class CanvasState<Color> {
         }
     }
 
-    public void setFormat(ShadowType shadowType, boolean bavel, Color color1, Color color2){
-        selectedFigure.setFormat(new Format<>(bavel, shadowType, color1, color2));
-    }
-
     public void rotate(){
-        List<Figure<Color>> l = figuresInLayer(currentLayer);
+        List<Figure> l = figuresInLayer(currentLayer);
         if(l.contains(selectedFigure)){
             selectedFigure.rotate();
         }
     }
 
     public void flipV(){
-        List<Figure<Color>> l = figuresInLayer(currentLayer);
+        List<Figure> l = figuresInLayer(currentLayer);
         if(l.contains(selectedFigure)){
             selectedFigure.flipV();
         }
     }
 
     public void flipH(){
-        List<Figure<Color>> l = figuresInLayer(currentLayer);
+        List<Figure> l = figuresInLayer(currentLayer);
         if(l.contains(selectedFigure)){
             selectedFigure.flipH();
         }
@@ -97,16 +97,16 @@ public class CanvasState<Color> {
 
     public void duplicate() {
         if (selectedFigure != null) {
-            Figure<Color> newFigure = selectedFigure.duplicate();
+            Figure newFigure = selectedFigure.duplicate();
             addFigure(newFigure);
         }
     }
 
     public void divide(){
         if(selectedFigure != null) {
-            Pair<Figure<Color>> figurePair = selectedFigure.divide();
-            Figure<Color> figure1 = figurePair.getLeft();
-            Figure<Color> figure2 = figurePair.getRight();
+            Pair<Figure> figurePair = selectedFigure.divide();
+            Figure figure1 = figurePair.getLeft();
+            Figure figure2 = figurePair.getRight();
             addFigure(figure1);
             addFigure(figure2);
             deleteFigure();
@@ -123,14 +123,14 @@ public class CanvasState<Color> {
     }
 
     public void moveToFront(){
-        List<Figure<Color>> l = figuresInLayer(currentLayer);
+        List<Figure> l = figuresInLayer(currentLayer);
         if(l.contains(selectedFigure)){
             layers.get(currentLayer).moveToFront(selectedFigure);
         }
     }
 
     public void moveToBack(){
-        List<Figure<Color>> l = figuresInLayer(currentLayer);
+        List<Figure> l = figuresInLayer(currentLayer);
         // se mueve la figura únicamente si ésta pertenece a la capa seleccionada
         if(l.contains(selectedFigure)){
             layers.get(currentLayer).moveToBack(selectedFigure);
@@ -148,8 +148,8 @@ public class CanvasState<Color> {
         return toReturn;
     }
 
-    private Iterable<Figure<Color>> getFigures(Iterable<Integer> givenLayers){
-        List<Figure<Color>> toReturn = new ArrayList<>();
+    private Iterable<Figure> getFigures(Iterable<Integer> givenLayers){
+        List<Figure> toReturn = new ArrayList<>();
         for(int layer : givenLayers){
             toReturn.addAll(layers.get(layer).getFiguresInLayer());
         }
@@ -157,29 +157,29 @@ public class CanvasState<Color> {
     }
 
 
-    public List<Figure<Color>> figuresInLayer(int layer){
-        return layers.getOrDefault(layer, new Layer<>()).getFiguresInLayer();
+    public List<Figure> figuresInLayer(int layer){
+        return layers.getOrDefault(layer, new Layer()).getFiguresInLayer();
     }
 
-    public List<Figure<Color>> getCurrentFigures(){
+    public List<Figure> getCurrentFigures(){
         return figuresInLayer(currentLayer);
     }
 
-    public Iterable<Figure<Color>> figures() {
+    public Iterable<Figure> figures() {
         return getFigures(layers.keySet());
     }
 
-    public Iterable<Figure<Color>> visibleFigures(){
+    public Iterable<Figure> visibleFigures(){
         return getFigures(getVisibleLayers());
     }
 
-    public void setSelectedFigure(Figure<Color> figure){ this.selectedFigure = figure; }
+    public void setSelectedFigure(Figure figure){ this.selectedFigure = figure; }
 
-    public Figure<Color> getSelectedFigure() {
+    public Figure getSelectedFigure() {
         return selectedFigure;
     }
 
-    public boolean belongsInCurrentLayer(Figure<Color> figure){
+    public boolean belongsInCurrentLayer(Figure figure){
         return layers.get(currentLayer).getFiguresInLayer().contains(figure);
     }
 
@@ -187,27 +187,4 @@ public class CanvasState<Color> {
         return layers.get(currentLayer).isVisible();
     }
 
-    public void applyCurrentShadow(ShadowType shadow){
-        if(selectedFigure != null){
-            selectedFigure.getFormat().setShadow(shadow);
-        }
-    }
-
-    public void applyCurrentBevel(boolean bevel){
-        if(selectedFigure != null){
-            selectedFigure.getFormat().setBevel(bevel);
-        }
-    }
-
-    public void applyCurrentColor1(Color color){
-        if(selectedFigure != null){
-            selectedFigure.getFormat().setColor1(color);
-        }
-    }
-
-    public void applyCurrentColor2(Color color){
-        if(selectedFigure != null){
-            selectedFigure.getFormat().setColor2(color);
-        }
-    }
 }

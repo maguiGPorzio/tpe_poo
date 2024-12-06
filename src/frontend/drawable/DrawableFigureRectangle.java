@@ -1,6 +1,5 @@
 package frontend.drawable;
 
-import backend.Format;
 import backend.model.Point;
 import frontend.ShadowType;
 import javafx.scene.canvas.GraphicsContext;
