@@ -1,10 +1,8 @@
 package backend;
 
-import javafx.scene.paint.Color;
-
 import frontend.ShadowType;
 
-public class Format {
+public class Format<Color> {
 
     private boolean bevel;
     private ShadowType shadow;

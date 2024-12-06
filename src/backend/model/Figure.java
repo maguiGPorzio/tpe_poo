@@ -2,21 +2,18 @@ package backend.model;
 
 import backend.Format;
 import backend.interfaces.Choosable;
-import backend.interfaces.Drawable;
 import backend.interfaces.Movable;
 
 
-public abstract class Figure implements Movable, Choosable, Drawable {
+public abstract class Figure<Color> implements Movable, Choosable {
 
-    protected Format format;
+    protected Format<Color> format;
 
-    public Figure(Format format){
+    public Figure(Format<Color> format){
         this.format = format;
     }
 
     protected final static double OFFSET = 10.0;
-    protected final static double RECTANGLE_OFFSET = 0.0;
-    protected final static double OVAL_OFFSET = 0.0;
 
     public abstract void rotate();
 
@@ -24,12 +21,12 @@ public abstract class Figure implements Movable, Choosable, Drawable {
 
     public abstract void flipV();
 
-    public Format getFormat(){
+    public Format<Color> getFormat(){
         return format;
     }
 
-    public void setFormat(Format format){ this.format = format; }
+    public void setFormat(Format<Color> format){ this.format = format; }
 
-    public abstract Figure duplicate();
-    public abstract Pair<Figure> divide();
+    public abstract Figure<Color> duplicate();
+    public abstract Pair<Figure<Color>> divide();
 }

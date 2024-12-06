@@ -4,20 +4,19 @@ import backend.model.Figure;
 import backend.model.Pair;
 import frontend.ShadowType;
 import java.util.*;
-import javafx.scene.paint.Color;
 
-public class CanvasState {
+public class CanvasState<Color> {
 
     private final int INITIAL_LAYERS = 3;
     private int currentLayer = 1;
-    public final SortedMap<Integer, Layer> layers = new TreeMap<>(); //lo pongo publico para intentar
-    private Format copiedFormat;
-    private Figure selectedFigure;
+    public final SortedMap<Integer, Layer<Color>> layers = new TreeMap<>(); //lo pongo publico para intentar
+    private Format<Color> copiedFormat;
+    private Figure<Color> selectedFigure;
 
     public CanvasState() {
         // Inicializar las capas iniciales
         for (int i = 1; i <= INITIAL_LAYERS; i++) {
-            layers.put(i, new Layer());
+            layers.put(i, new Layer<>());
         }
     }
 
@@ -27,7 +26,7 @@ public class CanvasState {
         }
     }
 
-    public void addFigure(Figure figure) {
+    public void addFigure(Figure<Color> figure) {
         if(figure != null){
             layers.get(currentLayer).addFigure(figure);
         }
@@ -41,7 +40,7 @@ public class CanvasState {
     }
 
     public void addLayer(){
-        layers.put(layers.lastKey()+1, new Layer());
+        layers.put(layers.lastKey()+1, new Layer<>());
         changeLayer(layers.lastKey());
     }
 
@@ -71,34 +70,26 @@ public class CanvasState {
         }
     }
 
-    public void getFormat(){
-        copiedFormat = selectedFigure.getFormat();
-    }
-
-    public void copyFormat(){
-        selectedFigure.setFormat(copiedFormat);
-    }
-
     public void setFormat(ShadowType shadowType, boolean bavel, Color color1, Color color2){
-        selectedFigure.setFormat(new Format(bavel, shadowType, color1, color2));
+        selectedFigure.setFormat(new Format<>(bavel, shadowType, color1, color2));
     }
 
     public void rotate(){
-        List<Figure> l = figuresInLayer(currentLayer);
+        List<Figure<Color>> l = figuresInLayer(currentLayer);
         if(l.contains(selectedFigure)){
             selectedFigure.rotate();
         }
     }
 
     public void flipV(){
-        List<Figure> l = figuresInLayer(currentLayer);
+        List<Figure<Color>> l = figuresInLayer(currentLayer);
         if(l.contains(selectedFigure)){
             selectedFigure.flipV();
         }
     }
 
     public void flipH(){
-        List<Figure> l = figuresInLayer(currentLayer);
+        List<Figure<Color>> l = figuresInLayer(currentLayer);
         if(l.contains(selectedFigure)){
             selectedFigure.flipH();
         }
@@ -106,16 +97,16 @@ public class CanvasState {
 
     public void duplicate() {
         if (selectedFigure != null) {
-            Figure newFigure = selectedFigure.duplicate();
+            Figure<Color> newFigure = selectedFigure.duplicate();
             addFigure(newFigure);
         }
     }
 
     public void divide(){
         if(selectedFigure != null) {
-            Pair<Figure> figurePair = selectedFigure.divide();
-            Figure figure1 = figurePair.getLeft();
-            Figure figure2 = figurePair.getRight();
+            Pair<Figure<Color>> figurePair = selectedFigure.divide();
+            Figure<Color> figure1 = figurePair.getLeft();
+            Figure<Color> figure2 = figurePair.getRight();
             addFigure(figure1);
             addFigure(figure2);
             deleteFigure();
@@ -132,14 +123,14 @@ public class CanvasState {
     }
 
     public void moveToFront(){
-        List<Figure> l = figuresInLayer(currentLayer);
+        List<Figure<Color>> l = figuresInLayer(currentLayer);
         if(l.contains(selectedFigure)){
             layers.get(currentLayer).moveToFront(selectedFigure);
         }
     }
 
     public void moveToBack(){
-        List<Figure> l = figuresInLayer(currentLayer);
+        List<Figure<Color>> l = figuresInLayer(currentLayer);
         // se mueve la figura únicamente si ésta pertenece a la capa seleccionada
         if(l.contains(selectedFigure)){
             layers.get(currentLayer).moveToBack(selectedFigure);
@@ -157,8 +148,8 @@ public class CanvasState {
         return toReturn;
     }
 
-    private Iterable<Figure> getFigures(Iterable<Integer> givenLayers){
-        List<Figure> toReturn = new ArrayList<>();
+    private Iterable<Figure<Color>> getFigures(Iterable<Integer> givenLayers){
+        List<Figure<Color>> toReturn = new ArrayList<>();
         for(int layer : givenLayers){
             toReturn.addAll(layers.get(layer).getFiguresInLayer());
         }
@@ -166,29 +157,29 @@ public class CanvasState {
     }
 
 
-    public List<Figure> figuresInLayer(int layer){
-        return layers.getOrDefault(layer, new Layer()).getFiguresInLayer();
+    public List<Figure<Color>> figuresInLayer(int layer){
+        return layers.getOrDefault(layer, new Layer<>()).getFiguresInLayer();
     }
 
-    public List<Figure> getCurrentFigures(){
+    public List<Figure<Color>> getCurrentFigures(){
         return figuresInLayer(currentLayer);
     }
 
-    public Iterable<Figure> figures() {
+    public Iterable<Figure<Color>> figures() {
         return getFigures(layers.keySet());
     }
 
-    public Iterable<Figure> visibleFigures(){
+    public Iterable<Figure<Color>> visibleFigures(){
         return getFigures(getVisibleLayers());
     }
 
-    public void setSelectedFigure(Figure figure){ this.selectedFigure = figure; }
+    public void setSelectedFigure(Figure<Color> figure){ this.selectedFigure = figure; }
 
-    public Figure getSelectedFigure() {
+    public Figure<Color> getSelectedFigure() {
         return selectedFigure;
     }
 
-    public boolean belongsInCurrentLayer(Figure figure){
+    public boolean belongsInCurrentLayer(Figure<Color> figure){
         return layers.get(currentLayer).getFiguresInLayer().contains(figure);
     }
 
@@ -219,7 +210,4 @@ public class CanvasState {
             selectedFigure.getFormat().setColor2(color);
         }
     }
-
-
-
 }

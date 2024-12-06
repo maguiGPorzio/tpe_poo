@@ -2,7 +2,6 @@ package frontend;
 
 import backend.Format;
 import frontend.buttons.*;
-import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -10,7 +9,6 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Cursor;
 import javafx.scene.control.*;
-import javafx.scene.effect.Shadow;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 
@@ -31,7 +29,7 @@ public class CustomVBoxLeft extends VBox {
     private static final Color DEFAULT_FILL_COLOR = Color.YELLOW;
     private static final Color DEFAULT_SECOND_COLOR = Color.ORANGE;
     private boolean copiedFormatedMode = false;
-    private Format savedFormat = new Format(false, ShadowType.NOSHADOW, DEFAULT_FILL_COLOR, DEFAULT_SECOND_COLOR );
+    private Format<Color> savedFormat = new Format<>(false, ShadowType.NOSHADOW, DEFAULT_FILL_COLOR, DEFAULT_SECOND_COLOR );
 
     private final ToggleButton selectionButton = new ToggleButton(SELECT);
     private final FigureButton rectangleButton = new RectangleButton(RECTANGLE);
@@ -39,7 +37,7 @@ public class CustomVBoxLeft extends VBox {
     private final FigureButton squareButton = new SquareButton(SQUARE);
     private final FigureButton ellipseButton = new EllipseButton(ELLIPSE);
     private final ToggleButton deleteButton = new ToggleButton(ERASE);
-    private final ChoiceBox<String> shadowType = new ChoiceBox(FXCollections.observableArrayList(" ","Simple Shadow", "Color Shadow", "Simple Inverted", "Color Inverted"));
+    private final ChoiceBox<String> shadowType = new ChoiceBox<>(FXCollections.observableArrayList(" ","Simple Shadow", "Color Shadow", "Simple Inverted", "Color Inverted"));
     private final CheckBox bevel = new CheckBox("Biselado");
     private final ToggleButton copyFormatButton = new ToggleButton("Copiar Fmt.");
 
@@ -136,13 +134,13 @@ public class CustomVBoxLeft extends VBox {
         secondFillColorPicker.setOnAction(action);
     }
 
-    public Format getCopiedFormat(){ //al ser llamada, apaga la flag copiedFormatMode
+    public Format<Color> getCopiedFormat(){ //al ser llamada, apaga la flag copiedFormatMode
         copiedFormatedMode = false;
         deselectButton(copyFormatButton);
         return savedFormat;
     }
 
-    public void setSavedFormat(Format format){
+    public void setSavedFormat(Format<Color> format){
         copiedFormatedMode = true;
         savedFormat = format;
     }
@@ -151,7 +149,7 @@ public class CustomVBoxLeft extends VBox {
         return copiedFormatedMode;
     }
 
-    public void setProperties(Format format){
+    public void setProperties(Format<Color> format){
         shadowType.setValue(shadowType.getItems().toArray()[format.getShadow().ordinal()].toString());
         bevel.setSelected(format.getBevel());
         fillColorPicker.setValue(format.getColor1());

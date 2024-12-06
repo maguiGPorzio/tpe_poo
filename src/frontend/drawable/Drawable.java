@@ -1,4 +1,6 @@
-package backend.interfaces;
+package frontend.drawable;
+
+import backend.model.Figure;
 
 @FunctionalInterface
 public interface Drawable {

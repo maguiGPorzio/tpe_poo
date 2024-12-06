@@ -1,23 +1,15 @@
 package backend.model;
 
-import frontend.drawable.DrawableRectangle;
 import backend.Format;
 
-public class Rectangle extends Figure {
+public class Rectangle<Color> extends Figure<Color> {
 
     protected Point topLeft, bottomRight;
 
-    public Rectangle(Point topLeft, Point bottomRight, Format format) {
+    public Rectangle(Point topLeft, Point bottomRight, Format<Color> format) {
         super(format);
         this.topLeft = topLeft;
         this.bottomRight = bottomRight;
-    }
-
-    protected double getVLength(){
-        return topLeft.getY() - bottomRight.getY();
-    }
-    protected double getHLength(){
-        return bottomRight.getX() - topLeft.getX();
     }
 
     public Point getTopLeft() {
@@ -66,23 +58,23 @@ public class Rectangle extends Figure {
     }
 
     @Override
-    public Figure duplicate(){
+    public Figure<Color> duplicate(){
         Point newTopLeft = new Point(topLeft.getX() - OFFSET, topLeft.getY() - OFFSET);
         Point newBottomRight = new Point(bottomRight.getX() - OFFSET, bottomRight.getY() - OFFSET);
-        return new Rectangle(newTopLeft, newBottomRight, format);
+        return new Rectangle<>(newTopLeft, newBottomRight, format);
     }
 
     @Override
-    public Pair<Figure> divide(){
-        Figure sub1, sub2;
+    public Pair<Figure<Color>> divide(){
+        Figure<Color> sub1, sub2;
         double centerY = (topLeft.getY() + bottomRight.getY())/2;
         double centerX = (topLeft.getX() + bottomRight.getX())/2;
         Point s1topLeft = new Point(topLeft.getX(), centerY + (topLeft.getY() - bottomRight.getY())/4);
         Point s1bottomRight = new Point(centerX, centerY - (topLeft.getY() - bottomRight.getY())/4);
-        sub1 = new Rectangle(s1topLeft, s1bottomRight, format);
+        sub1 = new Rectangle<>(s1topLeft, s1bottomRight, format);
         Point s2topLeft = new Point(s1bottomRight.getX(), s1topLeft.getY());
         Point s2bottomRight = new Point(bottomRight.getX(), s1bottomRight.getY());
-        sub2 = new Rectangle(s2topLeft, s2bottomRight, format);
+        sub2 = new Rectangle<>(s2topLeft, s2bottomRight, format);
         return new Pair<>(sub1, sub2);
     }
 
@@ -90,7 +82,5 @@ public class Rectangle extends Figure {
         return eventPoint.getX() > topLeft.getX() && eventPoint.getX() < bottomRight.getX() &&
                 eventPoint.getY() > topLeft.getY() && eventPoint.getY() < bottomRight.getY();
     }
-
-    public void draw(boolean isSelected){}
 
 }

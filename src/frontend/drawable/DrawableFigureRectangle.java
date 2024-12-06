@@ -1,7 +1,6 @@
 package frontend.drawable;
 
 import backend.Format;
-import backend.interfaces.Drawable;
 import backend.model.Point;
 import frontend.ShadowType;
 import javafx.scene.canvas.GraphicsContext;
@@ -48,7 +47,7 @@ public interface DrawableFigureRectangle extends Drawable {
         }
     }
 
-    default void drawRectangle(Format format, GraphicsContext gc, boolean isSelected, Point topLeft, Point bottomRight, double offset){
+    default void drawRectangle(Format<Color> format, GraphicsContext gc, boolean isSelected, Point topLeft, Point bottomRight, double offset){
         if(topLeft.getX() < bottomRight.getX() && topLeft.getY() < bottomRight.getY()){
             drawShade(format.getShadow(), gc, format.getColor1(), topLeft, bottomRight);
             drawBevel(format.getBevel(), gc, topLeft, bottomRight, offset);

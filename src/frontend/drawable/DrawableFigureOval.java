@@ -1,6 +1,5 @@
 package frontend.drawable;
 
-import backend.interfaces.Drawable;
 import backend.model.Point;
 import frontend.ShadowType;
 import javafx.scene.canvas.GraphicsContext;
@@ -39,7 +38,7 @@ public interface DrawableFigureOval extends Drawable {
         }
     }
 
-    default void drawOval(Format format, GraphicsContext gc, boolean isSelected, Point centerPoint, Double sMayorAxis, Double sMinorAxis, double offset){
+    default void drawOval(Format<Color> format, GraphicsContext gc, boolean isSelected, Point centerPoint, Double sMayorAxis, Double sMinorAxis, double offset){
         drawShade(format.getShadow(), gc, format.getColor1(),centerPoint, sMayorAxis, sMinorAxis);
         double arcX = centerPoint.getX() - sMayorAxis / 2;
         double arcY = centerPoint.getY() - sMinorAxis / 2;
