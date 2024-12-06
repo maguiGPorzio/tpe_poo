@@ -21,6 +21,7 @@ public class CustomVBoxLeft extends VBox {
     private static final int BUTTON_MIN_WIDTH=90;
     private static final int SPACING=10;
 
+    private final static String TITLE="Formato:";
     private final static String SELECT="Selección";
     private final static String RECTANGLE="Rectángulo";
     private final static String CIRCLE="Círculo";
@@ -41,6 +42,8 @@ public class CustomVBoxLeft extends VBox {
     private final ChoiceBox<String> shadowType = new ChoiceBox(FXCollections.observableArrayList(" ","Simple Shadow", "Color Shadow", "Simple Inverted", "Color Inverted"));
     private final CheckBox bevel = new CheckBox("Biselado");
     private final ToggleButton copyFormatButton = new ToggleButton("Copiar Fmt.");
+
+    Label title = new Label(TITLE);
 
     ColorPicker fillColorPicker = new ColorPicker(DEFAULT_FILL_COLOR);
     ColorPicker secondFillColorPicker = new ColorPicker(DEFAULT_SECOND_COLOR);
@@ -64,10 +67,11 @@ public class CustomVBoxLeft extends VBox {
         setPrefWidth(MIN_WIDTH);
         setAlignment(Pos.CENTER_LEFT);
         setSpacing(SPACING);
+        deleteButton.setMinWidth(BUTTON_MIN_WIDTH);
+        copyFormatButton.setMinWidth(BUTTON_MIN_WIDTH);
 
         getChildren().addAll(toolsArr);
-        getChildren().add(new Separator());
-        getChildren().addAll(deleteButton,shadowType, bevel, copyFormatButton, fillColorPicker, secondFillColorPicker);
+        getChildren().addAll(deleteButton,title,shadowType, bevel, copyFormatButton, fillColorPicker, secondFillColorPicker);
 
     }
 

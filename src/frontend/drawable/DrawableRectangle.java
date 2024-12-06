@@ -7,11 +7,14 @@ import javafx.scene.canvas.GraphicsContext;
 
 public class DrawableRectangle extends Rectangle implements DrawableFigureRectangle{
 
-    public DrawableRectangle(Point topLeft, Point bottomRight, Format format){
+    public final GraphicsContext gc;
+
+    public DrawableRectangle(Point topLeft, Point bottomRight, Format format, GraphicsContext gc){
         super(topLeft, bottomRight, format);
+        this.gc = gc;
     }
 
-    public void draw(GraphicsContext gc, boolean isSelected){
+    public void draw(boolean isSelected){
         drawRectangle(format, gc, isSelected, topLeft, bottomRight, OFFSET);
     }
 

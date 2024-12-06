@@ -2,7 +2,7 @@ package backend.model;
 
 import backend.Format;
 
-public abstract class Circle extends Ellipse {
+public class Circle extends Ellipse {
 
     public Circle(Point centerPoint, double radius, Format format) {
         super(centerPoint, radius * 2, radius * 2, format);

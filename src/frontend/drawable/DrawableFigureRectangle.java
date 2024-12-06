@@ -1,6 +1,7 @@
 package frontend.drawable;
 
 import backend.Format;
+import backend.interfaces.Drawable;
 import backend.model.Point;
 import frontend.ShadowType;
 import javafx.scene.canvas.GraphicsContext;
@@ -9,7 +10,7 @@ import javafx.scene.paint.CycleMethod;
 import javafx.scene.paint.LinearGradient;
 import javafx.scene.paint.Stop;
 
-public interface DrawableFigureRectangle {
+public interface DrawableFigureRectangle extends Drawable {
 
     default void drawShade(ShadowType shadow, GraphicsContext gc, Color firstFillColor, Point topLeft, Point bottomRight){
         // aca me queda la duda si no es mejor estilo directamente no hacer el if

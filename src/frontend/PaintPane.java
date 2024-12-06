@@ -1,6 +1,7 @@
 package frontend;
 
 import backend.CanvasState;
+import backend.interfaces.Drawable;
 import backend.model.*;
 import frontend.buttons.FigureButton;
 import javafx.scene.canvas.Canvas;
@@ -8,6 +9,7 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.paint.Color;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class PaintPane extends BorderPane {
@@ -162,15 +164,20 @@ public class PaintPane extends BorderPane {
 			canvasState.setSelectedFigure(null);
 			FigureButton figureButton=(FigureButton) lBox.getFigureButtons().getSelectedToggle();
 			canvasState.setCurrentLayer(tBox.getCurrentLayer());
-			return figureButton.generate(startPoint, endPoint,lBox.getShadow(), lBox.isBevel(), lBox.getColor1(), lBox.getColor2());
+			return figureButton.generate(startPoint, endPoint,lBox.getShadow(), lBox.isBevel(), lBox.getColor1(), lBox.getColor2(), gc);
 		}
 		return null;
 	}
 
+	List<Drawable> drawableFigures = new ArrayList<>();
+
 	private void redrawCanvas() {
 		gc.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
 		for(Figure figure : canvasState.visibleFigures()) {
-			figure.draw(gc,figure == canvasState.getSelectedFigure());
+			drawableFigures.add(figure);
+		}
+		for (Drawable figure : drawableFigures){
+			figure.draw(figure == canvasState.getSelectedFigure());
 		}
 	}
 

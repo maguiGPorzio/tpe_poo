@@ -5,6 +5,7 @@ import backend.model.Figure;
 import backend.model.Point;
 import frontend.ShadowType;
 import frontend.drawable.DrawableSquare;
+import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 
 public class SquareButton extends FigureButton{
@@ -12,8 +13,8 @@ public class SquareButton extends FigureButton{
         super(action);
     }
 
-    public Figure generate(Point startPoint, Point endPoint, ShadowType shadow, boolean bevel, Color color1, Color color2){
+    public Figure generate(Point startPoint, Point endPoint, ShadowType shadow, boolean bevel, Color color1, Color color2, GraphicsContext gc){
         double size = Math.abs(endPoint.getX() - startPoint.getX());
-        return new DrawableSquare(startPoint, size, new Format(bevel, shadow, color1, color2));
+        return new DrawableSquare(startPoint, size, new Format(bevel, shadow, color1, color2), gc);
     }
 }

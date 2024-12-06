@@ -4,10 +4,9 @@ import backend.Format;
 import backend.interfaces.Choosable;
 import backend.interfaces.Drawable;
 import backend.interfaces.Movable;
-import frontend.ShadowType;
 
 
-public abstract class Figure implements Movable, Drawable, Choosable {
+public abstract class Figure implements Movable, Choosable, Drawable {
 
     protected Format format;
 
@@ -24,14 +23,6 @@ public abstract class Figure implements Movable, Drawable, Choosable {
     public abstract void flipH();
 
     public abstract void flipV();
-
-    public ShadowType hasShade() {
-        return format.getShadow();
-    }
-
-    public boolean hasBevel() {
-        return format.getBevel();
-    }
 
     public Format getFormat(){
         return format;

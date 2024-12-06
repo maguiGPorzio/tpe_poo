@@ -9,10 +9,13 @@ import javafx.scene.paint.Color;
 
 public class DrawableSquare extends Square implements  DrawableFigureRectangle{
 
-    public DrawableSquare(Point topLeft, double size, Format format){
+    private final GraphicsContext gc;
+
+    public DrawableSquare(Point topLeft, double size, Format format, GraphicsContext gc){
         super(topLeft, size, format);
+        this.gc = gc;
     }
-    public void draw(GraphicsContext gc, boolean isSelected){
+    public void draw(boolean isSelected){
         drawRectangle(format, gc, isSelected, topLeft, bottomRight, OFFSET);
     }
 }
