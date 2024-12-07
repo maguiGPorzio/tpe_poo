@@ -9,7 +9,7 @@ import javafx.scene.paint.RadialGradient;
 import javafx.scene.paint.Stop;
 import javafx.scene.shape.ArcType;
 
-public interface DrawableFigureOval extends Drawable {
+public interface DrawableFigureOval extends DrawableFigure {
 
     default void drawShade(ShadowType shadow, GraphicsContext gc, Color firstFillColor, Point centerPoint, double sMayorAxis, double sMinorAxis){
         if(!shadow.equals(ShadowType.NOSHADOW)){
@@ -26,22 +26,22 @@ public interface DrawableFigureOval extends Drawable {
             gc.setFill(radialGradient);
     }
 
-    default void drawBevel(boolean isBevel, GraphicsContext gc, double arcX, double arcY, double sMayorAxis, double sMinorAxis, double offset){
+    default void drawBevel(boolean isBevel, GraphicsContext gc, double arcX, double arcY, double sMayorAxis, double sMinorAxis){
         if(isBevel){
             gc.setLineWidth(10);
             gc.setStroke(Color.LIGHTGRAY);
-            gc.strokeArc(arcX - offset, arcY - offset, sMayorAxis + 2 * offset, sMinorAxis + 2 * offset, 45, 180, ArcType.OPEN);
+            gc.strokeArc(arcX , arcY, sMayorAxis , sMinorAxis , 45, 180, ArcType.OPEN);
             gc.setStroke(Color.BLACK);
-            gc.strokeArc(arcX - offset, arcY - offset, sMayorAxis + 2 * offset, sMinorAxis + 2 * offset, 225, 180, ArcType.OPEN);
+            gc.strokeArc(arcX , arcY , sMayorAxis, sMinorAxis, 225, 180, ArcType.OPEN);
             gc.setLineWidth(1);
         }
     }
 
-    default void drawOval(Format<Color> format, GraphicsContext gc, boolean isSelected, Point centerPoint, Double sMayorAxis, Double sMinorAxis, double offset){
+    default void drawOval(Format format, GraphicsContext gc, boolean isSelected, Point centerPoint, Double sMayorAxis, Double sMinorAxis){
         drawShade(format.getShadow(), gc, format.getColor1(),centerPoint, sMayorAxis, sMinorAxis);
         double arcX = centerPoint.getX() - sMayorAxis / 2;
         double arcY = centerPoint.getY() - sMinorAxis / 2;
-        drawBevel(format.getBevel(), gc, arcX, arcY, sMayorAxis, sMinorAxis, offset);
+        drawBevel(format.getBevel(), gc, arcX, arcY, sMayorAxis, sMinorAxis);
         drawGradient(gc, format.getColor1(), format.getColor2());
         gc.setStroke(isSelected ? Color.RED : Color.BLACK);
         gc.strokeOval(centerPoint.getX() - (sMayorAxis / 2), centerPoint.getY() - (sMinorAxis / 2), sMayorAxis, sMinorAxis);

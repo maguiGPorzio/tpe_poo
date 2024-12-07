@@ -1,7 +1,7 @@
 package frontend;
 
 import backend.CanvasState;
-import frontend.drawable.Drawable;
+import frontend.drawable.DrawableFigure;
 import backend.model.*;
 import frontend.buttons.FigureButton;
 import frontend.drawable.Format;
@@ -9,6 +9,9 @@ import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.paint.Color;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class PaintPane extends BorderPane {
 
@@ -28,6 +31,8 @@ public class PaintPane extends BorderPane {
 	private final CustomVBoxRight rBox = new CustomVBoxRight();
 	private final CustomVBoxLeft lBox = new CustomVBoxLeft();
 
+	private List<DrawableFigure> drawables = new ArrayList<>();
+
 	public PaintPane(CanvasState canvasState, StatusPane statusPane) {
 		this.canvasState = canvasState;
 		this.statusPane = statusPane;
@@ -42,7 +47,9 @@ public class PaintPane extends BorderPane {
 			if(startPoint == null) {
 				return ;
 			}
-			canvasState.addFigure(generateFigure(startPoint, endPoint));
+			canvasState.addFigure((Figure)generateFigure(startPoint, endPoint));
+			canvasState.addFigure((Figure)generateFigure(startPoint, endPoint));
+
 			startPoint = null;
 			redrawCanvas();
 		});
@@ -51,7 +58,7 @@ public class PaintPane extends BorderPane {
 			Point eventPoint = new Point(event.getX(), event.getY());
 			boolean found = false;
 			StringBuilder label = new StringBuilder();
-			for(Figure<Color> figure : canvasState.figures()) {
+			for(Figure figure : canvasState.figures()) {
 				if(figureBelongs(figure, eventPoint)) {
 					found = true;
 					label.append(figure);
@@ -69,21 +76,23 @@ public class PaintPane extends BorderPane {
 				Point eventPoint = new Point(event.getX(), event.getY());
 				boolean found = false;
 				StringBuilder label = new StringBuilder("Se seleccionó: ");
-				for (Figure<Color> figure : canvasState.getCurrentFigures()) {
+				drawables = new ArrayList<>();
+				drawables = canvasState.getCurrentFigures();
+				for (Figure figure : canvasState.getCurrentFigures()) {
 					if(figureBelongs(figure, eventPoint) && canvasState.belongsInCurrentLayer(figure)) {
 						if(figure == canvasState.getSelectedFigure()){ //al volver a clickear se deselecciona
 							canvasState.setSelectedFigure(null);
 						}
-						else{
-							found = true;
-							canvasState.setSelectedFigure(figure);
-							label.append(figure.toString());
-							if(lBox.hasCopiedFormat()){
-								figure.setFormat(lBox.getCopiedFormat());
-							}
-							lBox.setProperties(figure.getFormat());
-							canvasState.setFormat(lBox.getShadow(), lBox.isBevel(), lBox.getColor1(), lBox.getColor2());
-						}
+//						else{
+//							found = true;
+//							canvasState.setSelectedFigure(figure);
+//							label.append(figure.toString());
+//							if(lBox.hasCopiedFormat()){
+//								figure.setFormat(lBox.getCopiedFormat());
+//							}
+//							lBox.setProperties(figure.getFormat());
+//							canvasState.setFormat(lBox.getShadow(), lBox.isBevel(), lBox.getColor1(), lBox.getColor2());
+//						}
 					}
 				}
 				if (found) {
@@ -99,7 +108,7 @@ public class PaintPane extends BorderPane {
 		canvas.setOnMouseDragged(event -> {
 			if(lBox.isSelectionButtonSelected()) {
 				Point eventPoint = new Point(event.getX(), event.getY());
-				Figure<Color> sel = canvasState.getSelectedFigure();
+				Figure sel = canvasState.getSelectedFigure();
 				if(sel != null){
 					sel.move((eventPoint.getX() - startPoint.getX()) / 100,(eventPoint.getY() - startPoint.getY()) / 100);
 				}
@@ -125,15 +134,15 @@ public class PaintPane extends BorderPane {
 		tBox.setShowAction(event -> {canvasState.showLayer(); redrawCanvas();});
 		tBox.setMoveToBackAction(event -> {canvasState.moveToBack(); redrawCanvas();});
 		tBox.setMoveToFrontAction(event -> {canvasState.moveToFront(); redrawCanvas();});
-		lBox.setChangeShadowAction(event -> {canvasState.applyCurrentShadow(lBox.getShadow()); redrawCanvas();});
-		lBox.setBevelAction(event -> {canvasState.applyCurrentBevel(lBox.isBevel()); redrawCanvas();});
-		lBox.setColor1Action(event -> {canvasState.applyCurrentColor1(lBox.getColor1()); redrawCanvas(); });
-		lBox.setColor2Action(event -> {canvasState.applyCurrentColor2(lBox.getColor2()); redrawCanvas(); });
-		lBox.setCopyFormatAction(event -> {
-			if(canvasState.getSelectedFigure() != null){
-				lBox.setSavedFormat(canvasState.getSelectedFigure().getFormat());
-			}
-		});
+//		lBox.setChangeShadowAction(event -> {canvasState.applyCurrentShadow(lBox.getShadow()); redrawCanvas();});
+//		lBox.setBevelAction(event -> {canvasState.applyCurrentBevel(lBox.isBevel()); redrawCanvas();});
+//		lBox.setColor1Action(event -> {canvasState.applyCurrentColor1(lBox.getColor1()); redrawCanvas(); });
+//		lBox.setColor2Action(event -> {canvasState.applyCurrentColor2(lBox.getColor2()); redrawCanvas(); });
+//		lBox.setCopyFormatAction(event -> {
+//			if(canvasState.getSelectedFigure() != null){
+//				lBox.setSavedFormat(canvasState.getSelectedFigure().getFormat());
+//			}
+//		});
 
 		//layers
 		tBox.setChangeLayerAction(event -> {
@@ -156,12 +165,12 @@ public class PaintPane extends BorderPane {
 		setCenter(canvas);
 	}
 
-	private Figure generateFigure(Point startPoint, Point endPoint) {
+	private FormattedFigure generateFigure(Point startPoint, Point endPoint) {
 		if (lBox.isFigureSelected()){
 			canvasState.setSelectedFigure(null);
 			FigureButton figureButton=(FigureButton) lBox.getFigureButtons().getSelectedToggle();
 			canvasState.setCurrentLayer(tBox.getCurrentLayer());
-			return figureButton.generate(startPoint, endPoint,lBox.getShadow(), lBox.isBevel(), lBox.getColor1(), lBox.getColor2(), gc);
+			return figureButton.generate(startPoint, endPoint, lBox.getFormat(), gc);
 		}
 		return null;
 	}
@@ -170,40 +179,40 @@ public class PaintPane extends BorderPane {
 	private void redrawCanvas() {
 		gc.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
 		for(Figure figure : canvasState.visibleFigures()) {
-			((Drawable)figure).draw(figure == canvasState.getSelectedFigure());
-		}
-	}
-
-	public void setFormat(ShadowType shadowType, boolean bavel, Color color1, Color color2){
-		selectedFigure.setFormat(new Format(bavel, shadowType, color1, color2));
-	}
-
-	public void applyCurrentShadow(ShadowType shadow){
-		if(selectedFigure != null){
-			selectedFigure.getFormat().setShadow(shadow);
-		}
-	}
-
-	public void applyCurrentBevel(boolean bevel){
-		if(selectedFigure != null){
-			selectedFigure.getFormat().setBevel(bevel);
-		}
-	}
-
-	public void applyCurrentColor1(Color color){
-		if(selectedFigure != null){
-			selectedFigure.getFormat().setColor1(color);
-		}
-	}
-
-	public void applyCurrentColor2(Color color){
-		if(selectedFigure != null){
-			selectedFigure.getFormat().setColor2(color);
+			figure.draw(figure == canvasState.getSelectedFigure());
 		}
 	}
 
 	private boolean figureBelongs(Figure figure, Point eventPoint) {
 		return figure.belongs(eventPoint);
 	}
+
+//	public void setFormat(ShadowType shadowType, boolean bavel, Color color1, Color color2){
+//		selectedFigure.setFormat(new Format(bavel, shadowType, color1, color2));
+//	}
+//
+//	public void applyCurrentShadow(ShadowType shadow){
+//		if(selectedFigure != null){
+//			selectedFigure.getFormat().setShadow(shadow);
+//		}
+//	}
+//
+//	public void applyCurrentBevel(boolean bevel){
+//		if(selectedFigure != null){
+//			selectedFigure.getFormat().setBevel(bevel);
+//		}
+//	}
+//
+//	public void applyCurrentColor1(Color color){
+//		if(selectedFigure != null){
+//			selectedFigure.getFormat().setColor1(color);
+//		}
+//	}
+//
+//	public void applyCurrentColor2(Color color){
+//		if(selectedFigure != null){
+//			selectedFigure.getFormat().setColor2(color);
+//		}
+//	}
 
 }

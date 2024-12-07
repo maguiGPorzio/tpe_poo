@@ -1,11 +1,8 @@
 package frontend.drawable;
 
-import java.util.FormatterClosedException;
+import backend.model.Figure;
 
-public abstract class DrawableFigure {
-    private Format format;
 
-    public DrawableFigure(Format format) {
-
-    }
+public interface DrawableFigure extends Figure{
+    void draw(boolean isSelected);
 }

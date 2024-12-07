@@ -1,8 +1,9 @@
 package backend.model;
 
-public class Rectangle extends Figure {
+public class Rectangle implements Figure {
 
     protected Point topLeft, bottomRight;
+    protected final static double OFFSET = 10.0;
 
     public Rectangle(Point topLeft, Point bottomRight) {
         this.topLeft = topLeft;

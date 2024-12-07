@@ -29,7 +29,7 @@ public class CustomVBoxLeft extends VBox {
     private static final Color DEFAULT_FILL_COLOR = Color.YELLOW;
     private static final Color DEFAULT_SECOND_COLOR = Color.ORANGE;
     private boolean copiedFormatedMode = false;
-    private Format<Color> savedFormat = new Format<>(false, ShadowType.NOSHADOW, DEFAULT_FILL_COLOR, DEFAULT_SECOND_COLOR );
+    private Format savedFormat = new Format(false, ShadowType.NOSHADOW, DEFAULT_FILL_COLOR, DEFAULT_SECOND_COLOR );
 
     private final ToggleButton selectionButton = new ToggleButton(SELECT);
     private final FigureButton rectangleButton = new RectangleButton(RECTANGLE);
@@ -134,13 +134,13 @@ public class CustomVBoxLeft extends VBox {
         secondFillColorPicker.setOnAction(action);
     }
 
-    public Format<Color> getCopiedFormat(){ //al ser llamada, apaga la flag copiedFormatMode
+    public Format getCopiedFormat(){ //al ser llamada, apaga la flag copiedFormatMode
         copiedFormatedMode = false;
         deselectButton(copyFormatButton);
         return savedFormat;
     }
 
-    public void setSavedFormat(Format<Color> format){
+    public void setSavedFormat(Format format){
         copiedFormatedMode = true;
         savedFormat = format;
     }
@@ -149,11 +149,15 @@ public class CustomVBoxLeft extends VBox {
         return copiedFormatedMode;
     }
 
-    public void setProperties(Format<Color> format){
+    public void setProperties(Format format){
         shadowType.setValue(shadowType.getItems().toArray()[format.getShadow().ordinal()].toString());
         bevel.setSelected(format.getBevel());
         fillColorPicker.setValue(format.getColor1());
         secondFillColorPicker.setValue(format.getColor2());
+    }
+
+    public Format getFormat(){
+        return new Format(bevel.isSelected(), getShadow(), getColor1(), getColor2());
     }
 
 }

@@ -2,6 +2,7 @@ package backend;
 
 import backend.model.Figure;
 import backend.model.Pair;
+import backend.model.Point;
 import frontend.ShadowType;
 import frontend.drawable.Format;
 
@@ -14,8 +15,6 @@ public class CanvasState {
     public final SortedMap<Integer, Layer> layers = new TreeMap<>(); //lo pongo publico para intentar
     private Format copiedFormat;
     private Figure selectedFigure;
-
-    protected final static double OFFSET = 10.0;
 
     public CanvasState() {
         // Inicializar las capas iniciales
@@ -186,5 +185,6 @@ public class CanvasState {
     public boolean isCurrentLayerVisible(){
         return layers.get(currentLayer).isVisible();
     }
+
 
 }

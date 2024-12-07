@@ -13,8 +13,8 @@ public class SquareButton extends FigureButton{
         super(action);
     }
 
-    public Figure generate(Point startPoint, Point endPoint, ShadowType shadow, boolean bevel, Color color1, Color color2, GraphicsContext gc){
+    public FormattedFigure generate(Point startPoint, Point endPoint, Format format, GraphicsContext gc){
         double size = Math.abs(endPoint.getX() - startPoint.getX());
-        return new DrawableSquare(startPoint, size, new Format(bevel, shadow, color1, color2), gc);
+        return new DrawableSquare(startPoint, size, format, gc);
     }
 }

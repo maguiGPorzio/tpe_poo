@@ -6,13 +6,14 @@ import backend.interfaces.Movable;
 
 public interface Figure extends Movable, Choosable {
 
-    public abstract void rotate();
+    void rotate();
 
-    public abstract void flipH();
+    void flipH();
 
-    public abstract void flipV();
+    void flipV();
 
-    public abstract Figure duplicate();
+    Figure duplicate();
 
-    public abstract Pair<Figure> divide();
+    Pair<Figure> divide();
+
 }

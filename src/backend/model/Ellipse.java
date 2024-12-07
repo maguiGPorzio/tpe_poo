@@ -1,9 +1,11 @@
 package backend.model;
 
-public class Ellipse extends Figure{
+public class Ellipse implements Figure{
 
     protected Point centerPoint;
     protected double sMayorAxis, sMinorAxis;
+    protected final static double OFFSET = 10.0;
+
 
     public Ellipse(Point centerPoint, double sMayorAxis, double sMinorAxis){
         this.centerPoint = centerPoint;

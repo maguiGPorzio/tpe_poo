@@ -8,7 +8,7 @@ import javafx.scene.paint.CycleMethod;
 import javafx.scene.paint.LinearGradient;
 import javafx.scene.paint.Stop;
 
-public interface DrawableFigureRectangle extends Drawable {
+public interface DrawableFigureRectangle extends DrawableFigure {
 
     default void drawShade(ShadowType shadow, GraphicsContext gc, Color firstFillColor, Point topLeft, Point bottomRight){
         // aca me queda la duda si no es mejor estilo directamente no hacer el if
@@ -29,7 +29,7 @@ public interface DrawableFigureRectangle extends Drawable {
             gc.setFill(linearGradient);
     }
 
-    default void drawBevel(boolean isBevel, GraphicsContext gc, Point topLeft, Point bottomRight, double offset){
+    default void drawBevel(boolean isBevel, GraphicsContext gc, Point topLeft, Point bottomRight){
         if(isBevel){
             double x = topLeft.getX();
             double y = topLeft.getY();
@@ -46,10 +46,10 @@ public interface DrawableFigureRectangle extends Drawable {
         }
     }
 
-    default void drawRectangle(Format<Color> format, GraphicsContext gc, boolean isSelected, Point topLeft, Point bottomRight, double offset){
+    default void drawRectangle(Format format, GraphicsContext gc, boolean isSelected, Point topLeft, Point bottomRight){
         if(topLeft.getX() < bottomRight.getX() && topLeft.getY() < bottomRight.getY()){
             drawShade(format.getShadow(), gc, format.getColor1(), topLeft, bottomRight);
-            drawBevel(format.getBevel(), gc, topLeft, bottomRight, offset);
+            drawBevel(format.getBevel(), gc, topLeft, bottomRight);
             drawGradient(gc, format.getColor1(), format.getColor2());
             gc.setStroke(isSelected ? Color.RED : Color.BLACK);
             double width = Math.abs(topLeft.getX() - bottomRight.getX());
