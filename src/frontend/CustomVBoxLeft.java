@@ -29,7 +29,7 @@ public class CustomVBoxLeft extends VBox {
     private static final Color DEFAULT_FILL_COLOR = Color.YELLOW;
     private static final Color DEFAULT_SECOND_COLOR = Color.ORANGE;
     private boolean copiedFormatedMode = false;
-    private Format savedFormat = new Format(false, ShadowType.NO_SHADOW, DEFAULT_FILL_COLOR, DEFAULT_SECOND_COLOR );
+    private Format savedFormat = null;
 
     private final ToggleButton selectionButton = new ToggleButton(SELECT);
     private final FigureButton rectangleButton = new RectangleButton(RECTANGLE);
@@ -149,7 +149,7 @@ public class CustomVBoxLeft extends VBox {
     }
 
     public void setProperties(Format format){
-        shadowType.setValue(shadowType.getItems().toArray()[format.getShadow().ordinal()].toString());
+        shadowType.setValue(shadowType.getItems().get(format.getShadow().ordinal()));
         bevel.setSelected(format.getBevel());
         fillColorPicker.setValue(format.getColor1());
         secondFillColorPicker.setValue(format.getColor2());

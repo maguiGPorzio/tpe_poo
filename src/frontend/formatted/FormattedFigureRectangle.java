@@ -11,10 +11,8 @@ import javafx.scene.paint.Stop;
 public interface FormattedFigureRectangle extends FormattedFigure {
 
     default void drawShade(ShadowType shadow, GraphicsContext gc, Color firstFillColor, Point topLeft, Point bottomRight){
-        if(!shadow.equals(ShadowType.NO_SHADOW)) {
-            gc.setFill(shadow.getShadeColor(firstFillColor));
-            gc.fillRect(topLeft.getX() + shadow.getOffsetX(), topLeft.getY() + shadow.getOffsetY(), Math.abs(topLeft.getX() - bottomRight.getX()), Math.abs(topLeft.getY() - bottomRight.getY()));
-        }
+        gc.setFill(shadow.getShadeColor(firstFillColor));
+        gc.fillRect(topLeft.getX() + shadow.getOffsetX(), topLeft.getY() + shadow.getOffsetY(), Math.abs(topLeft.getX() - bottomRight.getX()), Math.abs(topLeft.getY() - bottomRight.getY()));
     }
 
     default void drawGradient(GraphicsContext gc, Color firstFillColor, Color secondFillColor){

@@ -13,7 +13,7 @@ public class Format {
         setProperties(shadow, bevel, color1, color2);
     }
 
-    public void setProperties(ShadowType shadow,  boolean bevel, Color color1, Color color2){
+    public void setProperties(ShadowType shadow, boolean bevel, Color color1, Color color2){
         this.shadow = shadow;
         this.bevel = bevel;
         this.color1 = color1;

@@ -12,10 +12,8 @@ import javafx.scene.shape.ArcType;
 public interface FormattedFigureOval extends FormattedFigure {
 
     default void drawShade(ShadowType shadow, GraphicsContext gc, Color firstFillColor, Point centerPoint, double sMayorAxis, double sMinorAxis){
-        if(!shadow.equals(ShadowType.NO_SHADOW)){
-            gc.setFill(shadow.getShadeColor(firstFillColor));
-            gc.fillOval(centerPoint.getX() - (sMayorAxis / 2) + shadow.getOffsetX(), centerPoint.getY() - (sMinorAxis / 2) + shadow.getOffsetY(), sMayorAxis, sMinorAxis);
-        }
+        gc.setFill(shadow.getShadeColor(firstFillColor));
+        gc.fillOval(centerPoint.getX() - (sMayorAxis / 2) + shadow.getOffsetX(), centerPoint.getY() - (sMinorAxis / 2) + shadow.getOffsetY(), sMayorAxis, sMinorAxis);
     }
 
     default void drawGradient(GraphicsContext gc, Color firstFillColor, Color secondFillColor){

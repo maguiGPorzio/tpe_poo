@@ -72,30 +72,31 @@ public class PaintPane extends BorderPane {
 
 				for (FormattedFigure figure : canvasState.getCurrentFigures().reversed()) {
 					if (figureBelongs(figure, eventPoint) && canvasState.belongsInCurrentLayer(figure)) {
-						lBox.setProperties(figure.getFormat().duplicate());
 						found = true;
 						if (figure == canvasState.getSelectedFigure()) { //al volver a clickear, se deselecciona
 							canvasState.setSelectedFigure(null);
 						}
 						else{
+							lBox.setProperties(figure.getFormat().duplicate());
 							canvasState.setSelectedFigure(figure);
 							label.append(figure);
 							if (lBox.hasCopiedFormat()) {
-								figure.setFormat(lBox.getCopiedFormat().duplicate());
-								lBox.setProperties(figure.getFormat().duplicate());
+								lBox.setProperties(lBox.getCopiedFormat());
+								figure.setFormat(lBox.getFormat().duplicate()); // Aplica el formato copiado
 							}
 						}
-						redrawCanvas();
 						break;
 					}
 				}
-				if (found) {
-						statusPane.updateStatus(label.toString());
-				} else {
-						statusPane.updateStatus("Ninguna figura encontrada");
-						canvasState.setSelectedFigure(null);
+
+				if(found){
+					statusPane.updateStatus(label.toString());
+					redrawCanvas();
 				}
-				redrawCanvas();
+				else{
+					statusPane.updateStatus("Ninguna figura encontrada");
+					canvasState.setSelectedFigure(null);
+				}
 			}
 		});
 
