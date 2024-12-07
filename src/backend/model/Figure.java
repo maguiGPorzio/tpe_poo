@@ -1,11 +1,12 @@
 package backend.model;
 
 import backend.interfaces.Choosable;
+import backend.interfaces.Divisible;
 import backend.interfaces.Duplicable;
 import backend.interfaces.Movable;
 
 
-public interface Figure extends Movable, Choosable, Duplicable<Figure> {
+public interface Figure extends Movable, Choosable, Duplicable<Figure>, Divisible<Figure> {
 
     void rotate();
 
