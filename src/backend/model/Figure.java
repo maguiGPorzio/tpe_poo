@@ -1,12 +1,9 @@
 package backend.model;
 
-import backend.interfaces.Choosable;
-import backend.interfaces.Divisible;
-import backend.interfaces.Duplicable;
-import backend.interfaces.Movable;
+import backend.interfaces.*;
 
 
-public interface Figure extends Movable, Choosable, Duplicable<Figure>, Divisible<Figure> {
+public interface Figure extends Movable, Choosable, Duplicable<Figure>, Divisible<Figure>, Flippable, Rotable {
 
     void rotate();
 
