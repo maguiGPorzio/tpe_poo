@@ -3,6 +3,7 @@ package backend;
 import backend.model.Figure;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class Layer<F extends Figure> {
@@ -47,5 +48,13 @@ public class Layer<F extends Figure> {
     public void moveToBack(F figure){
         removeFigure(figure);
         figuresInLayer.addFirst(figure);
+    }
+
+    @SafeVarargs
+    public final void addFiguresInMiddle(F figure, F... newFigures){
+        if(figuresInLayer.contains(figure)){
+            int idx = figuresInLayer.indexOf(figure);
+            figuresInLayer.addAll(idx, Arrays.asList(newFigures));
+        }
     }
 }

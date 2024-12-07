@@ -31,6 +31,13 @@ public class CanvasState<F extends Figure> {
         }
     }
 
+    @SafeVarargs
+    private void addFiguresInMiddle(F figure, F... figuresToAdd){
+        if(figure != null){
+            layers.get(currentLayer).addFiguresInMiddle(figure, figuresToAdd);
+        }
+    }
+
     public void deleteFigure() {
         if (selectedFigure != null) {
             layers.get(currentLayer).removeFigure(selectedFigure);
@@ -92,7 +99,7 @@ public class CanvasState<F extends Figure> {
     public void duplicate() {
         if (selectedFigure != null) {
             F newFigure =  (F) selectedFigure.duplicate();
-            addFigure(newFigure);
+            addFiguresInMiddle(selectedFigure, newFigure);
             setSelectedFigure(null);
         }
     }
@@ -103,8 +110,7 @@ public class CanvasState<F extends Figure> {
             Pair<F> figurePair = (Pair<F>) selectedFigure.divide();
             F figure1 = figurePair.getLeft();
             F figure2 = figurePair.getRight();
-            addFigure(figure1);
-            addFigure(figure2);
+            addFiguresInMiddle(selectedFigure, figure1, figure2);
             deleteFigure();
             setSelectedFigure(null);
         }
