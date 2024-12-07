@@ -42,8 +42,8 @@ public class FormattedSquare extends Square implements FormattedFigureRectangle 
     @Override
     public Pair<Figure> divide(){
         Pair<Pair<Point>> p = dividePoints();
-        FormattedSquare f1 = new FormattedSquare(p.getLeft().getLeft(), getSize(), format.duplicate(), gc);
-        FormattedSquare f2 = new FormattedSquare(p.getRight().getLeft(), getSize(), format.duplicate(), gc);
+        FormattedSquare f1 = new FormattedSquare(p.getLeft().getLeft(), getSize()/2, format.duplicate(), gc);
+        FormattedSquare f2 = new FormattedSquare(p.getRight().getLeft(), getSize()/2, format.duplicate(), gc);
         return new Pair<>(f1,f2);
     }
 
