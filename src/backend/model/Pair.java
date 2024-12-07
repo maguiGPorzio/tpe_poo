@@ -2,7 +2,7 @@ package backend.model;
 
 public class Pair<E> {
 
-    E left, right;
+    private final E left, right;
 
     public Pair(E left, E right){
         this.left = left;

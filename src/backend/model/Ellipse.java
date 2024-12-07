@@ -34,15 +34,18 @@ public class Ellipse implements Figure{
         centerPoint.move(diffX, diffY);
     }
 
+    @Override
     public void rotate(){
         setAxis(sMinorAxis, sMayorAxis);
     }
 
+    @Override
     public void flipV(){
         double diffY = sMinorAxis;
         centerPoint.move(0, -diffY);
     }
 
+    @Override
     public void flipH(){
         double diffX = sMayorAxis;
         centerPoint.move(diffX, 0);
@@ -53,14 +56,16 @@ public class Ellipse implements Figure{
         this.sMinorAxis = sMinorAxis;
     }
 
-    @Override
-    public Figure duplicate(){
-        Point newCenterPoint = new Point(centerPoint.getX() - OFFSET, centerPoint.getY() - OFFSET);
-        return new Ellipse(newCenterPoint, sMayorAxis, sMinorAxis);
+    protected Point duplicatePoint(){
+        return new Point(centerPoint.getX() - OFFSET, centerPoint.getY() - OFFSET);
     }
 
     @Override
-    public Pair<Figure> divide(){
+    public Figure duplicate(){
+        return new Ellipse(duplicatePoint(), sMayorAxis, sMinorAxis);
+    }
+
+    protected Pair<Point> dividePoints(){
         Point center1, center2;
         if(sMayorAxis >= sMinorAxis){ //respetando el eje horizontal
             center1 = new Point(centerPoint.getX() - sMayorAxis/4, centerPoint.getY());
@@ -70,11 +75,18 @@ public class Ellipse implements Figure{
             center1 = new Point(centerPoint.getX(), centerPoint.getY() - sMayorAxis/4);
             center2 = new Point(centerPoint.getX(), centerPoint.getY() + sMayorAxis/4);
         }
-        Ellipse sub1 = new Ellipse(center1, sMayorAxis/2, sMinorAxis/2);
-        Ellipse sub2 = new Ellipse(center2, sMayorAxis/2, sMinorAxis/2);
+        return new Pair<>(center1, center2);
+    }
+
+    @Override
+    public Pair<Figure> divide(){
+        Pair<Point> p = dividePoints();
+        Ellipse sub1 = new Ellipse(p.getLeft(), sMayorAxis/2, sMinorAxis/2);
+        Ellipse sub2 = new Ellipse(p.getRight(), sMayorAxis/2, sMinorAxis/2);
         return new Pair<>(sub1, sub2);
     }
 
+    @Override
     public boolean belongs(Point eventPoint){
         return (Math.pow(eventPoint.getX() - centerPoint.getX(), 2) / Math.pow(sMayorAxis, 2)) + (Math.pow(eventPoint.getY() - getCenterPoint().getY(), 2) / Math.pow(sMinorAxis, 2)) <= 0.30;
     }

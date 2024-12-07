@@ -1,4 +1,4 @@
-package frontend.drawable;
+package frontend.formatted;
 
 import backend.model.Figure;
 

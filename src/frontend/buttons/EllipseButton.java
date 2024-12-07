@@ -1,12 +1,10 @@
 package frontend.buttons;
 
-import frontend.drawable.Format;
-import backend.model.Figure;
+import frontend.formatted.Format;
 import backend.model.Point;
-import frontend.ShadowType;
-import frontend.drawable.DrawableEllipse;
+import frontend.formatted.FormattedEllipse;
+import frontend.formatted.FormattedFigure;
 import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.paint.Color;
 
 public class EllipseButton extends FigureButton{
     public EllipseButton(String action){
@@ -17,6 +15,6 @@ public class EllipseButton extends FigureButton{
         Point centerPoint = new Point(Math.abs(endPoint.getX() + startPoint.getX()) / 2, (Math.abs((endPoint.getY() + startPoint.getY())) / 2));
         double sMayorAxis = Math.abs(endPoint.getX() - startPoint.getX());
         double sMinorAxis = Math.abs(endPoint.getY() - startPoint.getY());
-        return new DrawableEllipse(centerPoint, sMayorAxis, sMinorAxis, format, gc);
+        return new FormattedEllipse(centerPoint, sMayorAxis, sMinorAxis, format, gc);
     }
 }

@@ -33,18 +33,21 @@ public class Rectangle implements Figure {
         bottomRight.move(diffX, diffY);
     }
 
+    @Override
     public void flipV(){
         double diffY = bottomRight.getY() - topLeft.getY();
         topLeft.move(0, diffY);
         bottomRight.move(0, diffY);
     }
 
+    @Override
     public void flipH(){
         double diffX = bottomRight.getX() - topLeft.getX();
         topLeft.move(diffX, 0);
         bottomRight.move(diffX, 0);
     }
 
+    @Override
     public void rotate(){
         Point centerPoint = getCenter();
         double topLeftX = centerPoint.getX() - (bottomRight.getY() - centerPoint.getY());
@@ -55,27 +58,41 @@ public class Rectangle implements Figure {
         bottomRight = new Point(bottomRightX, bottomRightY);
     }
 
-    @Override
-    public Figure duplicate(){
+    protected Pair<Point> duplicatePoint(){
         Point newTopLeft = new Point(topLeft.getX() - OFFSET, topLeft.getY() - OFFSET);
         Point newBottomRight = new Point(bottomRight.getX() - OFFSET, bottomRight.getY() - OFFSET);
-        return new Rectangle(newTopLeft, newBottomRight);
+        return new Pair<>(newTopLeft, newBottomRight);
+    }
+
+    @Override
+    public Figure duplicate(){
+        Pair<Point> point = duplicatePoint();
+        return new Rectangle(point.getLeft(), point.getRight());
+    }
+
+    protected Pair<Pair<Point>> dividePoints(){
+        double centerY = (topLeft.getY() + bottomRight.getY())/2;
+        double centerX = (topLeft.getX() + bottomRight.getX())/2;
+
+        Point s1topLeft = new Point(topLeft.getX(), centerY + (topLeft.getY() - bottomRight.getY())/4);
+        Point s1bottomRight = new Point(centerX, centerY - (topLeft.getY() - bottomRight.getY())/4);
+
+        Point s2topLeft = new Point(s1bottomRight.getX(), s1topLeft.getY());
+        Point s2bottomRight = new Point(bottomRight.getX(), s1bottomRight.getY());
+
+        return new Pair<>(new Pair<>(s1topLeft, s1bottomRight), new Pair<>(s2topLeft, s2bottomRight));
     }
 
     @Override
     public Pair<Figure> divide(){
         Figure sub1, sub2;
-        double centerY = (topLeft.getY() + bottomRight.getY())/2;
-        double centerX = (topLeft.getX() + bottomRight.getX())/2;
-        Point s1topLeft = new Point(topLeft.getX(), centerY + (topLeft.getY() - bottomRight.getY())/4);
-        Point s1bottomRight = new Point(centerX, centerY - (topLeft.getY() - bottomRight.getY())/4);
-        sub1 = new Rectangle(s1topLeft, s1bottomRight);
-        Point s2topLeft = new Point(s1bottomRight.getX(), s1topLeft.getY());
-        Point s2bottomRight = new Point(bottomRight.getX(), s1bottomRight.getY());
-        sub2 = new Rectangle(s2topLeft, s2bottomRight);
+        Pair<Pair<Point>> p = dividePoints();
+        sub1 = new Rectangle(p.getLeft().getLeft(), p.getLeft().getRight());
+        sub2 = new Rectangle(p.getRight().getLeft(), p.getRight().getRight());
         return new Pair<>(sub1, sub2);
     }
 
+    @Override
     public boolean belongs(Point eventPoint){
         return eventPoint.getX() > topLeft.getX() && eventPoint.getX() < bottomRight.getX() &&
                 eventPoint.getY() > topLeft.getY() && eventPoint.getY() < bottomRight.getY();

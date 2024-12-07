@@ -1,4 +1,4 @@
-package frontend.drawable;
+package frontend.formatted;
 
 import frontend.ShadowType;
 import javafx.scene.paint.Color;
@@ -50,5 +50,9 @@ public class Format {
 
     public void setShadow(ShadowType shadow) {
         this.shadow = shadow;
+    }
+
+    public Format duplicate(){
+        return new Format(bevel, shadow, color1, color2);
     }
 }

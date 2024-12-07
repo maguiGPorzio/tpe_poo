@@ -5,23 +5,25 @@ import backend.model.Figure;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Layer {
+public class Layer<F extends Figure> {
     private boolean visible;
-    private final List<Figure> figuresInLayer = new ArrayList<>();
+    private final List<F> figuresInLayer = new ArrayList<>();
 
     public Layer(){
         this.visible = true;
     }
 
-    public void addFigure(Figure figure){
-        figuresInLayer.add(figure);
+    public void addFigure(F figure){
+        if(!figuresInLayer.contains(figure)) {
+            figuresInLayer.add(figure);
+        }
     }
 
-    public void removeFigure(Figure figure){
+    public void removeFigure(F figure){
         figuresInLayer.remove(figure);
     }
 
-    public List<Figure> getFiguresInLayer(){
+    public List<F> getFiguresInLayer(){
         return figuresInLayer;
     }
 
@@ -37,12 +39,12 @@ public class Layer {
         return visible;
     }
 
-    public void moveToFront(Figure figure){
+    public void moveToFront(F figure){
         removeFigure(figure);
         figuresInLayer.addLast(figure);
     }
 
-    public void moveToBack(Figure figure){
+    public void moveToBack(F figure){
         removeFigure(figure);
         figuresInLayer.addFirst(figure);
     }

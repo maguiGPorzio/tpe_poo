@@ -1,4 +1,4 @@
-package frontend.drawable;
+package frontend.formatted;
 
 import backend.model.Point;
 import frontend.ShadowType;
@@ -9,7 +9,7 @@ import javafx.scene.paint.RadialGradient;
 import javafx.scene.paint.Stop;
 import javafx.scene.shape.ArcType;
 
-public interface DrawableFigureOval extends DrawableFigure {
+public interface FormattedFigureOval extends FormattedFigure {
 
     default void drawShade(ShadowType shadow, GraphicsContext gc, Color firstFillColor, Point centerPoint, double sMayorAxis, double sMinorAxis){
         if(!shadow.equals(ShadowType.NOSHADOW)){

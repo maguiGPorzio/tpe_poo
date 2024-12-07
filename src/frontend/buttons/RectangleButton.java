@@ -1,12 +1,10 @@
 package frontend.buttons;
 
-import frontend.drawable.Format;
-import backend.model.Figure;
+import frontend.formatted.Format;
 import backend.model.Point;
-import frontend.ShadowType;
-import frontend.drawable.DrawableRectangle;
+import frontend.formatted.FormattedFigure;
+import frontend.formatted.FormattedRectangle;
 import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.paint.Color;
 
 public class RectangleButton extends FigureButton{
     public RectangleButton(String action){
@@ -14,6 +12,6 @@ public class RectangleButton extends FigureButton{
     }
 
     public FormattedFigure generate(Point startPoint, Point endPoint, Format format, GraphicsContext gc){
-        return new DrawableRectangle(startPoint, endPoint, format, gc);
+        return new FormattedRectangle(startPoint, endPoint, format, gc);
     }
 }

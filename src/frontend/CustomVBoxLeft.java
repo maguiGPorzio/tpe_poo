@@ -1,6 +1,6 @@
 package frontend;
 
-import frontend.drawable.Format;
+import frontend.formatted.Format;
 import frontend.buttons.*;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
@@ -53,6 +53,7 @@ public class CustomVBoxLeft extends VBox {
 
         bevel.setSelected(false);
         shadowType.setValue(shadowType.getItems().getFirst());
+        deselectButton(copyFormatButton);
 
         for (ToggleButton tool : toolsArr) {
             tool.setMinWidth(BUTTON_MIN_WIDTH);
@@ -88,8 +89,6 @@ public class CustomVBoxLeft extends VBox {
     }
 
     public void setCopyFormatAction(EventHandler<ActionEvent> action){ //EventHandler<ActionEvent> especifica lo que pasa cuando el boton es presionado
-        copiedFormatedMode = true;
-        copyFormatButton.setSelected(true);
         copyFormatButton.setOnAction(action);
     }
 
@@ -102,7 +101,7 @@ public class CustomVBoxLeft extends VBox {
     }
 
     public ShadowType getShadow(){
-        return  ShadowType.values()[shadowType.getSelectionModel().getSelectedIndex()];
+        return ShadowType.values()[shadowType.getSelectionModel().getSelectedIndex()];
     }
 
     public Color getColor1(){

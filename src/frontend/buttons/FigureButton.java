@@ -1,11 +1,10 @@
 package frontend.buttons;
 
-import backend.model.Figure;
-import frontend.ShadowType;
+import frontend.formatted.FormattedFigure;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.ToggleButton;
 import backend.model.Point;
-import javafx.scene.paint.Color;
+import frontend.formatted.Format;
 
 public abstract class FigureButton extends ToggleButton {
     public FigureButton(String action){

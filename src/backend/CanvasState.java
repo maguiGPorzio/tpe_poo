@@ -2,24 +2,20 @@ package backend;
 
 import backend.model.Figure;
 import backend.model.Pair;
-import backend.model.Point;
-import frontend.ShadowType;
-import frontend.drawable.Format;
 
 import java.util.*;
 
-public class CanvasState {
+public class CanvasState<F extends Figure> {
 
     private final int INITIAL_LAYERS = 3;
     private int currentLayer = 1;
-    public final SortedMap<Integer, Layer> layers = new TreeMap<>(); //lo pongo publico para intentar
-    private Format copiedFormat;
-    private Figure selectedFigure;
+    private final SortedMap<Integer, Layer<F>> layers = new TreeMap<>();
+    private F selectedFigure;
 
     public CanvasState() {
         // Inicializar las capas iniciales
         for (int i = 1; i <= INITIAL_LAYERS; i++) {
-            layers.put(i, new Layer());
+            layers.put(i, new Layer<F>());
         }
     }
 
@@ -29,7 +25,7 @@ public class CanvasState {
         }
     }
 
-    public void addFigure(Figure figure) {
+    public void addFigure(F figure) {
         if(figure != null){
             layers.get(currentLayer).addFigure(figure);
         }
@@ -43,7 +39,7 @@ public class CanvasState {
     }
 
     public void addLayer(){
-        layers.put(layers.lastKey()+1, new Layer());
+        layers.put(layers.lastKey()+1, new Layer<>());
         changeLayer(layers.lastKey());
     }
 
@@ -51,7 +47,7 @@ public class CanvasState {
         if (currentLayer > INITIAL_LAYERS) {
             layers.remove(currentLayer);
             // nos posicionamos en la capa existente que le sigue.
-            int previousLayer=INITIAL_LAYERS;
+            int previousLayer = INITIAL_LAYERS;
             for(int l=3 ; l<currentLayer ; l++){
                 if(layers.containsKey(l)){
                     previousLayer = l;
@@ -68,47 +64,49 @@ public class CanvasState {
         if (layers.containsKey(layer)) {
             currentLayer = layer; // Cambiar a la capa indicada
             selectedFigure = null;
-        } else {
-            System.out.println("Error: Capa inválida."); //aca deberiamos ver tema errores
         }
     }
 
     public void rotate(){
-        List<Figure> l = figuresInLayer(currentLayer);
+        List<F> l = figuresInLayer(currentLayer);
         if(l.contains(selectedFigure)){
             selectedFigure.rotate();
         }
     }
 
     public void flipV(){
-        List<Figure> l = figuresInLayer(currentLayer);
+        List<F> l = figuresInLayer(currentLayer);
         if(l.contains(selectedFigure)){
             selectedFigure.flipV();
         }
     }
 
     public void flipH(){
-        List<Figure> l = figuresInLayer(currentLayer);
+        List<F> l = figuresInLayer(currentLayer);
         if(l.contains(selectedFigure)){
             selectedFigure.flipH();
         }
     }
 
+    @SuppressWarnings("unchecked")
     public void duplicate() {
         if (selectedFigure != null) {
-            Figure newFigure = selectedFigure.duplicate();
+            F newFigure =  (F) selectedFigure.duplicate();
             addFigure(newFigure);
+            setSelectedFigure(null);
         }
     }
 
+    @SuppressWarnings("unchecked")
     public void divide(){
         if(selectedFigure != null) {
-            Pair<Figure> figurePair = selectedFigure.divide();
-            Figure figure1 = figurePair.getLeft();
-            Figure figure2 = figurePair.getRight();
+            Pair<F> figurePair = (Pair<F>) selectedFigure.divide();
+            F figure1 = figurePair.getLeft();
+            F figure2 = figurePair.getRight();
             addFigure(figure1);
             addFigure(figure2);
             deleteFigure();
+            setSelectedFigure(null);
         }
     }
 
@@ -122,14 +120,14 @@ public class CanvasState {
     }
 
     public void moveToFront(){
-        List<Figure> l = figuresInLayer(currentLayer);
+        List<F> l = figuresInLayer(currentLayer);
         if(l.contains(selectedFigure)){
             layers.get(currentLayer).moveToFront(selectedFigure);
         }
     }
 
     public void moveToBack(){
-        List<Figure> l = figuresInLayer(currentLayer);
+        List<F> l = figuresInLayer(currentLayer);
         // se mueve la figura únicamente si ésta pertenece a la capa seleccionada
         if(l.contains(selectedFigure)){
             layers.get(currentLayer).moveToBack(selectedFigure);
@@ -147,8 +145,8 @@ public class CanvasState {
         return toReturn;
     }
 
-    private Iterable<Figure> getFigures(Iterable<Integer> givenLayers){
-        List<Figure> toReturn = new ArrayList<>();
+    private Iterable<F> getFigures(Iterable<Integer> givenLayers){
+        List<F> toReturn = new ArrayList<>();
         for(int layer : givenLayers){
             toReturn.addAll(layers.get(layer).getFiguresInLayer());
         }
@@ -156,35 +154,34 @@ public class CanvasState {
     }
 
 
-    public List<Figure> figuresInLayer(int layer){
-        return layers.getOrDefault(layer, new Layer()).getFiguresInLayer();
+    public List<F> figuresInLayer(int layer){
+        return layers.getOrDefault(layer, new Layer<>()).getFiguresInLayer();
     }
 
-    public List<Figure> getCurrentFigures(){
+    public List<F> getCurrentFigures(){
         return figuresInLayer(currentLayer);
     }
 
-    public Iterable<Figure> figures() {
+    public Iterable<F> figures() {
         return getFigures(layers.keySet());
     }
 
-    public Iterable<Figure> visibleFigures(){
+    public Iterable<F> visibleFigures(){
         return getFigures(getVisibleLayers());
     }
 
-    public void setSelectedFigure(Figure figure){ this.selectedFigure = figure; }
+    public void setSelectedFigure(F figure){ this.selectedFigure = figure; }
 
-    public Figure getSelectedFigure() {
+    public F getSelectedFigure() {
         return selectedFigure;
     }
 
-    public boolean belongsInCurrentLayer(Figure figure){
+    public boolean belongsInCurrentLayer(F figure){
         return layers.get(currentLayer).getFiguresInLayer().contains(figure);
     }
 
     public boolean isCurrentLayerVisible(){
         return layers.get(currentLayer).isVisible();
     }
-
 
 }
