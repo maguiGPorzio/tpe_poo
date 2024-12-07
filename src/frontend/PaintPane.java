@@ -17,7 +17,7 @@ public class PaintPane extends BorderPane {
 
 	private static final int CANVAS_WIDTH = 800;
 	private static final int CANVAS_HEIGHT = 600;
-	private static final Color LINE_COLOR = Color.BLUE;
+	private static final Color LINE_COLOR = Color.BLACK;
 	private static final int LINE_WIDTH = 1;
 
 	Canvas canvas = new Canvas(CANVAS_WIDTH, CANVAS_HEIGHT);
