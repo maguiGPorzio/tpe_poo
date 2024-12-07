@@ -17,7 +17,7 @@ public class PaintPane extends BorderPane {
 
 	private static final int CANVAS_WIDTH = 800;
 	private static final int CANVAS_HEIGHT = 600;
-	private static final Color LINE_COLOR = Color.BLACK;
+	private static final Color LINE_COLOR = Color.BLUE;
 	private static final int LINE_WIDTH = 1;
 
 	Canvas canvas = new Canvas(CANVAS_WIDTH, CANVAS_HEIGHT);
@@ -32,6 +32,7 @@ public class PaintPane extends BorderPane {
 		this.canvasState = canvasState;
 		this.statusPane = statusPane;
 		gc.setLineWidth(LINE_WIDTH);
+		gc.setStroke(LINE_COLOR);
 
 		canvas.setOnMousePressed(event -> startPoint = new Point(event.getX(), event.getY()));
 
