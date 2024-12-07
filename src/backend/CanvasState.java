@@ -61,8 +61,6 @@ public class CanvasState<F extends Figure> {
                 }
             } 
             changeLayer(previousLayer);
-        } else {
-            System.out.println("No se pueden eliminar las capas iniciales."); //aca deberiamos ver tema errores
         }
     }
 

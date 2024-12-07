@@ -3,7 +3,7 @@ package frontend;
 import javafx.scene.paint.Color;
 
 public enum ShadowType {
-    NOSHADOW(0.0, 0.0) {
+    NO_SHADOW(0.0, 0.0) {
       @Override
       public Color getShadeColor(Color base) {return base;}
     }, SIMPLE(10.0, 10.0){

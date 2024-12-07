@@ -1,6 +1,5 @@
 package frontend;
 
-import backend.CanvasState;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -83,10 +82,9 @@ public class CustomHBox extends HBox {
         hideButton.setOnAction(action);
     }
 
-    //Layers buttons
+//  ------------* LAYERS BUTTONS *-------------
     public int getCurrentLayer(){
-        int i = getLayerFromString(layers.getSelectionModel().getSelectedItem());
-        return i;
+        return getLayerFromString(layers.getSelectionModel().getSelectedItem());
     }
 
     public void setChangeLayerAction(EventHandler<ActionEvent> action){
@@ -98,16 +96,13 @@ public class CustomHBox extends HBox {
         removeLayerButton.setOnAction(event -> {
             currentLayer=getCurrentLayer();
             if (currentLayer > MIN_LAYERS) {
-                System.out.println("La current layer en el front antes de borrar es: Capa %d".formatted(currentLayer));
                 String layerToRemove = "Capa %d".formatted(currentLayer);
-                int layerBelowNumber=getLayerBelow();//esto tiene que ir aca si o si, antes de sacar la layer de la lista
+                int layerBelowNumber=getLayerBelow();
                 layersList.removeIf( s -> s.equals(layerToRemove));
                 layers.getItems().removeIf(s -> s.equals(layerToRemove));
                 currentLayer = Math.max(MIN_LAYERS, layerBelowNumber);
                 layers.setValue(layersList.get(findCurrentIndex()));
                 lastLayer = getLayerFromString(layersList.getLast());
-                System.out.println("After removal");
-                System.out.println(layersList);
             }
             action.handle(event);
         });
@@ -121,8 +116,6 @@ public class CustomHBox extends HBox {
             currentLayer = lastLayer;
             layers.setValue(layersList.getLast());
             action.handle(event);
-            System.out.println("After adding");
-            System.out.println(layersList);
         });
     }
 
@@ -131,7 +124,7 @@ public class CustomHBox extends HBox {
         hideButton.setSelected(!visibility);
     }
 
-    //funciones privadas auxiliares
+//  -------------* PRIVATE AUX FUNCTIONS *---------------
     private int findCurrentIndex(){
         return layersList.indexOf("Capa %d".formatted(currentLayer));
     }

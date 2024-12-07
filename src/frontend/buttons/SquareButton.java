@@ -12,7 +12,10 @@ public class SquareButton extends FigureButton{
     }
 
     public FormattedFigure generate(Point startPoint, Point endPoint, Format format, GraphicsContext gc){
-        double size = Math.abs(endPoint.getX() - startPoint.getX());
-        return new FormattedSquare(startPoint, size, format.duplicate(), gc);
+        if(startPoint.atLeft(endPoint) && startPoint.above(endPoint)){
+            double size = Math.abs(endPoint.getX() - startPoint.getX());
+            return new FormattedSquare(startPoint, size, format.duplicate(), gc);
+        }
+        return null;
     }
 }

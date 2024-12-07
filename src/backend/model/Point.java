@@ -31,6 +31,28 @@ public class Point implements Movable {
     }
 
     public double distance(Point other){
-        return Math.pow((Math.pow(x-other.x,2))+(Math.pow(y-other.y, 2)), 0.5);
+        if(other != null){
+            return Math.pow((Math.pow(x-other.x,2))+(Math.pow(y-other.y, 2)), 0.5);
+        }
+        return 0;
+    }
+
+    public boolean atLeft(Point other){
+        if(other != null){
+            return this.x < other.x;
+        }
+        return false;
+    }
+    public boolean atRight(Point other){
+        return !atLeft(other);
+    }
+    public boolean under(Point other){
+        if(other != null){
+            return this.y > other.y;
+        }
+        return false;
+    }
+    public boolean above(Point other){
+        return !under(other);
     }
 }

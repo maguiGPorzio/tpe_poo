@@ -12,6 +12,9 @@ public class RectangleButton extends FigureButton{
     }
 
     public FormattedFigure generate(Point startPoint, Point endPoint, Format format, GraphicsContext gc){
-        return new FormattedRectangle(startPoint, endPoint, format, gc);
+        if(startPoint.atLeft(endPoint) && startPoint.above(endPoint)){
+            return new FormattedRectangle(startPoint, endPoint, format, gc);
+        }
+        return null;
     }
 }

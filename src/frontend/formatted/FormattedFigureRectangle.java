@@ -11,12 +11,7 @@ import javafx.scene.paint.Stop;
 public interface FormattedFigureRectangle extends FormattedFigure {
 
     default void drawShade(ShadowType shadow, GraphicsContext gc, Color firstFillColor, Point topLeft, Point bottomRight){
-        // aca me queda la duda si no es mejor estilo directamente no hacer el if
-        // y que dibuje arriba (?
-        // no se como quedara
-        // pero es pq NOSHADOW tiene implementado el getShadeColor tb
-
-        if(!shadow.equals(ShadowType.NOSHADOW)) {
+        if(!shadow.equals(ShadowType.NO_SHADOW)) {
             gc.setFill(shadow.getShadeColor(firstFillColor));
             gc.fillRect(topLeft.getX() + shadow.getOffsetX(), topLeft.getY() + shadow.getOffsetY(), Math.abs(topLeft.getX() - bottomRight.getX()), Math.abs(topLeft.getY() - bottomRight.getY()));
         }
@@ -47,7 +42,6 @@ public interface FormattedFigureRectangle extends FormattedFigure {
     }
 
     default void drawRectangle(Format format, GraphicsContext gc, boolean isSelected, Point topLeft, Point bottomRight){
-        if(topLeft.getX() < bottomRight.getX() && topLeft.getY() < bottomRight.getY()){
             drawShade(format.getShadow(), gc, format.getColor1(), topLeft, bottomRight);
             drawBevel(format.getBevel(), gc, topLeft, bottomRight);
             drawGradient(gc, format.getColor1(), format.getColor2());
@@ -56,7 +50,6 @@ public interface FormattedFigureRectangle extends FormattedFigure {
             double height = Math.abs(topLeft.getY() - bottomRight.getY());
             gc.fillRect(topLeft.getX(), topLeft.getY(), width, height);
             gc.strokeRect(topLeft.getX(), topLeft.getY(), width, height);
-        }
     }
 
 }

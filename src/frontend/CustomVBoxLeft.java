@@ -29,7 +29,7 @@ public class CustomVBoxLeft extends VBox {
     private static final Color DEFAULT_FILL_COLOR = Color.YELLOW;
     private static final Color DEFAULT_SECOND_COLOR = Color.ORANGE;
     private boolean copiedFormatedMode = false;
-    private Format savedFormat = new Format(false, ShadowType.NOSHADOW, DEFAULT_FILL_COLOR, DEFAULT_SECOND_COLOR );
+    private Format savedFormat = new Format(false, ShadowType.NO_SHADOW, DEFAULT_FILL_COLOR, DEFAULT_SECOND_COLOR );
 
     private final ToggleButton selectionButton = new ToggleButton(SELECT);
     private final FigureButton rectangleButton = new RectangleButton(RECTANGLE);

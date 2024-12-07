@@ -1,7 +1,6 @@
 package frontend;
 
 import backend.CanvasState;
-import frontend.formatted.DrawableFigure;
 import frontend.formatted.FormattedFigure;
 import javafx.scene.layout.VBox;
 

@@ -72,18 +72,20 @@ public class PaintPane extends BorderPane {
 
 				for (FormattedFigure figure : canvasState.getCurrentFigures().reversed()) {
 					if (figureBelongs(figure, eventPoint) && canvasState.belongsInCurrentLayer(figure)) {
-						lBox.setProperties(figure.getFormat());
+						lBox.setProperties(figure.getFormat().duplicate());
+						found = true;
 						if (figure == canvasState.getSelectedFigure()) { //al volver a clickear, se deselecciona
 							canvasState.setSelectedFigure(null);
 						}
 						else{
-							found = true;
 							canvasState.setSelectedFigure(figure);
 							label.append(figure);
 							if (lBox.hasCopiedFormat()) {
 								figure.setFormat(lBox.getCopiedFormat().duplicate());
+								lBox.setProperties(figure.getFormat().duplicate());
 							}
 						}
+						redrawCanvas();
 						break;
 					}
 				}
