@@ -1,6 +1,7 @@
 package frontend;
 
 import backend.CanvasState;
+import frontend.formatted.FormattedFigure;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
@@ -13,7 +14,7 @@ public class AppLauncher extends Application {
 
 	@Override
 	public void start(Stage primaryStage) { //configuras tu vetana principal (stage) y su contenido
-		CanvasState canvasState = new CanvasState(); // BackEnd
+		CanvasState<FormattedFigure> canvasState = new CanvasState<>(); // BackEnd
 		MainFrame frame = new MainFrame(canvasState);
 		Scene scene = new Scene(frame); //representacion visual que sera mostrada en el stage, contenido principal visual de la escena es frame
 		primaryStage.setResizable(false); //hace que la ventana no se pueda cambiar de tamano

@@ -15,7 +15,7 @@ public class CanvasState<F extends Figure> {
     public CanvasState() {
         // Inicializar las capas iniciales
         for (int i = 1; i <= INITIAL_LAYERS; i++) {
-            layers.put(i, new Layer<F>());
+            layers.put(i, new Layer<>());
         }
     }
 
