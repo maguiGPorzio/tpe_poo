@@ -51,35 +51,25 @@ public class CustomVBoxRight extends VBox {
     }
 
     public void setFlipVAction(EventHandler<ActionEvent> action){
-        flipVButton.setOnAction(event -> {
-            flipVButton.setSelected(false);
-            action.handle(event);
-        });
+        buttonSetOnAction(action,flipVButton);
     }
     public void setFlipHAction(EventHandler<ActionEvent> action){
-        flipHButton.setOnAction(event -> {
-            flipHButton.setSelected(false);
-            action.handle(event);
-        });
+        buttonSetOnAction(action,flipHButton);
     }
     public void setRotateAction(EventHandler<ActionEvent> action){
-        rotateButton.setOnAction(event -> {
-            rotateButton.setSelected(false);
-            action.handle(event);
-        });
+        buttonSetOnAction(action,rotateButton);
     }
     public void setDuplicateAction(EventHandler<ActionEvent> action){
-        duplicateButton.setOnAction(event -> {
-            duplicateButton.setSelected(false);
-            action.handle(event);
-        });
+        buttonSetOnAction(action,duplicateButton);
     }
     public void setDivideAction(EventHandler<ActionEvent> action){
-        divideButton.setOnAction(event -> {
-            divideButton.setSelected(false);
+        buttonSetOnAction(action,divideButton);
+    }
+
+    public void buttonSetOnAction(EventHandler<ActionEvent> action, ToggleButton button){
+        button.setOnAction(event -> {
+            button.setSelected(false);
             action.handle(event);
         });
     }
-
-
 }
