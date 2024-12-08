@@ -50,15 +50,36 @@ public class CustomVBoxRight extends VBox {
         getChildren().addAll(title, rotateButton,flipHButton,flipVButton,duplicateButton, divideButton);
     }
 
-    public void setFlipVAction(EventHandler<ActionEvent> action){flipVButton.setOnAction(action); deselectButton(flipVButton);}
-    public void setFlipHAction(EventHandler<ActionEvent> action){flipHButton.setOnAction(action); deselectButton(flipHButton);}
-    public void setRotateAction(EventHandler<ActionEvent> action){rotateButton.setOnAction(action); deselectButton(rotateButton);}
-    public void setDuplicateAction(EventHandler<ActionEvent> action){duplicateButton.setOnAction(action); deselectButton(duplicateButton);}
-    public void setDivideAction(EventHandler<ActionEvent> action){divideButton.setOnAction(action); deselectButton(divideButton);}
-
-    private void deselectButton(ToggleButton button){
-        button.setSelected(false);
-        button.setFocusTraversable(false);
+    public void setFlipVAction(EventHandler<ActionEvent> action){
+        flipVButton.setOnAction(event -> {
+            flipVButton.setSelected(false);
+            action.handle(event);
+        });
     }
+    public void setFlipHAction(EventHandler<ActionEvent> action){
+        flipHButton.setOnAction(event -> {
+            flipHButton.setSelected(false);
+            action.handle(event);
+        });
+    }
+    public void setRotateAction(EventHandler<ActionEvent> action){
+        rotateButton.setOnAction(event -> {
+            rotateButton.setSelected(false);
+            action.handle(event);
+        });
+    }
+    public void setDuplicateAction(EventHandler<ActionEvent> action){
+        duplicateButton.setOnAction(event -> {
+            duplicateButton.setSelected(false);
+            action.handle(event);
+        });
+    }
+    public void setDivideAction(EventHandler<ActionEvent> action){
+        divideButton.setOnAction(event -> {
+            divideButton.setSelected(false);
+            action.handle(event);
+        });
+    }
+
 
 }

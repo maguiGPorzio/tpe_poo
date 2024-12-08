@@ -1,0 +1,358 @@
+@startuml
+
+class AppLauncher {
+  + AppLauncher(): 
+  + start(Stage): void
+  + main(String[]): void
+}
+class AppMenuBar {
+  + AppMenuBar(): 
+}
+class CanvasState<F> {
+  + CanvasState(): 
+  - currentLayer: int
+  - selectedFigure: F
+  - addFiguresInMiddle(F, F[]): void
+  + figures(): Iterable<F>
+  + addFigure(F): void
+  + deleteFigure(): void
+  + rotate(): void
+  + duplicate(): void
+  + flipH(): void
+  + showLayer(): void
+  + figuresInLayer(int): List<F>
+  + flipV(): void
+  + changeLayer(int): void
+  + addLayer(): void
+  + moveToFront(): void
+  + belongsInCurrentLayer(F): boolean
+  + removeLayer(): void
+  + hideLayer(): void
+  + visibleFigures(): Iterable<F>
+  + moveToBack(): void
+  - getFigures(Iterable<Integer>): Iterable<F>
+  + divide(): void
+   selectedFigure: F
+   visibleLayers: Iterable<Integer>
+   currentLayer: int
+   currentFigures: List<F>
+   currentLayerVisible: boolean
+}
+interface Choosable << interface >> {
+  + belongs(Point): boolean
+}
+class Circle {
+  + Circle(Point, double): 
+  + toString(): String
+   radius: double
+}
+class CircleButton {
+  + CircleButton(String): 
+  + generate(Point, Point, Format, GraphicsContext): FormattedFigure
+}
+class CustomHBox {
+  + CustomHBox(): 
+  - currentLayer: int
+  - getLayerBelowIndex(String): int
+  - findCurrentIndex(): int
+  - getLayerFromString(String): int
+   moveToFrontAction: EventHandler<ActionEvent>
+   showAction: EventHandler<ActionEvent>
+   addLayerAction: EventHandler<ActionEvent>
+   changeLayerAction: EventHandler<ActionEvent>
+   removeLayerAction: EventHandler<ActionEvent>
+   hideAction: EventHandler<ActionEvent>
+   layerVisibility: boolean
+   layerBelow: int
+   moveToBackAction: EventHandler<ActionEvent>
+   currentLayer: int
+}
+class CustomVBoxLeft {
+  + CustomVBoxLeft(): 
+  - savedFormat: Format
+  - bevel: CheckBox
+  + hasCopiedFormat(): boolean
+  - deselectButton(ToggleButton): void
+   format: Format
+   bevel: boolean
+   bevelAction: EventHandler<ActionEvent>
+   color2Action: EventHandler<ActionEvent>
+   color1Action: EventHandler<ActionEvent>
+   color1: Color
+   color2: Color
+   changeShadowAction: EventHandler<ActionEvent>
+   copyFormatAction: EventHandler<ActionEvent>
+   properties: Format
+   copiedFormat: Format
+   selectionButtonSelected: boolean
+   figureButtons: ToggleGroup
+   figureSelected: boolean
+   savedFormat: Format
+   eraseAction: EventHandler<ActionEvent>
+   shadow: ShadowType
+}
+class CustomVBoxRight {
+  + CustomVBoxRight(): 
+  - deselectButton(ToggleButton): void
+   divideAction: EventHandler<ActionEvent>
+   rotateAction: EventHandler<ActionEvent>
+   duplicateAction: EventHandler<ActionEvent>
+   flipVAction: EventHandler<ActionEvent>
+   flipHAction: EventHandler<ActionEvent>
+}
+interface Divisible<E> << interface >> {
+  + divide(): Pair<E>
+}
+interface DrawableFigure << interface >> {
+  + draw(boolean): void
+}
+interface Duplicable<E> << interface >> {
+  + duplicate(): E
+}
+class Ellipse {
+  + Ellipse(Point, double, double): 
+  # centerPoint: Point
+  # sMinorAxis: double
+  # sMayorAxis: double
+  + toString(): String
+  + flipH(): void
+  + move(double, double): void
+  + belongs(Point): boolean
+  + divide(): Pair<Figure>
+  - setAxis(double, double): void
+  # dividePoints(): Pair<Point>
+  + flipV(): void
+  # duplicatePoint(): Point
+  + duplicate(): Figure
+  + rotate(): void
+   sMayorAxis: double
+   centerPoint: Point
+   sMinorAxis: double
+}
+class EllipseButton {
+  + EllipseButton(String): 
+  + generate(Point, Point, Format, GraphicsContext): FormattedFigure
+}
+interface Figure << interface >> {
+  + belongs(Point): boolean
+  + rotate(): void
+  + flipH(): void
+  + duplicate(): Figure
+  + flipV(): void
+  + divide(): Pair<Figure>
+}
+class FigureButton {
+  + FigureButton(String): 
+  + generate(Point, Point, Format, GraphicsContext): FormattedFigure
+}
+interface Flippable << interface >> {
+  + flipV(): void
+  + flipH(): void
+}
+class Format {
+  + Format(boolean, ShadowType, Color, Color): 
+  - color2: Color
+  - bevel: boolean
+  - shadow: ShadowType
+  - color1: Color
+  + duplicate(): Format
+  + setProperties(ShadowType, boolean, Color, Color): void
+   color1: Color
+   color2: Color
+   shadow: ShadowType
+   bevel: boolean
+}
+class FormattedCircle {
+  + FormattedCircle(Point, double, Format, GraphicsContext): 
+  - format: Format
+  + duplicate(): Figure
+  + draw(boolean): void
+  + divide(): Pair<Figure>
+   color1: Color
+   color2: Color
+   format: Format
+   shadow: ShadowType
+   bevel: boolean
+}
+class FormattedEllipse {
+  + FormattedEllipse(Point, double, double, Format, GraphicsContext): 
+  - format: Format
+  + divide(): Pair<Figure>
+  + draw(boolean): void
+  + duplicate(): Figure
+   color1: Color
+   color2: Color
+   format: Format
+   shadow: ShadowType
+   bevel: boolean
+}
+interface FormattedFigure << interface >> {
+   color1: Color
+   color2: Color
+   format: Format
+   shadow: ShadowType
+   bevel: boolean
+}
+interface FormattedFigureOval << interface >> {
+  + drawShade(ShadowType, GraphicsContext, Color, Point, double, double): void
+  + drawGradient(GraphicsContext, Color, Color): void
+  + drawBevel(boolean, GraphicsContext, double, double, double, double): void
+  + drawOval(Format, GraphicsContext, boolean, Point, Double, Double): void
+}
+interface FormattedFigureRectangle << interface >> {
+  + drawGradient(GraphicsContext, Color, Color): void
+  + drawShade(ShadowType, GraphicsContext, Color, Point, Point): void
+  + drawBevel(boolean, GraphicsContext, Point, Point): void
+  + drawRectangle(Format, GraphicsContext, boolean, Point, Point): void
+}
+class FormattedRectangle {
+  + FormattedRectangle(Point, Point, Format, GraphicsContext): 
+  - format: Format
+  + divide(): Pair<Figure>
+  + draw(boolean): void
+  + duplicate(): Figure
+   color1: Color
+   color2: Color
+   format: Format
+   shadow: ShadowType
+   bevel: boolean
+}
+class FormattedSquare {
+  + FormattedSquare(Point, double, Format, GraphicsContext): 
+  - format: Format
+  + draw(boolean): void
+  + duplicate(): Figure
+  + divide(): Pair<Figure>
+   color1: Color
+   color2: Color
+   format: Format
+   shadow: ShadowType
+   bevel: boolean
+}
+class Layer<F> {
+  + Layer(): 
+  - visible: boolean
+  - figuresInLayer: List<F>
+  + showLayer(): void
+  + moveToBack(F): void
+  + addFigure(F): void
+  + removeFigure(F): void
+  + moveToFront(F): void
+  + hideLayer(): void
+  + addFiguresInMiddle(F, F[]): void
+   visible: boolean
+   figuresInLayer: List<F>
+}
+class MainFrame {
+  + MainFrame(CanvasState<FormattedFigure>): 
+}
+interface Movable << interface >> {
+  + move(double, double): void
+}
+class PaintPane {
+  + PaintPane(CanvasState<FormattedFigure>, StatusPane): 
+  - redrawCanvas(): void
+  - figureBelongs(Figure, Point): boolean
+  - generateFigure(Point, Point): FormattedFigure?
+}
+class Pair<E> {
+  + Pair(E, E): 
+  - left: E
+  - right: E
+   right: E
+   left: E
+}
+class Point {
+  + Point(double, double): 
+  - x: double
+  - y: double
+  + above(Point): boolean
+  + atLeft(Point): boolean
+  + under(Point): boolean
+  + move(double, double): void
+  + distance(Point): double
+  + atRight(Point): boolean
+  + toString(): String
+   x: double
+   y: double
+}
+class Rectangle {
+  + Rectangle(Point, Point): 
+  # bottomRight: Point
+  # topLeft: Point
+  + flipH(): void
+  + rotate(): void
+  # dividePoints(): Pair<Pair<Point>>
+  + toString(): String
+  # duplicatePoint(): Pair<Point>
+  + belongs(Point): boolean
+  + duplicate(): Figure
+  + move(double, double): void
+  + flipV(): void
+  + divide(): Pair<Figure>
+   topLeft: Point
+   bottomRight: Point
+   center: Point
+}
+class RectangleButton {
+  + RectangleButton(String): 
+  + generate(Point, Point, Format, GraphicsContext): FormattedFigure
+}
+interface Rotable << interface >> {
+  + rotate(): void
+}
+enum ShadowType << enumeration >> {
+  - ShadowType(double, double): 
+  - offsetX: double
+  - offsetY: double
+  + valueOf(String): ShadowType
+  + values(): ShadowType[]
+  + getShadeColor(Color): Color
+   offsetX: double
+   offsetY: double
+}
+class Square {
+  + Square(Point, double): 
+  # size: double
+  + toString(): String
+   size: double
+}
+class SquareButton {
+  + SquareButton(String): 
+  + generate(Point, Point, Format, GraphicsContext): FormattedFigure
+}
+class StatusPane {
+  + StatusPane(): 
+  + updateStatus(String): void
+}
+
+CanvasState               -[#595959,dashed]->  Figure                   
+Circle                    -[#000082,plain]-^  Ellipse                  
+CircleButton              -[#000082,plain]-^  FigureButton             
+DrawableFigure            -[#008200,plain]-^  Figure                   
+Ellipse                   -[#008200,dashed]-^  Figure                   
+EllipseButton             -[#000082,plain]-^  FigureButton             
+Figure                    -[#008200,plain]-^  Choosable                
+Figure                    -[#008200,plain]-^  Divisible                
+Figure                    -[#008200,plain]-^  Duplicable               
+Figure                    -[#008200,plain]-^  Flippable                
+Figure                    -[#008200,plain]-^  Movable                  
+Figure                    -[#008200,plain]-^  Rotable                  
+FormattedCircle           -[#000082,plain]-^  Circle                   
+FormattedCircle           -[#008200,dashed]-^  FormattedFigureOval      
+FormattedEllipse          -[#000082,plain]-^  Ellipse                  
+FormattedEllipse          -[#008200,dashed]-^  FormattedFigureOval      
+FormattedFigure           -[#008200,plain]-^  DrawableFigure           
+FormattedFigureOval       -[#008200,plain]-^  FormattedFigure          
+FormattedFigureRectangle  -[#008200,plain]-^  FormattedFigure          
+FormattedRectangle        -[#008200,dashed]-^  FormattedFigureRectangle 
+FormattedRectangle        -[#000082,plain]-^  Rectangle                
+FormattedSquare           -[#008200,dashed]-^  FormattedFigureRectangle 
+FormattedSquare           -[#000082,plain]-^  Square                   
+Layer                     -[#595959,dashed]->  Figure                   
+Point                     -[#008200,dashed]-^  Movable                  
+Rectangle                 -[#008200,dashed]-^  Figure                   
+RectangleButton           -[#000082,plain]-^  FigureButton             
+Square                    -[#000082,plain]-^  Rectangle                
+SquareButton              -[#000082,plain]-^  FigureButton             
+@enduml

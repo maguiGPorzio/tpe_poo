@@ -40,14 +40,14 @@ public interface FormattedFigureRectangle extends FormattedFigure {
     }
 
     default void drawRectangle(Format format, GraphicsContext gc, boolean isSelected, Point topLeft, Point bottomRight){
-            drawShade(format.getShadow(), gc, format.getColor1(), topLeft, bottomRight);
-            drawBevel(format.getBevel(), gc, topLeft, bottomRight);
-            drawGradient(gc, format.getColor1(), format.getColor2());
-            gc.setStroke(isSelected ? Color.RED : Color.BLACK);
-            double width = Math.abs(topLeft.getX() - bottomRight.getX());
-            double height = Math.abs(topLeft.getY() - bottomRight.getY());
-            gc.fillRect(topLeft.getX(), topLeft.getY(), width, height);
-            gc.strokeRect(topLeft.getX(), topLeft.getY(), width, height);
+               drawShade(format.getShadow(), gc, format.getColor1(), topLeft, bottomRight);
+               drawBevel(format.getBevel(), gc, topLeft, bottomRight);
+               drawGradient(gc, format.getColor1(), format.getColor2());
+               gc.setStroke(isSelected ? Color.RED : Color.BLACK);
+               double width = Math.abs(topLeft.getX() - bottomRight.getX());
+               double height = Math.abs(topLeft.getY() - bottomRight.getY());
+               gc.fillRect(topLeft.getX(), topLeft.getY(), width, height);
+               gc.strokeRect(topLeft.getX(), topLeft.getY(), width, height);
     }
 
 }
