@@ -1,9 +1,9 @@
 # TPE Final 2024 - Programación Orientada a Objetos
 
 🎨 **Resumen**  
-Este proyecto es el Trabajo Final para Programacion Orientada a Objetos en Diciembre 2024. Desarrollamos una aplicación tipo "Paint" con diversas funcionalidades avanzadas:
+Este proyecto es el Trabajo Final para Programación Orientada a Objetos en diciembre 2024. Desarrollamos una aplicación tipo "Paint" con diversas funcionalidades avanzadas:
 
-- Herramienta de creacion de rectangulos, cuadrados, circulos y elipses con diversos formatos.
+- Herramienta de creación de rectángulos, cuadrados, círculos y elipses con diversos formatos.
 - Transformaciones:
     - Dividir y duplicar figuras.
     - Voltear horizontal y verticalmente.
