@@ -28,7 +28,6 @@ public class CustomVBoxLeft extends VBox {
     private final static String ERASE="Borrar";
     private static final Color DEFAULT_FILL_COLOR = Color.YELLOW;
     private static final Color DEFAULT_SECOND_COLOR = Color.ORANGE;
-    private boolean copiedFormatedMode = false;
     private Format savedFormat = null;
 
     private final ToggleButton selectionButton = new ToggleButton(SELECT);
@@ -133,19 +132,19 @@ public class CustomVBoxLeft extends VBox {
         secondFillColorPicker.setOnAction(action);
     }
 
-    public Format getCopiedFormat(){ //al ser llamada, apaga la flag copiedFormatMode
-        copiedFormatedMode = false;
+    public Format getCopiedFormat(){ //al ser llamada, desactiva el modo copiarFormato
         deselectButton(copyFormatButton);
-        return savedFormat;
+        Format toReturn = savedFormat;
+        savedFormat = null;
+        return toReturn;
     }
 
     public void setSavedFormat(Format format){
-        copiedFormatedMode = true;
         savedFormat = format;
     }
 
     public boolean hasCopiedFormat(){
-        return copiedFormatedMode;
+        return copyFormatButton.isSelected() && savedFormat!=null;
     }
 
     public void setProperties(Format format){

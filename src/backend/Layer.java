@@ -15,7 +15,7 @@ public class Layer<F extends Figure> {
     }
 
     public void addFigure(F figure){
-        if(!figuresInLayer.contains(figure)) {
+        if(figure != null && !figuresInLayer.contains(figure)) {
             figuresInLayer.add(figure);
         }
     }
@@ -52,7 +52,7 @@ public class Layer<F extends Figure> {
 
     @SafeVarargs
     public final void addFiguresInMiddle(F figure, F... newFigures){
-        if(figuresInLayer.contains(figure)){
+        if(figure != null && figuresInLayer.contains(figure)){
             int idx = figuresInLayer.indexOf(figure);
             figuresInLayer.addAll(idx, Arrays.asList(newFigures));
         }
