@@ -54,7 +54,9 @@ public class Layer<F extends Figure> {
     public final void addFiguresInMiddle(F figure, F... newFigures){
         if(figure != null && figuresInLayer.contains(figure)){
             int idx = figuresInLayer.indexOf(figure);
-            figuresInLayer.addAll(idx, Arrays.asList(newFigures));
+            figuresInLayer.remove(figure);
+            figuresInLayer.add(idx, figure);
+            figuresInLayer.addAll(idx + 1, Arrays.asList(newFigures));
         }
     }
 }

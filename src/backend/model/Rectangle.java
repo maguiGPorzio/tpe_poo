@@ -59,8 +59,8 @@ public class Rectangle implements Figure {
     }
 
     protected Pair<Point> duplicatePoint(){
-        Point newTopLeft = new Point(topLeft.getX() - OFFSET, topLeft.getY() - OFFSET);
-        Point newBottomRight = new Point(bottomRight.getX() - OFFSET, bottomRight.getY() - OFFSET);
+        Point newTopLeft = new Point(topLeft.getX() + OFFSET, topLeft.getY() + OFFSET);
+        Point newBottomRight = new Point(bottomRight.getX() + OFFSET, bottomRight.getY() + OFFSET);
         return new Pair<>(newTopLeft, newBottomRight);
     }
 

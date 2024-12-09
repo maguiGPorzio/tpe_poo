@@ -57,7 +57,7 @@ public class Ellipse implements Figure{
     }
 
     protected Point duplicatePoint(){
-        return new Point(centerPoint.getX() - OFFSET, centerPoint.getY() - OFFSET);
+        return new Point(centerPoint.getX() + OFFSET, centerPoint.getY() + OFFSET);
     }
 
     @Override
