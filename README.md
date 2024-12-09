@@ -23,7 +23,7 @@ Este proyecto es el Trabajo Final para Programación Orientada a Objetos en dici
 El proyecto está dividido en dos capas principales: **backend** y **frontend**.
 
 ### 🖥️ Backend
-Contiene las interfaces y modelos necesarios para manejar la lógica de negocio del proyecto.
+Contiene las interfaces y modelos necesarios para manejar la lógica del proyecto.
 
 #### **Interfaces**:
 - `Choosable`
@@ -47,7 +47,7 @@ Contiene las interfaces y modelos necesarios para manejar la lógica de negocio 
 - `Layer`
 
 ### 🎨 Frontend
-Encargado de gestionar la interfaz gráfica y la interacción con el usuario. Está organizado en módulos.
+Encargado de gestionar la interfaz gráfica y la interacción con el usuario.
 
 #### **Botones**:
 - `CircleButton`
