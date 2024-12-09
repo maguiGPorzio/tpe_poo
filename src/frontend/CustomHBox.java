@@ -145,4 +145,12 @@ public class CustomHBox extends HBox {
             button.getParent().requestFocus();
         });
     }
+
+    public void changeLayer(int layer){
+        String l = "Capa %d".formatted(layer);
+        if(layersList.contains(l)){
+            layers.setValue(l);
+            currentLayer = layer;
+        }
+    }
 }

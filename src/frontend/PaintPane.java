@@ -71,7 +71,8 @@ public class PaintPane extends BorderPane {
 				StringBuilder label = new StringBuilder("Se seleccionó: ");
 
 				for (FormattedFigure figure : canvasState.getCurrentFigures().reversed()) {
-					if (figureBelongs(figure, eventPoint) && canvasState.belongsInCurrentLayer(figure)) {
+					if (figureBelongs(figure, eventPoint)) {
+						tBox.changeLayer(figure.);
 						found = true;
 						if (figure == canvasState.getSelectedFigure()) { //al volver a clickear, se deselecciona
 							canvasState.setSelectedFigure(null);
