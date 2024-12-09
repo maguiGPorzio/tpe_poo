@@ -4,10 +4,12 @@ public class Rectangle implements Figure {
 
     protected Point topLeft, bottomRight;
     protected final static double OFFSET = 10.0;
+    protected final int layer;
 
-    public Rectangle(Point topLeft, Point bottomRight) {
+    public Rectangle(Point topLeft, Point bottomRight, int layer) {
         this.topLeft = topLeft;
         this.bottomRight = bottomRight;
+        this.layer = layer;
     }
 
     public Point getTopLeft() {
@@ -67,7 +69,7 @@ public class Rectangle implements Figure {
     @Override
     public Figure duplicate(){
         Pair<Point> point = duplicatePoint();
-        return new Rectangle(point.getLeft(), point.getRight());
+        return new Rectangle(point.getLeft(), point.getRight(), layer);
     }
 
     protected Pair<Pair<Point>> dividePoints(){
@@ -87,8 +89,8 @@ public class Rectangle implements Figure {
     public Pair<Figure> divide(){
         Figure sub1, sub2;
         Pair<Pair<Point>> p = dividePoints();
-        sub1 = new Rectangle(p.getLeft().getLeft(), p.getLeft().getRight());
-        sub2 = new Rectangle(p.getRight().getLeft(), p.getRight().getRight());
+        sub1 = new Rectangle(p.getLeft().getLeft(), p.getLeft().getRight(), layer);
+        sub2 = new Rectangle(p.getRight().getLeft(), p.getRight().getRight(), layer);
         return new Pair<>(sub1, sub2);
     }
 
@@ -98,4 +100,7 @@ public class Rectangle implements Figure {
                 eventPoint.getY() > topLeft.getY() && eventPoint.getY() < bottomRight.getY();
     }
 
+    public int getLayer() {
+        return layer;
+    }
 }

@@ -13,7 +13,6 @@ public class CanvasState<F extends Figure> {
     private F selectedFigure;
 
     public CanvasState() {
-        // Inicializar las capas iniciales
         for (int i = 1; i <= INITIAL_LAYERS; i++) {
             layers.put(i, new Layer<>());
         }
@@ -64,7 +63,6 @@ public class CanvasState<F extends Figure> {
         }
     }
 
-    // Cambiar a una capa específica
     public void changeLayer(int layer) {
         if (layers.containsKey(layer)) {
             currentLayer = layer; // Cambiar a la capa indicada
@@ -132,7 +130,6 @@ public class CanvasState<F extends Figure> {
 
     public void moveToBack(){
         List<F> l = figuresInLayer(currentLayer);
-        // se mueve la figura únicamente si ésta pertenece a la capa seleccionada
         if(l.contains(selectedFigure)){
             layers.get(currentLayer).moveToBack(selectedFigure);
         }
@@ -149,7 +146,7 @@ public class CanvasState<F extends Figure> {
         return toReturn;
     }
 
-    private Iterable<F> getFigures(Iterable<Integer> givenLayers){
+    private List<F> getFigures(Iterable<Integer> givenLayers){
         List<F> toReturn = new ArrayList<>();
         for(int layer : givenLayers){
             toReturn.addAll(layers.get(layer).getFiguresInLayer());
@@ -170,7 +167,7 @@ public class CanvasState<F extends Figure> {
         return getFigures(layers.keySet());
     }
 
-    public Iterable<F> visibleFigures(){
+    public List<F> visibleFigures(){
         return getFigures(getVisibleLayers());
     }
 

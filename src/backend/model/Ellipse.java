@@ -5,11 +5,12 @@ public class Ellipse implements Figure{
     protected Point centerPoint;
     protected double sMayorAxis, sMinorAxis;
     protected final static double OFFSET = 10.0;
+    protected final int layer;
 
-
-    public Ellipse(Point centerPoint, double sMayorAxis, double sMinorAxis){
+    public Ellipse(Point centerPoint, double sMayorAxis, double sMinorAxis, int layer){
         this.centerPoint = centerPoint;
         setAxis(sMayorAxis, sMinorAxis);
+        this.layer = layer;
     }
 
     @Override
@@ -62,7 +63,7 @@ public class Ellipse implements Figure{
 
     @Override
     public Figure duplicate(){
-        return new Ellipse(duplicatePoint(), sMayorAxis, sMinorAxis);
+        return new Ellipse(duplicatePoint(), sMayorAxis, sMinorAxis, layer);
     }
 
     protected Pair<Point> dividePoints(){
@@ -81,8 +82,8 @@ public class Ellipse implements Figure{
     @Override
     public Pair<Figure> divide(){
         Pair<Point> p = dividePoints();
-        Ellipse sub1 = new Ellipse(p.getLeft(), sMayorAxis/2, sMinorAxis/2);
-        Ellipse sub2 = new Ellipse(p.getRight(), sMayorAxis/2, sMinorAxis/2);
+        Ellipse sub1 = new Ellipse(p.getLeft(), sMayorAxis/2, sMinorAxis/2, layer);
+        Ellipse sub2 = new Ellipse(p.getRight(), sMayorAxis/2, sMinorAxis/2, layer);
         return new Pair<>(sub1, sub2);
     }
 
@@ -91,4 +92,7 @@ public class Ellipse implements Figure{
         return (Math.pow(eventPoint.getX() - centerPoint.getX(), 2) / Math.pow(sMayorAxis, 2)) + (Math.pow(eventPoint.getY() - getCenterPoint().getY(), 2) / Math.pow(sMinorAxis, 2)) <= 0.30;
     }
 
+    public int getLayer() {
+        return layer;
+    }
 }

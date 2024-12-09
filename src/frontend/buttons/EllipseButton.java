@@ -11,10 +11,10 @@ public class EllipseButton extends FigureButton{
         super(action);
     }
 
-    public FormattedFigure generate(Point startPoint, Point endPoint, Format format, GraphicsContext gc){
+    public FormattedFigure generate(Point startPoint, Point endPoint, Format format, GraphicsContext gc, int layer){
         Point centerPoint = new Point(Math.abs(endPoint.getX() + startPoint.getX()) / 2, (Math.abs((endPoint.getY() + startPoint.getY())) / 2));
         double sMayorAxis = Math.abs(endPoint.getX() - startPoint.getX());
         double sMinorAxis = Math.abs(endPoint.getY() - startPoint.getY());
-        return new FormattedEllipse(centerPoint, sMayorAxis, sMinorAxis, format, gc);
+        return new FormattedEllipse(centerPoint, sMayorAxis, sMinorAxis, format, gc, layer);
     }
 }

@@ -13,8 +13,8 @@ public class FormattedRectangle extends Rectangle implements FormattedFigureRect
     private final GraphicsContext gc;
     private final Format format;
 
-    public FormattedRectangle(Point topLeft, Point bottomRight, Format format, GraphicsContext gc){
-        super(topLeft, bottomRight);
+    public FormattedRectangle(Point topLeft, Point bottomRight, Format format, GraphicsContext gc, int layer){
+        super(topLeft, bottomRight, layer);
         this.gc = gc;
         this.format = format;
     }
@@ -42,15 +42,15 @@ public class FormattedRectangle extends Rectangle implements FormattedFigureRect
     @Override
     public Pair<Figure> divide(){
         Pair<Pair<Point>> p = dividePoints();
-        FormattedRectangle f1 = new FormattedRectangle(p.getLeft().getLeft(), p.getLeft().getRight(), format.duplicate(), gc);
-        FormattedRectangle f2 = new FormattedRectangle(p.getRight().getLeft(), p.getRight().getRight(), format.duplicate(), gc);
+        FormattedRectangle f1 = new FormattedRectangle(p.getLeft().getLeft(), p.getLeft().getRight(), format.duplicate(), gc, layer);
+        FormattedRectangle f2 = new FormattedRectangle(p.getRight().getLeft(), p.getRight().getRight(), format.duplicate(), gc, layer);
         return new Pair<>(f1,f2);
     }
 
     @Override
     public Figure duplicate(){
         Pair<Point> p = duplicatePoint();
-        return new FormattedRectangle(p.getLeft(), p.getRight(), format.duplicate(), gc);
+        return new FormattedRectangle(p.getLeft(), p.getRight(), format.duplicate(), gc, layer);
     }
 
 

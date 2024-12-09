@@ -70,9 +70,11 @@ public class PaintPane extends BorderPane {
 				boolean found = false;
 				StringBuilder label = new StringBuilder("Se seleccionó: ");
 
-				for (FormattedFigure figure : canvasState.getCurrentFigures().reversed()) {
+				for (FormattedFigure figure : canvasState.visibleFigures().reversed()) {
 					if (figureBelongs(figure, eventPoint)) {
-						tBox.changeLayer(figure.);
+						tBox.changeLayer(figure.getLayer());
+						canvasState.changeLayer(figure.getLayer());
+						tBox.setLayerVisibility(canvasState.isCurrentLayerVisible());
 						found = true;
 						if (figure == canvasState.getSelectedFigure()) { //al volver a clickear, se deselecciona
 							canvasState.setSelectedFigure(null);
@@ -180,7 +182,7 @@ public class PaintPane extends BorderPane {
 			canvasState.setSelectedFigure(null);
 			FigureButton figureButton=(FigureButton) lBox.getFigureButtons().getSelectedToggle();
 			canvasState.setCurrentLayer(tBox.getCurrentLayer());
-			return figureButton.generate(startPoint, endPoint, lBox.getFormat().duplicate(), gc);
+			return figureButton.generate(startPoint, endPoint, lBox.getFormat().duplicate(), gc, tBox.getCurrentLayer());
 		}
 		return null;
 	}

@@ -11,5 +11,5 @@ public abstract class FigureButton extends ToggleButton {
         super(action);
     }
 
-    public abstract FormattedFigure generate(Point startPoint, Point endPoint, Format format, GraphicsContext gc);
+    public abstract FormattedFigure generate(Point startPoint, Point endPoint, Format format, GraphicsContext gc, int layer);
 }

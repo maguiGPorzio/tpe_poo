@@ -13,8 +13,8 @@ public class FormattedEllipse extends Ellipse implements FormattedFigureOval {
     private final Format format;
     private final GraphicsContext gc;
 
-    public FormattedEllipse(Point centerPoint, double sMayorAxis, double sMinorAxis, Format format, GraphicsContext gc){
-        super(centerPoint, sMayorAxis, sMinorAxis);
+    public FormattedEllipse(Point centerPoint, double sMayorAxis, double sMinorAxis, Format format, GraphicsContext gc, int layer){
+        super(centerPoint, sMayorAxis, sMinorAxis, layer);
         this.gc = gc;
         this.format = format;
     }
@@ -42,14 +42,14 @@ public class FormattedEllipse extends Ellipse implements FormattedFigureOval {
 
     @Override
     public Figure duplicate(){
-        return new FormattedEllipse(duplicatePoint(), getsMayorAxis(), getsMinorAxis(), format.duplicate(), gc);
+        return new FormattedEllipse(duplicatePoint(), getsMayorAxis(), getsMinorAxis(), format.duplicate(), gc, layer);
     }
 
     @Override
     public Pair<Figure> divide(){
         Pair<Point> p = dividePoints();
-        FormattedEllipse f1 = new FormattedEllipse(p.getLeft(), getsMayorAxis()/2, getsMinorAxis()/2, format.duplicate(), gc);
-        FormattedEllipse f2 = new FormattedEllipse(p.getRight(), getsMayorAxis()/2, getsMinorAxis()/2, format.duplicate(), gc);
+        FormattedEllipse f1 = new FormattedEllipse(p.getLeft(), getsMayorAxis()/2, getsMinorAxis()/2, format.duplicate(), gc, layer);
+        FormattedEllipse f2 = new FormattedEllipse(p.getRight(), getsMayorAxis()/2, getsMinorAxis()/2, format.duplicate(), gc, layer);
         return new Pair<>(f1, f2);
     }
 }

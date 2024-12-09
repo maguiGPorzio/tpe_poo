@@ -17,4 +17,5 @@ public interface Figure extends Movable, Choosable, Duplicable<Figure>, Divisibl
 
     boolean belongs(Point point);
 
+    int getLayer();
 }

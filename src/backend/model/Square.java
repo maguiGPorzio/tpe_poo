@@ -4,8 +4,8 @@ public class Square extends Rectangle {
 
     protected double size;
 
-    public Square(Point topLeft, double size) {
-        super(topLeft, new Point(topLeft.getX() + size, topLeft.getY() + size));
+    public Square(Point topLeft, double size, int layer) {
+        super(topLeft, new Point(topLeft.getX() + size, topLeft.getY() + size), layer);
         this.size = size;
     }
 

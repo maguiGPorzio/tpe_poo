@@ -13,8 +13,8 @@ public class FormattedCircle extends Circle implements FormattedFigureOval {
     private final GraphicsContext gc;
     private final Format format;
 
-    public FormattedCircle(Point centerPoint, double radius, Format format, GraphicsContext gc){
-        super(centerPoint, radius);
+    public FormattedCircle(Point centerPoint, double radius, Format format, GraphicsContext gc, int layer){
+        super(centerPoint, radius, layer);
         this.gc = gc;
         this.format = format;
     }
@@ -41,14 +41,14 @@ public class FormattedCircle extends Circle implements FormattedFigureOval {
 
     @Override
     public Figure duplicate(){
-        return new FormattedCircle(duplicatePoint(), getRadius(), format.duplicate(), gc);
+        return new FormattedCircle(duplicatePoint(), getRadius(), format.duplicate(), gc, layer);
     }
 
     @Override
     public Pair<Figure> divide(){
         Pair<Point> p = dividePoints();
-        FormattedCircle f1 = new FormattedCircle(p.getLeft(), getRadius()/2, format.duplicate(), gc);
-        FormattedCircle f2 = new FormattedCircle(p.getRight(), getRadius()/2, format.duplicate(), gc);
+        FormattedCircle f1 = new FormattedCircle(p.getLeft(), getRadius()/2, format.duplicate(), gc, layer);
+        FormattedCircle f2 = new FormattedCircle(p.getRight(), getRadius()/2, format.duplicate(), gc, layer);
         return new Pair<>(f1, f2);
     }
 

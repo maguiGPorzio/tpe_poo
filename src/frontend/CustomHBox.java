@@ -1,5 +1,6 @@
 package frontend;
 
+import backend.CanvasState;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -122,7 +123,11 @@ public class CustomHBox extends HBox {
 
 //  -------------* PRIVATE AUX FUNCTIONS *---------------
     private int findCurrentIndex(){
-        return layersList.indexOf("Capa %d".formatted(currentLayer));
+        return findIndex(currentLayer);
+    }
+
+    private int findIndex(int layer){
+        return layersList.indexOf("Capa %d".formatted(layer));
     }
 
     private int getLayerBelowIndex(String layer){
@@ -146,11 +151,12 @@ public class CustomHBox extends HBox {
         });
     }
 
+
     public void changeLayer(int layer){
-        String l = "Capa %d".formatted(layer);
-        if(layersList.contains(l)){
-            layers.setValue(l);
+        int index = findIndex(layer);
+        if (index >= 0){
             currentLayer = layer;
+            layers.setValue(layers.getItems().get(index));
         }
     }
 }
