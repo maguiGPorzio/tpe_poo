@@ -155,10 +155,10 @@ class Format {
   - color1: Color
   + duplicate(): Format
   + setProperties(ShadowType, boolean, Color, Color): void
-   getColor1: Color
-   getolor2: Color
-   shadow: ShadowType
-   bevel: boolean
+  + getColor1: Color
+  + getColor2: Color
+  + getShadow: ShadowType
+  + getBevel: boolean
 }
 class FormattedCircle {
   + FormattedCircle(Point, double, Format, GraphicsContext): 
