@@ -73,14 +73,10 @@ public class CustomHBox extends HBox {
     }
 
     //hide, show, moveToBack, moveToFront buttons
-    public void setMoveToFrontAction(EventHandler<ActionEvent> action){moveToFrontButton.setOnAction(action);}
-    public void setMoveToBackAction(EventHandler<ActionEvent> action){moveToBack.setOnAction(action);}
-    public void setShowAction(EventHandler<ActionEvent> action){
-        showButton.setOnAction(action);
-    }
-    public void setHideAction(EventHandler<ActionEvent> action){
-        hideButton.setOnAction(action);
-    }
+    public void setMoveToFrontAction(EventHandler<ActionEvent> action){buttonSetOnAction(action, moveToFrontButton);}
+    public void setMoveToBackAction(EventHandler<ActionEvent> action){buttonSetOnAction(action, moveToBack);}
+    public void setShowAction(EventHandler<ActionEvent> action){showButton.setOnAction(action);}
+    public void setHideAction(EventHandler<ActionEvent> action){hideButton.setOnAction(action);}
 
 //  ------------* LAYERS BUTTONS *-------------
     public int getCurrentLayer(){
@@ -140,5 +136,13 @@ public class CustomHBox extends HBox {
     private int getLayerFromString(String s){
         String[] fragments = s.split(" ");
         return Integer.parseInt(fragments[fragments.length-1]);
+    }
+
+    private void buttonSetOnAction(EventHandler<ActionEvent> action, ToggleButton button){
+        button.setOnAction(event -> {
+            button.setSelected(false);
+            action.handle(event);
+            button.getParent().requestFocus();
+        });
     }
 }

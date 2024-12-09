@@ -62,7 +62,7 @@ public class CustomVBoxRight extends VBox {
         button.setOnAction(event -> {
             button.setSelected(false);
             action.handle(event);
-            button.setFocusTraversable(false);
+            button.getParent().requestFocus();
         });
     }
 }

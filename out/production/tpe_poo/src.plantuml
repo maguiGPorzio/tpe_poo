@@ -125,9 +125,7 @@ class Ellipse {
   # duplicatePoint(): Point
   + duplicate(): Figure
   + rotate(): void
-   sMayorAxis: double
-   centerPoint: Point
-   sMinorAxis: double
+
 }
 class EllipseButton {
   + EllipseButton(String): 
@@ -141,7 +139,7 @@ interface Figure << interface >> {
   + flipV(): void
   + divide(): Pair<Figure>
 }
-class FigureButton {
+abstract class FigureButton {
   + FigureButton(String): 
   + generate(Point, Point, Format, GraphicsContext): FormattedFigure
 }
